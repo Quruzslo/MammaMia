@@ -13,13 +13,7 @@ export default function Menu() {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await fetch("http://localhost:3000/termekek", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await fetch("/api/foods");
 
         if (!response.ok) throw new Error(`Hiba: ${response.status}`);
 
@@ -49,7 +43,7 @@ export default function Menu() {
   );
 
   return (
-    <section className="max-w-[1800px] mx-auto py-8 ">
+    <section className="w-full mx-auto py-8 ">
       <h2 className="text-3xl font-bold mb-10 text-center text-teal-400 border-b-4 border-teal-900/50 pb-4 uppercase tracking-widest">
         Heti Menü
       </h2>

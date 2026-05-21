@@ -5,7 +5,7 @@ import { FiClock, FiTruck } from "react-icons/fi";
 
 export default function Hero() {
   return (
-    <section className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 flex flex-col lg:flex-row justify-between items-center gap-12">
+    <section className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 flex flex-col lg:flex-row justify-between items-center gap-12">
       {/* BAL OLDAL - Tartalom és információk */}
       <div className="hero-left w-full lg:w-[50%] space-y-6 text-center lg:text-left">
         {/* Címek */}
