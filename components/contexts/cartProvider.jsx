@@ -1,24 +1,32 @@
 "use client";
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const cartContext = createContext();
 
 export default function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   const [sideCartState, setSideCartState] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     const savedCart = localStorage.getItem("MyCartItems");
-    if (savedCart) setCartItems(JSON.parse(savedCart));
+    if (savedCart) {
+      setCartItems(JSON.parse(savedCart));
+    }
+    setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (isMounted) {
+      localStorage.setItem("MyCartItems", JSON.stringify(cartItems));
+    }
+  }, [cartItems, isMounted]);
 
   const addToCart = (product, date, dayName) => {
     setCartItems((prevItems) => {
-      // 1. Megnézzük, hogy ez a nap szerepel-e már a kosárban
       const existingDayIndex = prevItems.findIndex((d) => d.date === date);
 
       if (existingDayIndex > -1) {
-        // A NAP már ott van, most nézzük meg, hogy az ÉTEL benne van-e azon a napon
         const updatedCart = [...prevItems];
         const day = { ...updatedCart[existingDayIndex] };
         const existingFoodIndex = day.items.findIndex(
@@ -26,7 +34,6 @@ export default function CartProvider({ children }) {
         );
 
         if (existingFoodIndex > -1) {
-          // Ha az étel már szerepel ezen a napon, növeljük a mennyiségét
           const updatedItems = [...day.items];
           updatedItems[existingFoodIndex] = {
             ...updatedItems[existingFoodIndex],
@@ -34,7 +41,6 @@ export default function CartProvider({ children }) {
           };
           day.items = updatedItems;
         } else {
-          // Ha új étel ezen a napon, adjuk hozzá a listához
           day.items = [{ ...product, quantity: 1 }, ...day.items];
         }
 
@@ -42,7 +48,6 @@ export default function CartProvider({ children }) {
         return updatedCart;
       }
 
-      // 2. Ha ez a NAP még nem létezik, hozzunk létre egy új nap-objektumot
       return [
         ...prevItems,
         {
@@ -66,7 +71,6 @@ export default function CartProvider({ children }) {
           }
           return day;
         })
-
         .filter((day) => day.items.length > 0);
     });
   };
@@ -74,12 +78,10 @@ export default function CartProvider({ children }) {
   const updateItemQuantity = (productName, date, amount) => {
     setCartItems((prevItems) =>
       prevItems.map((day) => {
-        // megfelelő nap check
         if (day.date === date) {
           return {
             ...day,
             items: day.items.map((food) => {
-              // napon belül az étel kiválasztása
               if (food.name === productName) {
                 return {
                   ...food,
@@ -112,6 +114,10 @@ export default function CartProvider({ children }) {
     animateSideCart,
     sideCartState,
   };
+
+  if (!isMounted) {
+    return null;
+  }
 
   return <cartContext.Provider value={value}>{children}</cartContext.Provider>;
 }

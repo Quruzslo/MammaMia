@@ -29,6 +29,9 @@ body {
   background-attachment: fixed;
   min-height: 100vh;
 }
+button {
+  cursor: pointer;
+}
 
 li,
 a {

@@ -25,8 +25,8 @@ export default function Hero() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 max-w-md mx-auto lg:mx-0">
           {/* Szállítási napok */}
           <div className="flex items-center gap-3 bg-neutral-800/60 border border-neutral-700/50 p-4 rounded-xl shadow-lg">
-            <div className="p-3 bg-teal-500 text-teal-400 rounded-lg shrink-0">
-              <FiTruck size={22} />
+            <div className="p-3 bg-teal-500  rounded-lg shrink-0">
+              <FiTruck size={22} className="fill-teal-400" />
             </div>
             <div className="text-left">
               <p className="text-xs text-gray-400 font-medium">Kiszállítás</p>
@@ -38,8 +38,8 @@ export default function Hero() {
 
           {/* Rendelési határidő */}
           <div className="flex items-center gap-3 bg-neutral-800/60 border border-neutral-700/50 p-4 rounded-xl shadow-lg">
-            <div className="p-3 bg-amber-500 text-amber-400 rounded-lg shrink-0">
-              <FiClock size={22} />
+            <div className="p-3 bg-amber-500  rounded-lg shrink-0">
+              <FiClock size={22} className="stroke-white" />
             </div>
             <div className="text-left">
               <p className="text-xs text-gray-400 font-medium">

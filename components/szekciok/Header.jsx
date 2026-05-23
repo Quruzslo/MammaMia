@@ -11,7 +11,7 @@ import { IoDocuments } from "react-icons/io5";
 import { useContext, useState, useEffect } from "react";
 import { cartContext } from "../contexts/cartProvider";
 import { userContext } from "../contexts/userProvider";
-import Link from "next/link"; // ✅ Next.js Link
+import Link from "next/link";
 
 export default function Header() {
   const { cartItems, animateSideCart } = useContext(cartContext);

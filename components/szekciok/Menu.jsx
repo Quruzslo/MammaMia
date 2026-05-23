@@ -89,20 +89,20 @@ export default function Menu() {
                       </p>
                     </div>
 
-                    {/* Kosárba gomb - "Ráragasztva" az aljára, mint az Admin oldalon */}
+                    {/* Kosárba gomb */}
                     <button
                       disabled={nap.isClosed}
                       onClick={() => addToCart(item, nap.date, nap.dayName)}
-                      className={`w-full py-3 flex justify-center items-center transition-all ${
+                      className={`w-full py-3 flex justify-center items-center transition-all cursor-pointer ${
                         nap.isClosed
                           ? "bg-neutral-800 text-gray-600 cursor-not-allowed"
                           : "bg-teal-600/10 text-teal-400 hover:bg-teal-600 hover:text-white"
                       }`}
                     >
                       <LiaCartPlusSolid size={20} className=" fill-teal-100" />
-                      <span className="ml-2 text-xs font-bold uppercase text-teal-100">
+                      <p className="ml-2 text-xs font-bold uppercase text-teal-100">
                         Kosárba
-                      </span>
+                      </p>
                     </button>
                   </div>
                 ))}

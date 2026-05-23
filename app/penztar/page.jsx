@@ -1,0 +1,42 @@
+"use client";
+import { useState } from "react";
+import CheckoutInputs from "./CheckoutInputs";
+import CheckoutOrders from "./CheckoutOrders";
+import { useContext } from "react";
+import { cartContext } from "@/components/contexts/cartProvider";
+
+export default function Checkout() {
+  const { cartItems } = useContext(cartContext);
+  const [formState, setFormState] = useState("form");
+  const settingFormState = (state) => {
+    setFormState(state);
+  };
+  return (
+    <>
+      <section className="align-center justify-center flex mb-7 bg-teal-950 max-w-[1800px] w-[80%] mx-auto mt-[50px]">
+        {" "}
+        {formState === "form" ? (
+          <h1 className="text-[30px] rounded-lg shadow uppercase  text-teal-300 text-center ">
+            Pénztár
+          </h1>
+        ) : (
+          <h1 className="text-[30px] rounded-lg shadow uppercase  text-teal-300 text-center ">
+            Fizetés
+          </h1>
+        )}
+      </section>
+      <section className="flex flex-row gap-2 max-w-[1800px] w-[80%] mx-auto">
+        <div className="w-[50%]">
+          <CheckoutInputs
+            cartItems={cartItems}
+            setFormState={settingFormState}
+            formState={formState}
+          ></CheckoutInputs>
+        </div>
+        <div className="w-[50%]">
+          <CheckoutOrders></CheckoutOrders>
+        </div>
+      </section>
+    </>
+  );
+}
