@@ -6,18 +6,20 @@ import {
   IoCloseOutline,
 } from "react-icons/io5";
 import { CiUser } from "react-icons/ci";
-import { ImExit } from "react-icons/im";
 import { IoDocuments } from "react-icons/io5";
 import { useContext, useState, useEffect } from "react";
 import { cartContext } from "../contexts/cartProvider";
-import { userContext } from "../contexts/userProvider";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export default function Header() {
   const { cartItems, animateSideCart } = useContext(cartContext);
-  const { user, fetchUser, isLoggedIn, setIsLoggedIn } =
-    useContext(userContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // NextAuth kliensoldali logika
+  const { data: session, status } = useSession();
+  const isLoading = status === "loading";
+  const isLoggedIn = status === "authenticated";
 
   const totalItemsAmount = cartItems.reduce((totalSum, day) => {
     const daySum = day.items.reduce((acc, food) => acc + food.quantity, 0);
@@ -63,6 +65,7 @@ export default function Header() {
 
         {/* Jobb oldali gombok */}
         <div className="flex items-center gap-2 md:gap-4 z-[70]">
+          {/* Kosár gomb */}
           <div className="flex flex-col menu-btn-wrapper">
             <button
               onClick={() => animateSideCart()}
@@ -80,21 +83,37 @@ export default function Header() {
             </div>
           </div>
 
+          {/* Felhasználói fiók / Belépés gomb */}
           <div className="flex flex-row menu-btn-wrapper items-center gap-3">
-            {isLoggedIn ? (
+            {isLoading ? (
+              // Betöltési állapot dizájnja (pislákoló üres gomb)
+              <div className="p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 animate-pulse w-[46px] h-[46px]" />
+            ) : isLoggedIn ? (
+              // Ha be van jelentkezve: Link elágazás (Admin vagy Fiókom)
               <Link
                 href={
-                  user.role === "admin" ? "/rendelesek" : `/fiokom/${user.id}`
+                  session?.user?.role === "admin" ? "/rendelesek" : "/fiokom"
                 }
               >
                 <div className="relative p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-teal-500/50 transition-all group flex-row flex gap-3 items-center">
-                  <span className="text-teal-500 text-[15px] font-medium">
-                    {user.name?.charAt(0).toUpperCase()}
-                  </span>
+                  {session?.user?.image ? (
+                    // Google profilkép, ha létezik
+                    <img
+                      src={session.user.image}
+                      alt="Profilkép"
+                      className="w-6 h-6 rounded-lg object-cover"
+                    />
+                  ) : (
+                    // Név első betűje ikon helyett, ha nincs kép
+                    <span className="text-teal-500 text-[15px] font-medium min-w-[14px] text-center">
+                      {session?.user?.name?.charAt(0).toUpperCase() || "U"}
+                    </span>
+                  )}
                   <IoDocuments size={24} className="fill-teal-500" />
                 </div>
               </Link>
             ) : (
+              // Ha nincs bejelentkezve: Belépés gomb
               <Link href="/belepes">
                 <button className="relative p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-teal-500/50 transition-all group">
                   <CiUser size={24} className="fill-teal-50/50" />
@@ -102,7 +121,11 @@ export default function Header() {
               </Link>
             )}
             <div className="info-tooltip rounded-xl bg-neutral-900 border border-neutral-800 transition-all p-4">
-              <p className="text-teal-100/50 text-nowrap">Felhasználói fiók</p>
+              <p className="text-teal-100/50 text-nowrap">
+                {isLoggedIn
+                  ? `Fiók: ${session?.user?.name}`
+                  : "Felhasználói fiók"}
+              </p>
             </div>
           </div>
 
@@ -137,11 +160,11 @@ export default function Header() {
             Étlap
           </Link>
           <Link
-            href="/rendelesek"
+            href={session?.user?.role === "admin" ? "/rendelesek" : "/fiokom"}
             onClick={() => setIsMenuOpen(false)}
             className="text-2xl font-black text-white uppercase tracking-[0.2em] hover:text-teal-500 transition-colors"
           >
-            Rendelések
+            {session?.user?.role === "admin" ? "Rendelések (Admin)" : "Fiókom"}
           </Link>
           <button
             onClick={() => setIsMenuOpen(false)}

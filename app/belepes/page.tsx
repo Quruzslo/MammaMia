@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react";
 
 export default function BelepesPage() {
   return (
-    <main className="relative min-h-screen bg-neutral-900 flex items-center justify-center overflow-hidden ">
+    <main className="relative  min-h-screen bg-neutral-900 flex items-center justify-center overflow-hidden ">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-teal-900/20 blur-[120px]" />
       </div>
@@ -52,7 +52,7 @@ export default function BelepesPage() {
           </div>
 
           <button
-            onClick={() => signIn("google")}
+            onClick={() => signIn("google", { callbackUrl: "/fiokom" })}
             className="
               group w-full flex items-center justify-center gap-3
               px-5 py-3 rounded-xl

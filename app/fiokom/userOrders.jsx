@@ -4,9 +4,21 @@ import { useState, useEffect } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import OrderCard from "./orderCard";
 
+import { useSession, signOut } from "next-auth/react";
+
 export default function UserOrders() {
   const [orders, setOrders] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+
+  const { status } = useSession();
+
+  if (status === "loading") {
+    return <p>Betöltés...</p>;
+  }
+
+  if (status === "unauthenticated") {
+    return <p>Nem vagy bejelentkezve.</p>;
+  }
 
   // useEffect(() => {
   //   const fetchUserOrders = async () => {
