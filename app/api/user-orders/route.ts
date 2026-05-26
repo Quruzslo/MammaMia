@@ -1,0 +1,63 @@
+// app/api/user-orders/route.ts
+import client from "@/lib/mongodb";
+import { NextResponse } from "next/server";
+import { auth } from "@/auth";
+
+export const POST = auth(async function POST(request) {
+  try {
+    const session = request.auth;
+
+    // 1. Ha nincs érvényes munkamenet
+    if (!session || !session.user) {
+      return NextResponse.json(
+        { error: "Nincs érvényes munkamenet! Jelentkezz be újra." },
+        { status: 401 },
+      );
+    }
+
+    // 2. Kinyerjük a TE auth.ts-edből származó hitelesített ID-t
+    const secureUserId = (session.user as any).userId;
+
+    if (!secureUserId) {
+      return NextResponse.json(
+        { error: "A session-ben nem található userId!" },
+        { status: 400 },
+      );
+    }
+
+    // 3. Beolvassuk a frontend request body-ból érkező ID-t
+    const { userId } = await request.json();
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: "Hiányzó felhasználó azonosító a kérésből!" },
+        { status: 400 },
+      );
+    }
+
+    // 4. ELLENŐRZÉS: Egyezik a titkos session ID a küldöttel?
+    if (secureUserId !== userId) {
+      return NextResponse.json(
+        { error: "Manipulált kérés! Hozzáférés megtagadva." },
+        { status: 403 },
+      );
+    }
+
+    // 5. Biztonságos lekérés a MongoDB Atlas-ból
+    const db = client.db("MammaMia");
+    const ordersCollection = db.collection("orders");
+
+    const userOrders = await ordersCollection
+      .find({ userId: secureUserId })
+      .sort({ date: -1 })
+      .toArray();
+
+    return NextResponse.json(userOrders, { status: 200 });
+  } catch (error) {
+    console.error("Hiba az orders API-ban:", error);
+    return NextResponse.json(
+      { error: "Szerver hiba történt." },
+      { status: 500 },
+    );
+  }
+});

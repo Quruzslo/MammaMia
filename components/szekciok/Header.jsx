@@ -86,10 +86,10 @@ export default function Header() {
           {/* Felhasználói fiók / Belépés gomb */}
           <div className="flex flex-row menu-btn-wrapper items-center gap-3">
             {isLoading ? (
-              // Betöltési állapot dizájnja (pislákoló üres gomb)
+              // Betöltési állapot dizájn
               <div className="p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 animate-pulse w-[46px] h-[46px]" />
             ) : isLoggedIn ? (
-              // Ha be van jelentkezve: Link elágazás (Admin vagy Fiókom)
+              // Ha be van jelentkezve: (Admin vagy Fiókom)
               <Link
                 href={
                   session?.user?.role === "admin" ? "/rendelesek" : "/fiokom"
@@ -97,10 +97,11 @@ export default function Header() {
               >
                 <div className="relative p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-teal-500/50 transition-all group flex-row flex gap-3 items-center">
                   {session?.user?.image ? (
-                    // Google profilkép, ha létezik
+                    // Google profilkép
                     <img
                       src={session.user.image}
                       alt="Profilkép"
+                      referrerPolicy="no-referrer"
                       className="w-6 h-6 rounded-lg object-cover"
                     />
                   ) : (
@@ -113,7 +114,7 @@ export default function Header() {
                 </div>
               </Link>
             ) : (
-              // Ha nincs bejelentkezve: Belépés gomb
+              // Ha nincs bejelentkezve
               <Link href="/belepes">
                 <button className="relative p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-teal-500/50 transition-all group">
                   <CiUser size={24} className="fill-teal-50/50" />

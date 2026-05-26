@@ -1,21 +1,24 @@
-// CheckoutStripe.jsx
 "use client";
 import {
   PaymentElement,
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 
+// NextAuth session
+import { useSession } from "next-auth/react";
+
 // Cart context---------------
-import { useContext } from "react";
 import { cartContext } from "@/components/contexts/cartProvider";
-import { userContext } from "@/components/contexts/userProvider";
 
 export default function CheckoutStripe({ formData, cartItems }) {
   const { clearCart } = useContext(cartContext);
-  const { user } = useContext(userContext);
+
+  // A saját userContext helyett a NextAuth-tól kérjük el a usert
+  const { data: session } = useSession();
+
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
@@ -41,6 +44,13 @@ export default function CheckoutStripe({ formData, cartItems }) {
 
     if (paymentIntent && paymentIntent.status === "succeeded") {
       try {
+        // Előkészítjük a user objektumot a NextAuth adatai alapján
+        const orderUser = {
+          id: session?.user?.userId,
+          email: session?.user?.email,
+          name: session?.user?.name,
+        };
+
         const response = await fetch("/api/orders", {
           method: "POST",
           headers: {
@@ -50,7 +60,7 @@ export default function CheckoutStripe({ formData, cartItems }) {
             paymentIntentId: paymentIntent.id,
             formData,
             cartItems,
-            user,
+            userId: session?.user?.userId, // közvetlenül küldd, ne user objektumba csomagolva
           }),
         });
 

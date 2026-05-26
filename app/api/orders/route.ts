@@ -11,7 +11,7 @@ const client = new MongoClient(uri);
 
 export async function POST(req: Request) {
   try {
-    const { paymentIntentId, formData, cartItems, user } = await req.json();
+    const { paymentIntentId, formData, cartItems, userId } = await req.json();
 
     await client.connect();
     const db = client.db("MammaMia");
@@ -24,9 +24,9 @@ export async function POST(req: Request) {
         paymentIntentId: paymentIntent.id,
         status: paymentIntent.status,
         customer: formData,
-        userId: user?.id ?? null,
+        userId: userId ?? null,
         items: cartItems,
-        total: paymentIntent.amount,
+        total: paymentIntent.amount / 100,
         currency: paymentIntent.currency,
         date: new Date().toISOString(),
       };

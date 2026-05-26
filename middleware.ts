@@ -2,7 +2,6 @@
 import { auth } from "@/auth";
 
 export default auth((req) => {
-  // Ha a felhasználó nincs bejelentkezve, és a védett oldalon van
   if (!req.auth && req.nextUrl.pathname.startsWith("/fiokom")) {
     const newUrl = new URL("/belepes", req.nextUrl.origin);
     return Response.redirect(newUrl);

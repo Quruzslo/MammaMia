@@ -42,7 +42,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
             </p>
           </div>
 
-          <div className="p-2 rounded-lg bg-neutral-900/50 text-teal-400 group-hover:bg-teal-950 transition-colors shrink-0">
+          <div className="p-2 rounded-lg bg-neutral-900/50  group-hover:bg-teal-950 transition-colors shrink-0">
             {cardOpen ? (
               <FiChevronUp className="fill-white" size={24} />
             ) : (
@@ -54,7 +54,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
 
       <div
         className={`grid transition-all duration-500 ease-[cubic-bezier(0.85,0,0.15,1)] ${
-          isOpen
+          cardOpen
             ? "grid-rows-[1fr] opacity-100 mt-6"
             : "grid-rows-[0fr] opacity-0 mt-0"
         }`}
@@ -113,9 +113,9 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
               ))}
           <div
             onClick={() => setCardOpen(!cardOpen)}
-            className="p-2 rounded-lg bg-neutral-900/50 text-teal-400 group-hover:bg-teal-950 transition-colors shrink-0 cursor-pointer justify-self-center"
+            className="p-2 rounded-lg bg-neutral-900/50  group-hover:bg-teal-950 transition-colors shrink-0 cursor-pointer justify-self-center"
           >
-            {isOpen ? (
+            {cardOpen ? (
               <FiChevronUp className="fill-white" size={24} />
             ) : (
               <FiChevronDown className="fill-white" size={24} />
