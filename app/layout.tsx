@@ -5,6 +5,7 @@ import CartProvider from "@/components/contexts/cartProvider";
 import UserProvider from "@/components/contexts/userProvider";
 import Header from "@/components/szekciok/Header";
 import SideCart from "@/components/szekciok/SideCart";
+import Footer from "@/components/szekciok/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
             <Header></Header>
             <SideCart></SideCart>
             {children}
+            <Footer></Footer>
           </CartProvider>
         </UserProvider>
       </body>
