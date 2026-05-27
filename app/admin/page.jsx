@@ -17,18 +17,16 @@ export default function AdminPage() {
     setLoading(true);
 
     try {
-      // Meghívjuk a NextAuth credentials providerét
       const res = await signIn("credentials", {
+        email: email,
+        password: password,
         redirect: false,
-        email,
-        password,
       });
 
       if (res?.error) {
         setError("Hibás email cím vagy jelszó!");
         setLoading(false);
       } else {
-        // Sikeres belépés esetén irány az admin irányítópult
         router.push("/admin/rendelesek");
         router.refresh();
       }

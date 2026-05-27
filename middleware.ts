@@ -1,14 +1,34 @@
 // middleware.ts
-import { auth } from "@/auth";
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config";
 
-export default auth((req) => {
-  if (!req.auth && req.nextUrl.pathname.startsWith("/fiokom")) {
-    const newUrl = new URL("/belepes", req.nextUrl.origin);
+const { auth: middlewareAuth } = NextAuth(authConfig);
+
+export default middlewareAuth((req) => {
+  const isLoggedIn = !!req.auth;
+  const nextUrl = req.nextUrl;
+
+  if (
+    !isLoggedIn &&
+    (nextUrl.pathname.startsWith("/fiokom") ||
+      nextUrl.pathname.startsWith("/rendelesek"))
+  ) {
+    const newUrl = new URL("/belepes", nextUrl.origin);
     return Response.redirect(newUrl);
+  }
+
+  if (
+    nextUrl.pathname.startsWith("/admin") &&
+    nextUrl.pathname !== "/admin-login"
+  ) {
+    const userRole = req.auth?.user?.role;
+    if (!isLoggedIn || userRole !== "admin") {
+      const newUrl = new URL("/belepes", nextUrl.origin);
+      return Response.redirect(newUrl);
+    }
   }
 });
 
-// Csak a /fiokom oldalon (és annak aloldalain) fusson le ez az ellenőrzés
 export const config = {
   matcher: ["/fiokom/:path*", "/rendelesek"],
 };

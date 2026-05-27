@@ -4,18 +4,30 @@ import { MongoClient } from "mongodb";
 
 // Stripe init
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
-// MongoDB kliens példányosítása
 const uri = process.env.MONGO_URI!;
 const client = new MongoClient(uri);
+const clientPromise = client.connect();
 
 export async function POST(req: Request) {
   try {
     const { paymentIntentId, formData, cartItems, userId } = await req.json();
 
-    await client.connect();
-    const db = client.db("MammaMia");
+    // Megvárjuk a globális kapcsolatot, de NEM zárjuk le a végén!
+    const mongoClient = await clientPromise;
+    const db = mongoClient.db("MammaMia");
 
+    // 1. BIZTONSÁG: Ellenőrizzük, hogy ez a fizetés ne legyen kétszer feldolgozva
+    const alreadyProcessed = await db
+      .collection("orders")
+      .findOne({ paymentIntentId });
+    if (alreadyProcessed) {
+      return NextResponse.json(
+        { error: "Ez a rendelés már fel lett dolgozva!" },
+        { status: 400 },
+      );
+    }
+
+    // Lekérjük a Stripe-tól a valódi adatokat
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
     if (paymentIntent.status === "succeeded") {
@@ -46,7 +58,5 @@ export async function POST(req: Request) {
       { error: "Nem tudtuk elmenteni a rendelést", details: error.message },
       { status: 500 },
     );
-  } finally {
-    await client.close();
   }
 }

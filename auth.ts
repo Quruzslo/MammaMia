@@ -1,21 +1,68 @@
+// auth.ts
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
+import { authConfig } from "./auth.config";
+import { MongoClient } from "mongodb";
+import bcrypt from "bcryptjs";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
+
   providers: [
-    Google({
-      clientId: process.env.AUTH_CLIENT_ID,
-      clientSecret: process.env.AUTH_CLIENT_SECRET,
+    ...authConfig.providers, // Google provider
+
+    Credentials({
+      name: "Admin Login",
+      credentials: {
+        email: { label: "email", type: "text" },
+        password: { label: "password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) return null;
+
+        const client = new MongoClient(process.env.MONGO_URI!);
+        try {
+          await client.connect();
+          const db = client.db("MammaMia");
+
+          const admin = await db.collection("admins").findOne({
+            email: credentials.email,
+          });
+
+          if (!admin) {
+            throw new Error("Hibás email vagy jelszó!");
+          }
+
+          // Jelszó ellenőrzése bcrypt-tel
+          const isValid = await bcrypt.compare(
+            credentials.password as string,
+            admin.password,
+          );
+
+          if (!isValid) {
+            throw new Error("Hibás email vagy jelszó!");
+          }
+
+          // Sikeres belépés, visszaadjuk az admin objektumot
+          return {
+            id: admin.id,
+            name: admin.name,
+            email: admin.email,
+            role: admin.role, // "admin"
+          };
+        } catch (error) {
+          console.error("Szerveroldali login hiba:", error);
+          return null;
+        } finally {
+          await client.close();
+        }
+      },
     }),
   ],
 
-  session: {
-    strategy: "jwt",
-    maxAge: 2 * 24 * 60 * 60,
-    updateAge: 1 * 60 * 60,
-  },
-
   callbacks: {
+    ...authConfig.callbacks,
+
     async signIn({ user, account }) {
       if (account?.provider === "credentials") return true;
 
@@ -34,14 +81,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
 
     async jwt({ token, user, account }) {
-      // Admin esetén a role és userId egyből az authorize()-ból jön (Tiszta JS, nincs 'as any')
+      // Admin login (Credentials)
       if (account?.provider === "credentials" && user) {
         token.userId = user.id ?? null;
         token.role = user.role ?? "admin";
         return token;
       }
 
-      // Google flow – eredeti logika, role alapértelmezett "user"
+      // Google login
       if (user?.email && !token.userId) {
         try {
           const { getUserByEmail } = await import("@/lib/handleUserLogin");
@@ -53,14 +100,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
       }
       return token;
-    },
-
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.userId = token.userId;
-        session.user.role = token.role;
-      }
-      return session;
     },
   },
 });
