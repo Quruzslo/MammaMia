@@ -38,7 +38,6 @@ export default function AdminCharts() {
     fetchStats();
   }, []);
 
-  // 1. Töltési állapot a grafikon dobozán belül
   if (loading) {
     return (
       <div className="w-full h-[350px] bg-neutral-800 border border-neutral-700 rounded-2xl flex items-center justify-center">
@@ -49,20 +48,16 @@ export default function AdminCharts() {
     );
   }
 
-  // 2. Ha nincs adat, ne üres semmit mutassunk
   if (data.length === 0) {
     return (
       <div className="w-full h-[350px] bg-neutral-800 border border-neutral-700 rounded-2xl flex items-center justify-center">
-        <p className="text-gray-400 text-sm">
-          Nincs megjeleníthető adat az elmúlt 14 napban.
-        </p>
+        <p className="text-gray-400 text-sm">Nincs megjeleníthető adat.</p>
       </div>
     );
   }
 
-  // 3. A kész grafikon kirajzolása
   return (
-    <div className="w-full bg-neutral-800 border border-neutral-700 p-6 rounded-2xl shadow-xl">
+    <div className="w-full bg-neutral-800 border border-neutral-700 p-2 rounded-2xl shadow-xl">
       <div className="mb-4">
         <h2 className="text-xl font-bold text-white">
           Elmúlt 14 nap analitikája
@@ -73,16 +68,23 @@ export default function AdminCharts() {
       </div>
 
       <div className="h-[350px] w-full ">
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data} padding={{ top: "20px", bottom: "20px" }}>
-            <CartesianGrid stroke="#334155" vertical={false} />
-            <XAxis dataKey="datum" stroke="#94a3b8" fontSize={11} />
+        <ResponsiveContainer width="100%" height="100%" min-width="400px">
+          <ComposedChart
+            data={data}
+            margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
+          >
+            <CartesianGrid
+              stroke="#334155"
+              vertical={false}
+              padding={{ top: "20px", bottom: "20px" }}
+            />
+            <XAxis dataKey="datum" stroke="#94a3b8" fontSize={10} />
 
             {/* Bal tengely a pénznek */}
             <YAxis
               yAxisId="left"
               stroke="#0d9488"
-              fontSize={11}
+              fontSize={10}
               tickFormatter={(v) => `${v.toLocaleString()} Ft`}
             />
 
@@ -90,8 +92,8 @@ export default function AdminCharts() {
             <YAxis
               yAxisId="right"
               orientation="right"
-              stroke="#f59e0b"
-              fontSize={11}
+              stroke="#f1c06b"
+              fontSize={10}
             />
 
             <Tooltip
@@ -116,7 +118,7 @@ export default function AdminCharts() {
               type="monotone"
               dataKey="rendelesSzam"
               name="Rendelések"
-              stroke="#f59e0b"
+              stroke="#f1c06b"
               strokeWidth={3}
             />
           </ComposedChart>

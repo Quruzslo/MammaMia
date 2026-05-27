@@ -73,7 +73,7 @@ export default function AdminOrdersPage() {
   }
 
   return (
-    <section className="py-6 px-4 w-[90%] md:w-[80%] max-w-[1800px]  mx-auto min-h-screen bg-neutral-900 text-gray-100 mt-[50px]">
+    <section className="py-6 px-4 w-[100%] md:w-[80%] max-w-[1800px]  mx-auto min-h-screen bg-neutral-900 text-gray-100 mt-[50px]">
       <div className="flex flex-row gap-3">
         <AdminCharts></AdminCharts>
       </div>
