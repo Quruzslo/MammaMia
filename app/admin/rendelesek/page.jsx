@@ -71,7 +71,7 @@ export default function AdminOrdersPage() {
   }
 
   return (
-    <section className="py-6 px-4 max-w-[1800px] mx-auto min-h-screen bg-neutral-900 text-gray-100">
+    <section className="py-6 px-4 w-[90%] md:w-[80%] max-w-[1800px]  mx-auto min-h-screen bg-neutral-900 text-gray-100 mt-[50px]">
       <h1 className="text-3xl font-bold mb-8 border-b border-neutral-800 pb-4">
         Rendelések kezelése
       </h1>
