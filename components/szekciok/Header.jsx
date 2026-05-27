@@ -92,7 +92,9 @@ export default function Header() {
               // Ha be van jelentkezve: (Admin vagy Fiókom)
               <Link
                 href={
-                  session?.user?.role === "admin" ? "/rendelesek" : "/fiokom"
+                  session?.user?.role === "admin"
+                    ? "/admin/rendelesek"
+                    : "/fiokom"
                 }
               >
                 <div className="relative p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-teal-500/50 transition-all group flex-row flex gap-3 items-center">

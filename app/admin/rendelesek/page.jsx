@@ -10,6 +10,8 @@ import { FaSquarePhone } from "react-icons/fa6";
 import { FaHouseUser } from "react-icons/fa";
 import { FaRegCalendarAlt } from "react-icons/fa";
 
+import AdminCharts from "./charts";
+
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -62,7 +64,7 @@ export default function AdminOrdersPage() {
   // Közös betöltő képernyő (amíg az auth vagy az API dolgozik)
   if (status === "loading" || loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-neutral-900">
+      <div className="flex justify-center items-center h-screen bg-neutral-900 ">
         <p className="text-teal-500 animate-pulse text-xl">
           Rendelések betöltése...
         </p>
@@ -72,7 +74,10 @@ export default function AdminOrdersPage() {
 
   return (
     <section className="py-6 px-4 w-[90%] md:w-[80%] max-w-[1800px]  mx-auto min-h-screen bg-neutral-900 text-gray-100 mt-[50px]">
-      <h1 className="text-3xl font-bold mb-8 border-b border-neutral-800 pb-4">
+      <div className="flex flex-row gap-3">
+        <AdminCharts></AdminCharts>
+      </div>
+      <h1 className="text-3xl font-bold mb-8 border-b border-neutral-800 pb-4 mt-4">
         Rendelések kezelése
       </h1>
 

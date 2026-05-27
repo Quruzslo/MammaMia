@@ -12,11 +12,10 @@ export async function POST(req: Request) {
   try {
     const { paymentIntentId, formData, cartItems, userId } = await req.json();
 
-    // Megvárjuk a globális kapcsolatot, de NEM zárjuk le a végén!
     const mongoClient = await clientPromise;
     const db = mongoClient.db("MammaMia");
 
-    // 1. BIZTONSÁG: Ellenőrizzük, hogy ez a fizetés ne legyen kétszer feldolgozva
+    // Ellenőrizzük, hogy ez a fizetés ne legyen kétszer feldolgozva
     const alreadyProcessed = await db
       .collection("orders")
       .findOne({ paymentIntentId });
