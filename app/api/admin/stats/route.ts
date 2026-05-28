@@ -14,7 +14,7 @@ export async function GET() {
   try {
     const db = client.db("MammaMia");
 
-    // Kiszámoljuk a 30 nappal ezelőtti dátumot
+    // 30 nappal ezelőtti dátum
     const harmincNappalEzelott = new Date();
     harmincNappalEzelott.setDate(harmincNappalEzelott.getDate() - 30);
     const datumStringLimit = harmincNappalEzelott.toISOString().split("T")[0];

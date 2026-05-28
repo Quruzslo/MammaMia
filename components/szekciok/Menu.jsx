@@ -48,7 +48,7 @@ export default function Menu() {
         Heti Menü
       </h2>
 
-      <div className="space-y-8">
+      <div id="menu" className="space-y-8">
         {sortedMenuByDate.map((nap) => (
           <div
             key={nap.date}
