@@ -64,13 +64,13 @@ export default function Header() {
               className="fill-white transition-colors duration-200 group-hover:fill-blue-600"
             />
 
-            <p className="text-white text-[12px] transition-colors duration-200 group-hover:text-blue-600">
+            <p className="text-white text-[12px] transition-colors duration-200 group-hover:text-blue-300">
               Facebook
             </p>
           </div>
         </a>
       </div>
-      <header className="sticky top-0 z-[60] w-full px-4 py-3 bg-neutral-950/80 backdrop-blur-md border-b border-teal-900/30 flex flex-col gap-3">
+      <header className="sticky top-0 z-[60] w-full px-[10px] md:px-[0px] py-3 bg-neutral-950/80 backdrop-blur-md border-b border-teal-900/30 flex flex-col gap-3">
         <div className=" w-[100%] md:w-[80%] max-w-[1800px] mx-auto flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group z-[70]">

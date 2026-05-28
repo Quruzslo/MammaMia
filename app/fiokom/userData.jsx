@@ -1,8 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 export default function UserData() {
+  const { status, data: session } = useSession();
+  const validPerson = session?.user;
+
   // 1. Állapot (state) az input mezőknek
   const [formData, setFormData] = useState({
     city: "",
@@ -19,14 +23,16 @@ export default function UserData() {
   // 2. Adatok betöltése a DB-ből (Component Mount-kor)
   useEffect(() => {
     const fetchUserData = async () => {
+      // Ha még tölt a session, vagy nem vagyunk belépve, megállunk
+      if (status !== "authenticated") return;
+
       try {
         setLoading(true);
-        // IDE JÖN MAJD A TE API-D (pl. Next.js /api/user vagy külső backend)
-        const response = await fetch("/api/user/profile");
+
+        const response = await fetch("/api/user-data-fetch");
 
         if (response.ok) {
           const data = await response.json();
-          // Ha van adat a DB-ben, beállítjuk, ha nincs (új regisztrált), marad az üres string
           setFormData({
             city: data.city || "",
             street: data.street || "",
@@ -46,7 +52,7 @@ export default function UserData() {
     };
 
     fetchUserData();
-  }, []);
+  }, [status]);
 
   // 3. Input változások kezelése
   const handleChange = (e) => {
@@ -64,7 +70,7 @@ export default function UserData() {
     setMessage({ type: "", text: "" });
 
     try {
-      const response = await fetch("/api/user/profile", {
+      const response = await fetch("/api/user-profile", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

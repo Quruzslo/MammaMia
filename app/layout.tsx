@@ -6,6 +6,7 @@ import UserProvider from "@/components/contexts/userProvider";
 import Header from "@/components/szekciok/Header";
 import SideCart from "@/components/szekciok/SideCart";
 import Footer from "@/components/szekciok/Footer";
+import ScrollToTop from "@/components/szekciok/scrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-[100vh] flex flex-col">
@@ -38,6 +40,7 @@ export default function RootLayout({
             <Header></Header>
             <SideCart></SideCart>
             {children}
+            <ScrollToTop></ScrollToTop>
             <Footer></Footer>
           </CartProvider>
         </UserProvider>
