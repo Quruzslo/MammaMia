@@ -168,22 +168,35 @@ export default function Header() {
             </div>
 
             {/* Mobil gomb */}
+
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 text-teal-500"
+              className="md:hidden relative w-12 h-12 flex flex-col justify-center items-center gap-1.5 rounded-xl bg-neutral-900 border border-neutral-800 text-teal-500 overflow-hidden"
             >
-              {isMenuOpen ? (
-                <IoCloseOutline size={24} className="stroke-teal-500" />
-              ) : (
-                <IoMenuOutline size={24} className="stroke-teal-100" />
-              )}
+              {/* Felső vonal */}
+              <span
+                className={`w-6 h-0.5 bg-teal-500 rounded-full transition-all duration-300 ease-in-out origin-center
+      ${isMenuOpen ? "translate-y-2 rotate-45" : ""}`}
+              ></span>
+
+              {/* Középső vonal */}
+              <span
+                className={`w-6 h-0.5 bg-teal-500 rounded-full transition-all duration-300 ease-in-out
+      ${isMenuOpen ? "opacity-0" : ""}`}
+              ></span>
+
+              {/* Alsó vonal */}
+              <span
+                className={`w-6 h-0.5 bg-teal-500 rounded-full transition-all duration-300 ease-in-out origin-center
+      ${isMenuOpen ? "-translate-y-2 -rotate-45" : ""}`}
+              ></span>
             </button>
           </div>
         </div>
 
         {/* Mobil menü overlay */}
         <div
-          className={`fixed inset-0 bg-neutral-950 z-[65] md:hidden transition-all duration-500 ease-in-out h-[100vh] w-full ${
+          className={`fixed inset-0 bg-neutral-950 z-[65] md:hidden transition-all duration-500 ease-in-out min-h-[650px] h-[100vh] w-full ${
             isMenuOpen
               ? "opacity-100 translate-y-0"
               : "opacity-0 -translate-y-full pointer-events-none"
@@ -198,7 +211,9 @@ export default function Header() {
               Étlap
             </Link>
             <Link
-              href={session?.user?.role === "admin" ? "/rendelesek" : "/fiokom"}
+              href={
+                session?.user?.role === "admin" ? "admin/rendelesek" : "/fiokom"
+              }
               onClick={() => setIsMenuOpen(false)}
               className="text-2xl font-black text-white uppercase tracking-[0.2em] hover:text-teal-500 transition-colors"
             >
