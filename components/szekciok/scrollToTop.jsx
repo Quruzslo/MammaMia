@@ -32,7 +32,7 @@ export default function ScrollToTop() {
     <button
       onClick={scrollToTop}
       aria-label="Görgetés a tetejére"
-      className="flex items-center justify-center rounded-full bg-neutral-900 w-[40px] h-[40px] fixed right-[20px] bottom-[20px] z-10 text-white hover:bg-neutral-800 transition-all duration-300 shadow-md"
+      className=" shadow flex items-center justify-center rounded-full bg-neutral-900 w-[40px] h-[40px] fixed right-[20px] bottom-[20px] z-10 text-white hover:bg-neutral-800 transition-all duration-300 shadow-md"
     >
       <FaChevronUp size={24} />
     </button>

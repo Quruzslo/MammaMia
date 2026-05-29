@@ -1,9 +1,13 @@
 "use client";
 // Ikonok ---------------
 import { LiaCartPlusSolid } from "react-icons/lia";
+import { PiBowlFood } from "react-icons/pi";
 // React importok--------------
 import { useEffect, useState, useContext } from "react";
 import { cartContext } from "@/components/contexts/cartProvider";
+
+// 1. IMPORTÁLD A TOAST-OT -----------------------------
+import { toast } from "react-toastify";
 
 export default function Menu() {
   const [menu, setMenu] = useState([]);
@@ -14,9 +18,7 @@ export default function Menu() {
     const fetchMenu = async () => {
       try {
         const response = await fetch("/api/foods");
-
         if (!response.ok) throw new Error(`Hiba: ${response.status}`);
-
         const data = await response.json();
         setMenu(data);
       } catch (error) {
@@ -25,7 +27,6 @@ export default function Menu() {
         setLoading(false);
       }
     };
-
     fetchMenu();
   }, []);
 
@@ -41,6 +42,29 @@ export default function Menu() {
   const sortedMenuByDate = menu.sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
+
+  //  KOSÁRBA RAKÁS ÉS ÉRTESÍTÉS -----
+  const handleAddToCartWithNotification = (item, date, dayName) => {
+    // Elmentjük a kosárba
+    addToCart(item, date, dayName);
+
+    // Feldobjuk az értesítést
+    toast(
+      <div className="flex items-center gap-3">
+        <PiBowlFood size={24} className="fill-teal-100" />
+        <div>
+          <h5 className="font-bold text-teal-400 text-sm">{item.name}</h5>
+          <p className="text-xs text-gray-400">Hozzáadva a kosárhoz!</p>
+        </div>
+      </div>,
+      {
+        className:
+          "bg-neutral-900 border border-teal-500/30 rounded-xl p-4 shadow-2xl",
+        bodyClassName: "p-0 m-0",
+        progressClassName: "!bg-teal-500",
+      },
+    );
+  };
 
   return (
     <section className="w-full mx-auto py-8 ">
@@ -92,7 +116,14 @@ export default function Menu() {
                     {/* Kosárba gomb */}
                     <button
                       disabled={nap.isClosed}
-                      onClick={() => addToCart(item, nap.date, nap.dayName)}
+                      // 3. ITT MEGHÍVJUK AZ ÚJ FÜGGVÉNYT -----------------
+                      onClick={() =>
+                        handleAddToCartWithNotification(
+                          item,
+                          nap.date,
+                          nap.dayName,
+                        )
+                      }
                       className={`w-full py-3 flex justify-center items-center transition-all cursor-pointer ${
                         nap.isClosed
                           ? "bg-neutral-800 text-gray-600 cursor-not-allowed"

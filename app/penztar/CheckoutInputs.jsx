@@ -1,6 +1,5 @@
-// CheckoutInputs.jsx
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { validateCheckoutForm } from "../../utils/validateCheckoutForm.js";
 import CheckoutStripe from "./CheckoutStripe.jsx";
 import FloatingInput from "./FloatingInput.jsx";
@@ -8,34 +7,80 @@ import FloatingInput from "./FloatingInput.jsx";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
+import { useSession } from "next-auth/react";
+
 const stripePromise = loadStripe(
   "pk_test_51TU3e2GXOLsnJNTFtaucBVNqDIZkGg4Kr5tZPdEVc6nt6BalUxTK9JgkW4S7grTRgBchl3KSfpkFQ9Nw1lLqIvQP000ckMABxG",
 );
 
 export default function CheckoutInputs({ cartItems, setFormState, formState }) {
   const [clientSecret, setClientSecret] = useState("");
-  const [formData, setFormData] = useState(() => {
-    const saved =
-      typeof window !== "undefined" ? localStorage.getItem("formDatas") : null;
-    return saved
-      ? JSON.parse(saved)
-      : {
-          fullName: "",
-          email: "",
-          phone: "",
-          city: "",
-          street: "",
-          houseNumber: "",
-        };
-  });
+  const { data: session, status } = useSession();
   const [errors, setErrors] = useState({});
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    if (errors[e.target.name]) {
-      setErrors((prev) => ({ ...prev, [e.target.name]: null }));
+  //  Alapértelmezett state (először üres, vagy localStorage)
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    city: "",
+    street: "",
+    houseNumber: "",
+  });
+
+  useEffect(() => {
+    const saved = localStorage.getItem("formDatas");
+    if (saved) {
+      setFormData(JSON.parse(saved));
     }
-    localStorage.setItem("formDatas", JSON.stringify(formData));
+  }, []);
+
+  // Adatok lekérése a DB-ből, ha van bejelentkezett session
+  useEffect(() => {
+    async function fetchUserData() {
+      if (status === "authenticated" && session?.user) {
+        try {
+          const response = await fetch("/api/user-data-fetch");
+          if (response.ok) {
+            const userData = await response.json();
+
+            setFormData((prev) => ({
+              ...prev,
+              fullName: userData.name || prev.fullName,
+              email: userData.email || prev.email,
+              phone: userData.tel || prev.tel,
+              city: userData.address?.city || userData.city || prev.city,
+              street:
+                userData.address?.street || userData.street || prev.street,
+              houseNumber:
+                userData.address?.houseNumber ||
+                userData.houseNumber ||
+                prev.houseNumber,
+            }));
+          }
+        } catch (error) {
+          console.error(
+            "Nem sikerült betölteni a felhasználói adatokat:",
+            error,
+          );
+        }
+      }
+    }
+
+    fetchUserData();
+  }, [session, status]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      const updated = { ...prev, [name]: value };
+      localStorage.setItem("formDatas", JSON.stringify(updated));
+      return updated;
+    });
+
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: null }));
+    }
   };
 
   const handleOrder = async () => {
@@ -52,7 +97,6 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
         body: JSON.stringify({ cartItems }),
       });
 
-      // Ha a szerver nem 200-as státuszt küld (pl. 400 vagy 500), itt elkapjuk
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         console.error("Szerver hiba részletei:", errorData);

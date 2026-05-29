@@ -7,7 +7,8 @@ import Header from "@/components/szekciok/Header";
 import SideCart from "@/components/szekciok/SideCart";
 import Footer from "@/components/szekciok/Footer";
 import ScrollToTop from "@/components/szekciok/scrollToTop";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -39,6 +40,11 @@ export default function RootLayout({
           <CartProvider>
             <Header></Header>
             <SideCart></SideCart>
+            <ToastContainer
+              position="bottom-right"
+              autoClose={2500}
+              theme="dark"
+            />
             {children}
             <ScrollToTop></ScrollToTop>
             <Footer></Footer>
