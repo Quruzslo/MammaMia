@@ -67,7 +67,7 @@ export default function Menu() {
   };
 
   return (
-    <section className="w-full mx-auto py-8 ">
+    <section className="w-full mx-auto py-[10px] ">
       <h2 className="text-3xl font-bold mb-10 text-center text-teal-400 border-b-4 border-teal-900/50 pb-4 uppercase tracking-widest">
         Heti Menü
       </h2>
@@ -81,7 +81,7 @@ export default function Menu() {
             }`}
           >
             {/* Dátum és Nap szekció - Bal oldal */}
-            <div className="lg:w-1/5 bg-neutral-900/50 p-6 flex flex-col justify-center items-center text-center border-b lg:border-b-0 lg:border-r border-neutral-700">
+            <div className="lg:w-1/5 bg-neutral-900/50 p-[10px] flex flex-col justify-center items-center text-center border-b lg:border-b-0 lg:border-r border-neutral-700">
               <h3 className="text-2xl font-black text-teal-400 uppercase tracking-tighter">
                 {nap.dayName}
               </h3>
@@ -94,7 +94,7 @@ export default function Menu() {
             </div>
 
             {/* Ételek Grid - Jobb oldal */}
-            <div className="lg:w-4/5 p-6">
+            <div className="lg:w-4/5 p-[10px]">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
                 {nap.items.map((item, ind) => (
                   <div
