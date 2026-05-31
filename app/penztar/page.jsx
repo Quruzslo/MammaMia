@@ -16,11 +16,11 @@ export default function Checkout() {
       <section className="mt-[50px] align-center justify-center flex bg-teal-950 max-w-[1800px] w-[90%] md:w-[80%] mx-auto ">
         {" "}
         {formState === "form" ? (
-          <h1 className="text-[30px] rounded-lg shadow uppercase  text-teal-300 text-center ">
+          <h1 className="text-[30px] rounded-lg shadow uppercase  text-white text-center ">
             Pénztár
           </h1>
         ) : (
-          <h1 className="text-[30px] rounded-lg shadow uppercase  text-teal-300 text-center ">
+          <h1 className="text-[30px] rounded-lg shadow uppercase  text-white text-center ">
             Fizetés
           </h1>
         )}
