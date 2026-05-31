@@ -98,7 +98,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-2 ml-auto flex-col md:flex-row ">
+                        <div className="flex items-center gap-2 ml-auto flex-col md:flex-row w-auto justify-end ">
                           <div className="bg-teal-900/30 text-teal-400 ml-auto px-[2px] py-1 rounded text-xs font-bold border border-teal-900/60 min-w-[55px] text-center">
                             {etel.quantity} db
                           </div>
