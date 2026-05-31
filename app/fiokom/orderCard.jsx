@@ -3,7 +3,7 @@ import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 export default function OrderCard({ order, cardOpen, setCardOpen }) {
   return (
-    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-2xl border-l-4 border-teal-500 hover:border-teal-400 transition-all p-[5px] flex flex-col">
+    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-2xl border-l-4 border-teal-500 hover:border-teal-400 transition-all px-[5px] py-[15px] flex flex-col">
       <div
         className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 pb-4 border-b border-neutral-700 cursor-pointer select-none group w-full"
         onClick={() => setCardOpen(!cardOpen)}
