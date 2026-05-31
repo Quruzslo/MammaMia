@@ -25,7 +25,7 @@ export default function Checkout() {
           </h1>
         )}
       </section>
-      <section className="flex flex-row gap-2 max-w-[1800px] w-[90%] md:w-[80%] mx-auto my-[50px]">
+      <section className="flex flex-col md:flex-row gap-2 max-w-[1800px] w-[90%] md:w-[80%] mx-auto my-[50px]">
         <div className=" w-[100%] md:w-[50%]">
           <CheckoutInputs
             cartItems={cartItems}
