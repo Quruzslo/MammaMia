@@ -9,7 +9,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
         onClick={() => setCardOpen(!cardOpen)}
       >
         <div className="flex flex-col sm:flex-row gap-4 sm:items-center w-full lg:w-auto">
-          <div className="bg-neutral-900/50 p-[2px] rounded-xl border border-neutral-700 text-center min-w-[140px]">
+          <div className="bg-neutral-900/50 p-[10px] rounded-xl border border-neutral-700 text-center min-w-[140px]">
             <span className="text-[10px] font-bold uppercase text-teal-500 tracking-widest block mb-1">
               Rendelés Dátuma
             </span>
@@ -98,11 +98,11 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-2 shrink-0 flex-col md:flex-row">
-                          <div className="bg-teal-900/30 text-teal-400 px-[2px] py-1 rounded text-xs font-bold border border-teal-900/60 min-w-[55px] text-center">
+                        <div className="flex items-center gap-2 shrink-0 flex-col md:flex-row ">
+                          <div className="bg-teal-900/30 text-teal-400 ml-auto px-[2px] py-1 rounded text-xs font-bold border border-teal-900/60 min-w-[55px] text-center">
                             {etel.quantity} db
                           </div>
-                          <div className="text-sm font-semibold text-teal-100 min-w-[70px] text-right">
+                          <div className="text-sm font-semibold text-teal-100  text-right">
                             {(etel.price * etel.quantity).toLocaleString()} Ft
                           </div>
                         </div>
