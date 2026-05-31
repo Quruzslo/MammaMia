@@ -71,7 +71,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                 // --- BELSŐ CIKLUS 1: NAPOK ---
                 <div
                   key={nap.date}
-                  className="bg-neutral-900/40 rounded-lg border border-teal-900/40 overflow-hidden"
+                  className="bg-neutral-900/40 rounded-lg border border-teal-900/40 overflow-hidden p-[10px]"
                 >
                   <div className="bg-teal-950/60 p-[2px] border-b border-teal-900/40 flex justify-between items-center">
                     <span className="text-teal-400 font-bold text-sm">
@@ -87,7 +87,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                     {nap.items.map((etel) => (
                       <div
                         key={`${nap.date}-${etel.name}`}
-                        className="flex justify-between items-center border-b border-neutral-800 last:border-0 pb-2 last:pb-0 gap-2"
+                        className="flex justify-between items-center border-b border-neutral-800 last:border-0 pb-2 last:pb-0 gap-2 px-[5px]"
                       >
                         <div className="flex flex-col">
                           <p className="text-sm text-teal-50 font-medium leading-tight">
@@ -98,8 +98,8 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-2 shrink-0">
-                          <div className="bg-teal-900/30 text-teal-400 px-2.5 py-1 rounded text-xs font-bold border border-teal-900/60 min-w-[55px] text-center">
+                        <div className="flex items-center gap-2 shrink-0 flex-col md:flex-row">
+                          <div className="bg-teal-900/30 text-teal-400 px-[2px] py-1 rounded text-xs font-bold border border-teal-900/60 min-w-[55px] text-center">
                             {etel.quantity} db
                           </div>
                           <div className="text-sm font-semibold text-teal-100 min-w-[70px] text-right">
