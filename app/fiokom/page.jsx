@@ -15,21 +15,21 @@ export default function UserDashboard() {
       <div className="user-dashboard-nav w-[100%] grid grid-cols-1 md:grid-cols-3 md:w-[250px] md:flex md:flex-col gap-2 px-[5px] py-[25px] bg-neutral-900/70 rounded-lg overflow-y-auto ">
         <div
           onClick={() => signOut()}
-          className="flex flex-row w-auto relative p-[5px] rounded-xl bg-neutral-700 border border-neutral-800 hover:border-teal-500/50 transition-all gap-2 cursor-pointer "
+          className="flex flex-row w-auto relative py-[5px] px-[20px] rounded-xl bg-neutral-700 border border-neutral-800 hover:border-teal-500/50 transition-all gap-2 cursor-pointer "
         >
           <CiLogout size={24} className="fill-teal-100" />
           <button className="text-red-300">Kilépés</button>
         </div>
         <div
           onClick={() => setCurrentMenu("orders")}
-          className="flex flex-row w-auto relative p-[5px] rounded-xl bg-neutral-700 border border-neutral-800 hover:border-teal-500/50 transition-all gap-2 cursor-pointer"
+          className="flex flex-row w-auto relative py-[5px] px-[20px] rounded-xl bg-neutral-700 border border-neutral-800 hover:border-teal-500/50 transition-all gap-2 cursor-pointer"
         >
           <PiBowlFood size={24} className="fill-teal-100" />
           <button className="text-white">Rendeléseim</button>
         </div>
         <div
           onClick={() => setCurrentMenu("datas")}
-          className="flex flex-row w-auto relative p-[5px] rounded-xl bg-neutral-700 border border-neutral-800 hover:border-teal-500/50 transition-all gap-2 cursor-pointer"
+          className="flex flex-row w-auto relative py-[5px] px-[20px] rounded-xl bg-neutral-700 border border-neutral-800 hover:border-teal-500/50 transition-all gap-2 cursor-pointer"
         >
           <CiViewList size={24} className="fill-teal-100" />
           <button className="text-white">Adataim</button>
