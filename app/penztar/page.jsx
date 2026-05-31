@@ -13,7 +13,7 @@ export default function Checkout() {
   };
   return (
     <>
-      <section className="mt-[50px] align-center justify-center flex bg-teal-950 max-w-[1800px] w-[80%] mx-auto ">
+      <section className="mt-[50px] align-center justify-center flex bg-teal-950 max-w-[1800px] w-[90%] md:w-[80%] mx-auto ">
         {" "}
         {formState === "form" ? (
           <h1 className="text-[30px] rounded-lg shadow uppercase  text-teal-300 text-center ">
@@ -25,15 +25,15 @@ export default function Checkout() {
           </h1>
         )}
       </section>
-      <section className="flex flex-row gap-2 max-w-[1800px] w-[80%] mx-auto my-[50px]">
-        <div className="w-[50%]">
+      <section className="flex flex-row gap-2 max-w-[1800px] w-[90%] md:w-[80%] mx-auto my-[50px]">
+        <div className=" w-[100%] md:w-[50%]">
           <CheckoutInputs
             cartItems={cartItems}
             setFormState={settingFormState}
             formState={formState}
           ></CheckoutInputs>
         </div>
-        <div className="w-[50%]">
+        <div className="w-[100%] md:w-[50%]">
           <CheckoutOrders></CheckoutOrders>
         </div>
       </section>
