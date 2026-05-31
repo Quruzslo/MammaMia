@@ -71,9 +71,9 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                 // --- BELSŐ CIKLUS 1: NAPOK ---
                 <div
                   key={nap.date}
-                  className="bg-neutral-900/40 rounded-lg border border-teal-900/40 overflow-hidden p-[10px]"
+                  className="bg-neutral-900/40 rounded-lg border border-teal-900/40 overflow-hidden"
                 >
-                  <div className="bg-teal-950/60 p-[2px] border-b border-teal-900/40 flex justify-between items-center">
+                  <div className="bg-teal-950/60 p-[5px] border-b border-teal-900/40 flex justify-between items-center mb-[5px]">
                     <span className="text-teal-400 font-bold text-sm">
                       {nap.dayName}
                     </span>
@@ -82,7 +82,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                     </span>
                   </div>
 
-                  <div className="p-[2px] flex flex-col gap-2 bg-neutral-900/20">
+                  <div className="p-[5px] flex flex-col gap-2 bg-neutral-900/20">
                     {/* --- BELSŐ CIKLUS 2: ÉTELEK --- */}
                     {nap.items.map((etel) => (
                       <div
