@@ -35,7 +35,7 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-lvh flex flex-col">
+      <body className=" flex flex-col">
         <UserProvider>
           <CartProvider>
             <Header></Header>
