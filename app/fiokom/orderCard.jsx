@@ -3,13 +3,13 @@ import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 export default function OrderCard({ order, cardOpen, setCardOpen }) {
   return (
-    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-2xl border-l-4 border-teal-500 hover:border-teal-400 transition-all p-6 flex flex-col">
+    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-2xl border-l-4 border-teal-500 hover:border-teal-400 transition-all p-[5px] flex flex-col">
       <div
         className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 pb-4 border-b border-neutral-700 cursor-pointer select-none group w-full"
         onClick={() => setCardOpen(!cardOpen)}
       >
         <div className="flex flex-col sm:flex-row gap-4 sm:items-center w-full lg:w-auto">
-          <div className="bg-neutral-900/50 p-3 rounded-xl border border-neutral-700 text-center min-w-[140px]">
+          <div className="bg-neutral-900/50 p-[2px] rounded-xl border border-neutral-700 text-center min-w-[140px]">
             <span className="text-[10px] font-bold uppercase text-teal-500 tracking-widest block mb-1">
               Rendelés Dátuma
             </span>
@@ -73,7 +73,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                   key={nap.date}
                   className="bg-neutral-900/40 rounded-lg border border-teal-900/40 overflow-hidden"
                 >
-                  <div className="bg-teal-950/60 p-2.5 border-b border-teal-900/40 flex justify-between items-center">
+                  <div className="bg-teal-950/60 p-[2px] border-b border-teal-900/40 flex justify-between items-center">
                     <span className="text-teal-400 font-bold text-sm">
                       {nap.dayName}
                     </span>
@@ -82,12 +82,12 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                     </span>
                   </div>
 
-                  <div className="p-3 flex flex-col gap-3 bg-neutral-900/20">
+                  <div className="p-[2px] flex flex-col gap-2 bg-neutral-900/20">
                     {/* --- BELSŐ CIKLUS 2: ÉTELEK --- */}
                     {nap.items.map((etel) => (
                       <div
                         key={`${nap.date}-${etel.name}`}
-                        className="flex justify-between items-center border-b border-neutral-800 last:border-0 pb-2 last:pb-0 gap-4"
+                        className="flex justify-between items-center border-b border-neutral-800 last:border-0 pb-2 last:pb-0 gap-2"
                       >
                         <div className="flex flex-col">
                           <p className="text-sm text-teal-50 font-medium leading-tight">
@@ -98,7 +98,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-4 shrink-0">
+                        <div className="flex items-center gap-2 shrink-0">
                           <div className="bg-teal-900/30 text-teal-400 px-2.5 py-1 rounded text-xs font-bold border border-teal-900/60 min-w-[55px] text-center">
                             {etel.quantity} db
                           </div>

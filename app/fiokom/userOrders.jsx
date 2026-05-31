@@ -56,13 +56,13 @@ export default function UserOrders() {
 
   // 3. FŐ RENDERELÉS: Ha be van töltve és hitelesítve van a user
   return (
-    <section className="max-w-[1800px] mx-auto py-8 px-4 animate-fade-in">
+    <section className="max-w-[1800px] w-[100%] mx-auto py-8 px-[5px] animate-fade-in">
       <h2 className="text-3xl font-bold mb-10 text-center text-teal-400 border-b-4 border-teal-900/50 pb-4 uppercase tracking-widest">
         Rendeléseim
       </h2>
 
       {orders.length === 0 ? (
-        <div className="bg-neutral-800 rounded-xl p-8 text-center border-l-4 border-teal-600/30 max-w-md mx-auto shadow-2xl">
+        <div className="bg-neutral-800 rounded-xl p-[5px] text-center border-l-4 border-teal-600/30 max-w-md mx-auto shadow-2xl">
           <p className="text-gray-400 font-medium">
             Még nincsenek rendelési előzményeid.
           </p>
