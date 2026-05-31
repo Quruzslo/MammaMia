@@ -116,7 +116,6 @@ export default function Menu() {
                     {/* Kosárba gomb */}
                     <button
                       disabled={nap.isClosed}
-                      // 3. ITT MEGHÍVJUK AZ ÚJ FÜGGVÉNYT -----------------
                       onClick={() =>
                         handleAddToCartWithNotification(
                           item,
@@ -127,7 +126,7 @@ export default function Menu() {
                       className={`w-full py-3 flex justify-center items-center transition-all cursor-pointer ${
                         nap.isClosed
                           ? "bg-neutral-800 text-gray-600 cursor-not-allowed"
-                          : "bg-teal-600/10 text-teal-400 hover:bg-teal-600 hover:text-white"
+                          : "bg-teal-600/10 text-teal-400 hover:bg-teal-600 hover:text-white active:bg-teal-700 active:text-white"
                       }`}
                     >
                       <LiaCartPlusSolid size={20} className=" fill-teal-100" />
