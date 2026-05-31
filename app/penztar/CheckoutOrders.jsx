@@ -71,14 +71,14 @@ export default function CheckoutOrders() {
                   key={`${nap.date}-${etel.name}`}
                   className="flex flex-row justify-between items-center border-b border-neutral-700 last:border-0 pb-2"
                 >
-                  <div className="flex flex-col">
+                  <div className="flex flex-col max-w-[50%]">
                     <p className="text-sm text-teal-50 font-medium">
                       {etel.name}
                     </p>
                     <p className="text-xs text-teal-500">{etel.price} Ft</p>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 max-w-[50%]">
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() =>
@@ -95,7 +95,7 @@ export default function CheckoutOrders() {
                         <FiMinus size={14} className="stroke-teal-300" />
                       </button>
                     </div>
-                    <div className="bg-teal-900/40 text-teal-300 px-2 py-1 rounded text-xs font-bold border border-teal-800">
+                    <div className="bg-teal-900/40 text-teal-300 px-2 py-1 rounded text-xs font-bold border border-teal-800 flex-nowrap">
                       {etel.quantity} db
                     </div>
                     <div className="flex items-center gap-3 px-2 py-1 rounded border border-red-300">
