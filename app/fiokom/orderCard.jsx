@@ -87,7 +87,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                     {nap.items.map((etel) => (
                       <div
                         key={`${nap.date}-${etel.name}`}
-                        className="flex justify-between items-center border-b border-neutral-800 last:border-0 pb-2 last:pb-0 gap-2 px-[5px]"
+                        className="flex justify-between items-center border-b border-neutral-800 last:border-0 py-2 last:pb-0 gap-2 px-[5px]"
                       >
                         <div className="flex flex-col">
                           <p className="text-sm text-teal-50 font-medium leading-tight">
