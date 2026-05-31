@@ -11,7 +11,7 @@ export default function BelepesPage() {
 
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500/40 to-transparent" />
 
-      <div className="relative z-10 w-full max-w-sm mx-auto px-6 animate-fade-in">
+      <div className="relative  w-full max-w-sm mx-auto px-6 animate-fade-in">
         <div className="flex justify-center mb-10">
           <div className="w-10 h-10 rounded-xl border border-teal-700/50 bg-teal-900/30 flex items-center justify-center">
             <svg

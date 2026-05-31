@@ -113,7 +113,7 @@ export default function Header() {
                   </div>
                 )}
               </button>
-              <div className="info-tooltip rounded-xl bg-neutral-900 border border-neutral-800 transition-all p-4">
+              <div className="info-tooltip hidden md:flex rounded-xl bg-neutral-900 border border-neutral-800 transition-all p-4">
                 <p className="text-teal-100/50 text-nowrap">Kosár</p>
               </div>
             </div>
@@ -147,7 +147,7 @@ export default function Header() {
                         {session?.user?.name?.charAt(0).toUpperCase() || "U"}
                       </span>
                     )}
-                    <IoDocuments size={24} className="fill-teal-500" />
+                    {/* <IoDocuments size={24} className="fill-teal-500" /> */}
                   </div>
                 </Link>
               ) : (
