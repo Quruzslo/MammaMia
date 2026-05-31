@@ -40,7 +40,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="flex flex-row gap-2 w-full mx-auto bg-neutral-950/80 backdrop-blur-md px-[10px] md:px-[10%] border-b border-white py-2 gap-6 items-center">
+      <div className="z-[60] flex flex-row gap-2 w-full mx-auto bg-neutral-950/80 backdrop-blur-md px-[10px] md:px-[10%] border-b border-white py-2 gap-6 items-center">
         <div className=" gap-2 items-center hidden md:flex md:flex-row ">
           <BsClockHistory size={20} className="fill-white" />
           <p className="text-white text-[12px]">

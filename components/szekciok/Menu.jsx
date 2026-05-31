@@ -95,7 +95,7 @@ export default function Menu() {
 
             {/* Ételek Grid - Jobb oldal */}
             <div className="lg:w-4/5 p-[10px]">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 md:gap-4">
                 {nap.items.map((item, ind) => (
                   <div
                     key={ind}
