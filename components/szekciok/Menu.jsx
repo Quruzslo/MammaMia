@@ -17,7 +17,8 @@ export default function Menu() {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await fetch("/api/foods");
+        // A force-cache vagy a default cache segít, hogy a Next.js kliensoldali routere se rángassa az API-t feleslegesen
+        const response = await fetch("/api/foods", { cache: "default" });
         if (!response.ok) throw new Error(`Hiba: ${response.status}`);
         const data = await response.json();
         setMenu(data);
@@ -45,10 +46,10 @@ export default function Menu() {
 
   //  KOSÁRBA RAKÁS ÉS ÉRTESÍTÉS -----
   const handleAddToCartWithNotification = (item, date, dayName) => {
-    // Elmentjük a kosárba
+    // kosárba tesszük
     addToCart(item, date, dayName);
 
-    // Feldobjuk az értesítést
+    // értesítés toast
     toast(
       <div className="flex items-center gap-3">
         <PiBowlFood size={24} className="fill-teal-100" />
