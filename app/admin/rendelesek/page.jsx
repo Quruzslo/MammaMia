@@ -11,6 +11,7 @@ import { FaHouseUser } from "react-icons/fa";
 import { FaRegCalendarAlt } from "react-icons/fa";
 
 import AdminCharts from "./charts";
+import AdminNav from "./adminNav";
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -74,12 +75,10 @@ export default function AdminOrdersPage() {
 
   return (
     <section className="py-6 px-4 w-[100%] md:w-[80%] max-w-[1800px]  mx-auto min-h-screen bg-neutral-900 text-gray-100 mt-[50px]">
-      <div className="flex flex-row gap-3">
+      <div className="flex flex-col gap-3 mb-[35px]">
+        <AdminNav></AdminNav>
         <AdminCharts></AdminCharts>
       </div>
-      <h1 className="text-3xl font-bold mb-8 border-b border-neutral-800 pb-4 mt-4">
-        Rendelések kezelése
-      </h1>
 
       <div className="grid gap-6">
         {orders.map((order) => (

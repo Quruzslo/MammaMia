@@ -1,23 +1,20 @@
 "use client";
-// Ikonok ---------------
 import { LiaCartPlusSolid } from "react-icons/lia";
 import { PiBowlFood } from "react-icons/pi";
-// React importok--------------
 import { useEffect, useState, useContext } from "react";
 import { cartContext } from "@/components/contexts/cartProvider";
-
-// 1. IMPORTÁLD A TOAST-OT -----------------------------
 import { toast } from "react-toastify";
+import WeeklyMenuDisplay from "./WeeklyMenuDisplay";
 
 export default function Menu() {
   const [menu, setMenu] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("current");
   const { addToCart } = useContext(cartContext);
 
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        // A force-cache vagy a default cache segít, hogy a Next.js kliensoldali routere se rángassa az API-t feleslegesen
         const response = await fetch("/api/foods", { cache: "default" });
         if (!response.ok) throw new Error(`Hiba: ${response.status}`);
         const data = await response.json();
@@ -40,16 +37,45 @@ export default function Menu() {
       </div>
     );
 
-  const sortedMenuByDate = menu.sort(
+  // SORBA RENDEZÉS DÁTUM SZERINT
+  const sortedMenuByDate = [...menu].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
 
-  //  KOSÁRBA RAKÁS ÉS ÉRTESÍTÉS -----
-  const handleAddToCartWithNotification = (item, date, dayName) => {
-    // kosárba tesszük
-    addToCart(item, date, dayName);
+  //  DÁtum a heteknek
+  const ma = new Date();
 
-    // értesítés toast
+  // Aktuális hét hétfő
+  const jelenHetHetfo = new Date(ma);
+  const napAHetben = ma.getDay();
+  const korrekcio = napAHetben === 0 ? -6 : 1 - napAHetben;
+  jelenHetHetfo.setDate(ma.getDate() + korrekcio);
+  jelenHetHetfo.setHours(0, 0, 0, 0);
+
+  // Jövő hét hétfő
+  const jovoHetHetfo = new Date(jelenHetHetfo);
+  jovoHetHetfo.setDate(jelenHetHetfo.getDate() + 7);
+
+  // Jövő hét vasárnap
+  const jovoHetVasarnap = new Date(jovoHetHetfo);
+  jovoHetVasarnap.setDate(jovoHetHetfo.getDate() + 7);
+
+  // Lista szétválasztása két hétre
+  const eHetiNapok = sortedMenuByDate.filter((nap) => {
+    const napIdo = new Date(nap.date).getTime();
+    return napIdo >= jelenHetHetfo.getTime() && napIdo < jovoHetHetfo.getTime();
+  });
+
+  const jovoHetiNapok = sortedMenuByDate.filter((nap) => {
+    const napIdo = new Date(nap.date).getTime();
+    return (
+      napIdo >= jovoHetHetfo.getTime() && napIdo < jovoHetVasarnap.getTime()
+    );
+  });
+
+  // KOSÁRBA RAKÁS ÉS ÉRTESÍTÉS
+  const handleAddToCartWithNotification = (item, date, dayName) => {
+    addToCart(item, date, dayName);
     toast(
       <div className="flex items-center gap-3">
         <PiBowlFood size={24} className="fill-teal-100" />
@@ -69,78 +95,47 @@ export default function Menu() {
 
   return (
     <section className="w-full mx-auto py-[10px] ">
-      <h2 className="text-3xl font-bold mb-10 text-center text-teal-400 border-b-4 border-teal-900/50 pb-4 uppercase tracking-widest">
+      <h2 className="text-3xl font-bold mb-6 text-center text-teal-400 border-b-4 border-teal-900/50 pb-4 uppercase tracking-widest">
         Heti Menü
       </h2>
 
-      <div id="menu" className="space-y-8">
-        {sortedMenuByDate.map((nap) => (
-          <div
-            key={nap.date}
-            className={`flex flex-col lg:flex-row bg-neutral-800 rounded-xl overflow-hidden shadow-2xl border-l-4 ${
-              nap.isClosed ? "border-red-500 opacity-75" : "border-teal-500"
-            }`}
-          >
-            {/* Dátum és Nap szekció - Bal oldal */}
-            <div className="lg:w-1/5 bg-neutral-900/50 p-[10px] flex flex-col justify-center items-center text-center border-b lg:border-b-0 lg:border-r border-neutral-700">
-              <h3 className="text-2xl font-black text-teal-400 uppercase tracking-tighter">
-                {nap.dayName}
-              </h3>
-              <span className="text-sm text-gray-400 mt-1">{nap.date}</span>
-              {nap.isClosed && (
-                <span className="mt-4 px-3 py-1 bg-red-500/10 text-red-500 border border-red-500/20 rounded-full text-xs font-bold uppercase">
-                  Zárva
-                </span>
-              )}
-            </div>
+      {/* TABS VEZÉRLŐ GOMBOK */}
+      <div className="flex justify-center gap-4 mb-10">
+        <button
+          onClick={() => setActiveTab("current")}
+          className={`px-6 py-2 rounded-xl font-bold uppercase text-xs tracking-wider transition-all cursor-pointer border ${
+            activeTab === "current"
+              ? "bg-teal-600 text-white border-teal-500 shadow-lg shadow-teal-600/20"
+              : "bg-neutral-900 text-gray-400 border-neutral-800 hover:text-teal-400"
+          }`}
+        >
+          E heti ajánlat
+        </button>
+        <button
+          onClick={() => setActiveTab("next")}
+          className={`px-6 py-2 rounded-xl font-bold uppercase text-xs tracking-wider transition-all cursor-pointer border ${
+            activeTab === "next"
+              ? "bg-teal-600 text-white border-teal-500 shadow-lg shadow-teal-600/20"
+              : "bg-neutral-900 text-gray-400 border-neutral-800 hover:text-teal-400"
+          }`}
+        >
+          Jövő heti ajánlat
+        </button>
+      </div>
 
-            {/* Ételek Grid - Jobb oldal */}
-            <div className="lg:w-4/5 p-[10px]">
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 md:gap-4">
-                {nap.items.map((item, ind) => (
-                  <div
-                    key={ind}
-                    className="flex flex-col bg-neutral-900 rounded-lg border border-neutral-700 overflow-hidden hover:border-teal-500/50 transition-all group"
-                  >
-                    <div className="p-4 flex-grow">
-                      <span className="text-[10px] font-bold uppercase text-teal-500 tracking-widest block mb-1">
-                        {item.category}
-                      </span>
-                      <h4 className="text-gray-100 font-semibold leading-snug min-h-[40px] mb-2">
-                        {item.name}
-                      </h4>
-                      <p className="text-teal-400 font-bold">
-                        {item.price.toLocaleString()} Ft
-                      </p>
-                    </div>
-
-                    {/* Kosárba gomb */}
-                    <button
-                      disabled={nap.isClosed}
-                      onClick={() =>
-                        handleAddToCartWithNotification(
-                          item,
-                          nap.date,
-                          nap.dayName,
-                        )
-                      }
-                      className={`w-full py-3 flex justify-center items-center transition-all cursor-pointer ${
-                        nap.isClosed
-                          ? "bg-neutral-800 text-gray-600 cursor-not-allowed"
-                          : "bg-teal-600/10 text-teal-400 hover:bg-teal-600 hover:text-white active:bg-teal-700 active:text-white"
-                      }`}
-                    >
-                      <LiaCartPlusSolid size={20} className=" fill-teal-100" />
-                      <p className="ml-2 text-xs font-bold uppercase text-teal-100">
-                        Kosárba
-                      </p>
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
+      {/* RENDERELÉS A KIVÁLASZTOTT FÜL ALAPJÁN */}
+      <div id="menu">
+        {activeTab === "current" ? (
+          <WeeklyMenuDisplay
+            days={eHetiNapok}
+            onAddToCart={handleAddToCartWithNotification}
+          />
+        ) : (
+          <WeeklyMenuDisplay
+            days={jovoHetiNapok}
+            onAddToCart={handleAddToCartWithNotification}
+          />
+        )}
       </div>
     </section>
   );
