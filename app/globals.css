@@ -32,8 +32,8 @@ body::before {
   height: 100vh;
   z-index: -1;
 
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("/root-bg.jpg");
+  /* background-image:
+    linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("/root-bg.jpg"); */
   background-position: center;
   background-size: cover;
 
