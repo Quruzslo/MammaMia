@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { MongoClient } from "mongodb";
 
-// Stripe ini
+// Stripe init
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 // MongoDB kliens példányosítása
@@ -11,7 +11,8 @@ const client = new MongoClient(uri);
 
 export async function POST(request: Request) {
   try {
-    const { cartItems } = await request.json();
+    //  BEOLVASSUK A FORM-ADATOKAT ÉS A USER-ID-T IS A FRONTENDRŐL
+    const { cartItems, formData, userId } = await request.json();
 
     await client.connect();
     const db = client.db("MammaMia");
@@ -46,9 +47,16 @@ export async function POST(request: Request) {
       );
     }
 
+    //  LÉTREHOZZUK A PAYMENTINTENT-ET A METADATÁKKAL EGYÜTT .---------
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(totalAmount * 100),
       currency: "huf",
+      // --- INNENTŐL KÜLDJÜK ÁT A STRIPENAK A HÁTTÉR-MENTÉSHEZ AZ ADATOKAT ---
+      metadata: {
+        userId: userId ?? "guest",
+        cartItems: JSON.stringify(cartItems),
+        formData: JSON.stringify(formData),
+      },
     });
 
     return NextResponse.json({ clientSecret: paymentIntent.client_secret });
