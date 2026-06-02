@@ -44,25 +44,25 @@ export default function CheckoutStripe({ formData, cartItems }) {
 
     if (paymentIntent && paymentIntent.status === "succeeded") {
       try {
-        // Előkészítjük a user objektumot a NextAuth adatai alapján
-        const orderUser = {
-          id: session?.user?.userId,
-          email: session?.user?.email,
-          name: session?.user?.name,
-        };
+        // // Előkészítjük a user objektumot a NextAuth adatai alapján
+        // const orderUser = {
+        //   id: session?.user?.userId,
+        //   email: session?.user?.email,
+        //   name: session?.user?.name,
+        // };
 
-        const response = await fetch("/api/orders", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            paymentIntentId: paymentIntent.id,
-            formData,
-            cartItems,
-            userId: session?.user?.userId, // közvetlenül küldd, ne user objektumba csomagolva
-          }),
-        });
+        // const response = await fetch("/api/orders", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({
+        //     paymentIntentId: paymentIntent.id,
+        //     formData,
+        //     cartItems,
+        //     userId: session?.user?.userId, // közvetlenül küldd, ne user objektumba csomagolva
+        //   }),
+        // });
 
         if (response.ok) {
           router.push("/fizetve");
