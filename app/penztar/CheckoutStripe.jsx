@@ -16,7 +16,7 @@ import { cartContext } from "@/components/contexts/cartProvider";
 export default function CheckoutStripe({ formData, cartItems }) {
   const { clearCart } = useContext(cartContext);
 
-  // A saját userContext helyett a NextAuth-tól kérjük el a usert
+  // NextAuth-tól kérjük el a usert
   const { data: session } = useSession();
 
   const stripe = useStripe();
@@ -30,6 +30,7 @@ export default function CheckoutStripe({ formData, cartItems }) {
     if (!stripe || !elements) return;
 
     setIsProcessing(true);
+    setErrorMessage(null);
 
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
@@ -43,40 +44,12 @@ export default function CheckoutStripe({ formData, cartItems }) {
     }
 
     if (paymentIntent && paymentIntent.status === "succeeded") {
-      try {
-        // // Előkészítjük a user objektumot a NextAuth adatai alapján
-        // const orderUser = {
-        //   id: session?.user?.userId,
-        //   email: session?.user?.email,
-        //   name: session?.user?.name,
-        // };
-
-        // const response = await fetch("/api/orders", {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: JSON.stringify({
-        //     paymentIntentId: paymentIntent.id,
-        //     formData,
-        //     cartItems,
-        //     userId: session?.user?.userId, // közvetlenül küldd, ne user objektumba csomagolva
-        //   }),
-        // });
-
-        if (response.ok) {
-          router.push("/fizetve");
-          clearCart();
-        } else {
-          setErrorMessage("Rendelés mentése sikertelen.");
-        }
-      } catch (err) {
-        console.error("Mentési hiba:", err);
-        setErrorMessage("Szerver hiba történt.");
-      }
+      clearCart();
+      router.push("/fizetve");
+    } else {
+      setErrorMessage("A fizetés feldolgozása nem fejeződött be sikeresen.");
+      setIsProcessing(false);
     }
-
-    setIsProcessing(false);
   };
 
   return (
