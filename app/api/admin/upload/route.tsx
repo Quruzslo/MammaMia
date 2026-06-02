@@ -31,40 +31,33 @@ export async function POST(request: Request) {
     // 3. Adatbázis kapcsolódás
     const db = client.db("MammaMia");
 
-    // 4. DUPLIKÁCIÓ ELLENŐRZÉS - PONTOSAN MINT A PÉLDÁDBAN 🎯
-    // Megnézzük, hogy létezik-e már menü erre a konkrét dátumra
-    const alreadyProcessed = await db
-      .collection("foods")
-      .findOne({ date: targetDay.date });
-
-    if (alreadyProcessed) {
-      return NextResponse.json(
-        {
-          error: `Erre a napra (${targetDay.date}) már fel lett dolgozva a menü!`,
+    // 4. UPSERT LOGIKA: Ha nincs még ilyen dátum, létrehozza. Ha van, felülírja (javítja)!
+    const result = await db.collection("foods").updateOne(
+      { date: targetDay.date }, //  Ez alapján keresünk rá (Dátum)
+      {
+        $set: {
+          dayName: targetDay.dayName,
+          isClosed: targetDay.isClosed,
+          items: targetDay.items, // Ha javítanak, az egész napi módosított étellista frissül!
         },
-        { status: 400 },
-      );
-    }
+      },
+      { upsert: true }, //  Ha nincs ilyen dátum, automatikusan beszúrja újként!
+    );
 
-    // 5. ÚJ DOKUMENTUM ÖSSZEÁLLÍTÁSA ÉS BESZÚRÁSA (insertOne)
-    const newMenuDay = {
-      date: targetDay.date,
-      dayName: targetDay.dayName,
-      isClosed: targetDay.isClosed,
-      items: targetDay.items,
-    };
-
-    await db.collection("foods").insertOne(newMenuDay);
-
-    // 6. Next.js cache ürítés, hogy a frontend azonnal lássa a változást
+    // 5. Next.js cache ürítés, hogy a frontend azonnal lássa a változást
     revalidateTag("foods-list");
+
+    // Megnézzük, hogy új beszúrás (upserted) vagy frissítés történt-e a szebb üzenethez
+    const isNew = result.upsertedCount > 0;
 
     return NextResponse.json(
       {
         success: true,
-        message: `${targetDay.dayName}i menü sikeresen rögzítve!`,
+        message: isNew
+          ? `${targetDay.dayName}i menü sikeresen rögzítve!`
+          : `${targetDay.dayName}i menü sikeresen frissítve/javítva!`,
       },
-      { status: 201 },
+      { status: isNew ? 201 : 200 },
     );
   } catch (error: any) {
     console.error("Menü mentési hiba:", error);
