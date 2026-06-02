@@ -94,7 +94,12 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ cartItems }),
+
+        body: JSON.stringify({
+          cartItems,
+          formData,
+          userId: session?.user?.id || "guest",
+        }),
       });
 
       if (!response.ok) {

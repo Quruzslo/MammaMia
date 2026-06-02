@@ -50,19 +50,18 @@ export async function POST(request: Request) {
 
     // 1. LÉPÉS: RENDELÉS ELMENTÉSE PENDING STÁTUSSZAL A MONGODB-BE
     const pendingOrder = {
-      orderId: Date.now(), // Egyedi belső azonosító
-      status: "pending", // Alapértelmezetten függőben van, amíg a webhook nem igazolja a fizetést
+      orderId: Date.now(),
+      status: "pending",
       customer: formData,
-      userId: userId === "guest" ? null : (userId ?? null), // "guest" string helyett null megy a DB-be
-      items: cartItems, // A teljes, részletes kosár biztonságban elmentve nálunk
+      userId: userId === "guest" ? null : (userId ?? null),
+      items: cartItems,
       total: totalAmount,
       currency: "HUF",
-      date: new Date().toISOString(), // Ezt a dátumot figyeli a törlő index
+      date: new Date().toISOString(),
     };
 
     const dbResult = await db.collection("orders").insertOne(pendingOrder);
 
-    // Megkapjuk a MongoDB által generált 24 karakteres egyedi ID-t stringként
     const mongoOrderId = dbResult.insertedId.toString();
 
     // 2. LÉPÉS: PAYMENTINTENT LÉTREHOZÁSA CSAK AZ ORDER ID-VAL
