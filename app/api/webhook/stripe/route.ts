@@ -1,6 +1,8 @@
+export const dynamic = "force-dynamic"; // Ez kell a Next.js-nek Vercelen!
+
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -29,46 +31,44 @@ export async function POST(req: Request) {
   }
 
   if (event.type === "payment_intent.succeeded") {
-    // Típus kényszerítése, hogy a TS ne panaszkodjon a metadata miatt
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
-    try {
-      // A megosztott kapcsolat használata
-      const mongoClient = await clientPromise;
-      const db = mongoClient.db("MammaMia");
+    // Kiszedjük a Stripe-ból azt a MongoDB ID-t, amit a fizetés indításakor rátettünk
+    const mongoOrderId = paymentIntent.metadata.orderId;
 
-      const alreadyProcessed = await db
-        .collection("orders")
-        .findOne({ paymentIntentId: paymentIntent.id });
+    if (mongoOrderId) {
+      try {
+        const mongoClient = await clientPromise;
+        const db = mongoClient.db("MammaMia");
 
-      if (!alreadyProcessed) {
-        await db.collection("orders").insertOne({
-          orderId: Date.now(),
-          paymentIntentId: paymentIntent.id,
-          status: paymentIntent.status,
-          customer: paymentIntent.metadata.formData
-            ? JSON.parse(paymentIntent.metadata.formData)
-            : null,
-          userId: paymentIntent.metadata.userId ?? null,
-          items: paymentIntent.metadata.cartItems
-            ? JSON.parse(paymentIntent.metadata.cartItems)
-            : [],
-          total: paymentIntent.amount / 100,
-          currency: paymentIntent.currency,
-          date: new Date().toISOString(),
-        });
-        console.log(`Rendelés mentve: ${paymentIntent.id}`);
+        const updateResult = await db.collection("orders").updateOne(
+          { _id: new ObjectId(mongoOrderId) },
+          {
+            $set: {
+              status: "succeeded",
+              paymentIntentId: paymentIntent.id,
+            },
+          },
+        );
+
+        if (updateResult.modifiedCount === 1) {
+          console.log(
+            `Rendelés sikeresen kifizetve és aktiválva: ${mongoOrderId}`,
+          );
+        } else {
+          console.warn(
+            `Nem található frissítendő rendelés ezzel az ID-val: ${mongoOrderId}`,
+          );
+        }
+      } catch (dbError: any) {
+        console.error("Adatbázis hiba a webhookban:", dbError.message);
+        return NextResponse.json(
+          { error: "Adatbázis hiba, újrapróbáljuk a frissítést" },
+          { status: 500 },
+        );
       }
-    } catch (dbError: any) {
-      console.error("Adatbázis mentési hiba a webhookban:", dbError.message);
-      // FONTOS: 500-as hibát adunk, így a Stripe újra megpróbálja később!
-      return NextResponse.json(
-        { error: "Adatbázis hiba, újrapróbáljuk a mentést" },
-        { status: 500 },
-      );
     }
   }
 
-  // Sikeres feldolgozás (vagy olyan esemény, ami nem payment_intent.succeeded)
   return NextResponse.json({ received: true });
 }
