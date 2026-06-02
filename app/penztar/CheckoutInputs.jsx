@@ -98,7 +98,7 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
         body: JSON.stringify({
           cartItems,
           formData,
-          userId: session?.user?.id || "guest",
+          userId: session?.user?.userId || "guest",
         }),
       });
 
