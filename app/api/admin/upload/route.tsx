@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 import client from "@/lib/mongodb";
-import { revalidateTag } from "next/cache";
+import { revalidateTag, revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
   // 1. Auth és Admin ellenőrzés a működő GET mintád alapján
@@ -31,21 +31,23 @@ export async function POST(request: Request) {
     // 3. Adatbázis kapcsolódás
     const db = client.db("MammaMia");
 
-    // 4. UPSERT LOGIKA: Ha nincs még ilyen dátum, létrehozza. Ha van, felülírja (javítja)!
+    // Ha nincs még ilyen dátum, létrehozza. Ha van, felülírja (javítja)!
     const result = await db.collection("foods").updateOne(
-      { date: targetDay.date }, //  Ez alapján keresünk rá (Dátum)
+      { date: targetDay.date },
       {
         $set: {
           dayName: targetDay.dayName,
           isClosed: targetDay.isClosed,
-          items: targetDay.items, // Ha javítanak, az egész napi módosított étellista frissül!
+          items: targetDay.items,
         },
       },
       { upsert: true }, //  Ha nincs ilyen dátum, automatikusan beszúrja újként!
     );
 
     // 5. Next.js cache ürítés, hogy a frontend azonnal lássa a változást
+
     revalidateTag("foods-list");
+    revalidatePath("/api/foods");
 
     // Megnézzük, hogy új beszúrás (upserted) vagy frissítés történt-e a szebb üzenethez
     const isNew = result.upsertedCount > 0;
