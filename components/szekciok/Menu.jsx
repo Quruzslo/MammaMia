@@ -15,7 +15,7 @@ export default function Menu() {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await fetch("/api/foods", { cache: "default" });
+        const response = await fetch("/api/foods", { cache: "no-store" });
         if (!response.ok) throw new Error(`Hiba: ${response.status}`);
         const data = await response.json();
         setMenu(data);
