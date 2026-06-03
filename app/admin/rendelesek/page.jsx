@@ -43,9 +43,32 @@ export default function AdminOrdersPage() {
 
         const data = await response.json();
 
-        const sortedData = data.sort((a, b) => {
-          if (a.status === "succeeded" && b.status !== "succeeded") return -1;
-          if (a.status !== "succeeded" && b.status === "succeeded") return 1;
+        // 1. Lekérjük a mai napot helyi időzóna szerint
+        const today = new Date();
+        const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
+        // Érdemes egy másolatot készíteni az eredeti tömbről [...data], hogy ne mutáljuk azt
+        const sortedData = [...data].sort((a, b) => {
+          // 2. Ellenőrizzük, hogy az adott rendelés tartalmaz-e mára szóló ételt
+          const hasFoodTodayA = a.items?.some((food) => food.date === todayStr);
+          const hasFoodTodayB = b.items?.some((food) => food.date === todayStr);
+
+          // 3. Prioritási pontszám meghatározása
+          const getPriority = (order, hasFoodToday) => {
+            if (order.status === "succeeded" && hasFoodToday) return 3; // 1. hely: Sikeres ÉS mai kaja
+            if (order.status === "succeeded") return 2; // 2. hely: Sikeres, de nem mai kaja
+            return 1; //Ha egyik sem igaz rá, akkor 3. hely
+          };
+
+          const priorityA = getPriority(a, hasFoodTodayA);
+          const priorityB = getPriority(b, hasFoodTodayB);
+
+          // 4. Ha a két rendelés prioritása különböző, a nagyobb pontszámút tesszük előre
+          if (priorityA !== priorityB) {
+            return priorityB - priorityA;
+          }
+
+          // Ha döntetlen, a rendelés létrehozásának ideje (date) alapján rendezünk, a legfrissebb kerül előre
           return new Date(b.date).getTime() - new Date(a.date).getTime();
         });
 
