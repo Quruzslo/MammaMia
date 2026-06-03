@@ -42,7 +42,7 @@ export default function Menu() {
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
 
-  //  DÁtum a heteknek
+  // DÁTUM A HETEKNEK
   const ma = new Date();
 
   // Aktuális hét hétfő
@@ -56,22 +56,44 @@ export default function Menu() {
   const jovoHetHetfo = new Date(jelenHetHetfo);
   jovoHetHetfo.setDate(jelenHetHetfo.getDate() + 7);
 
-  // Jövő hét vasárnap
+  // Jövő hét vasárnap (vége)
   const jovoHetVasarnap = new Date(jovoHetHetfo);
   jovoHetVasarnap.setDate(jovoHetHetfo.getDate() + 7);
 
-  // Lista szétválasztása két hétre
-  const eHetiNapok = sortedMenuByDate.filter((nap) => {
-    const napIdo = new Date(nap.date).getTime();
-    return napIdo >= jelenHetHetfo.getTime() && napIdo < jovoHetHetfo.getTime();
-  });
+  // RENDELHETŐ-E MÉG AZ ÉTEL
+  const isOrderable = (napDatum) => {
+    const most = new Date();
+    const nap = new Date(napDatum);
+    nap.setHours(0, 0, 0, 0);
 
-  const jovoHetiNapok = sortedMenuByDate.filter((nap) => {
-    const napIdo = new Date(nap.date).getTime();
-    return (
-      napIdo >= jovoHetHetfo.getTime() && napIdo < jovoHetVasarnap.getTime()
-    );
-  });
+    const maiNap = new Date(most);
+    maiNap.setHours(0, 0, 0, 0);
+
+    if (nap.getTime() < maiNap.getTime()) return false;
+    if (nap.getTime() === maiNap.getTime() && most.getHours() >= 12)
+      return false;
+
+    return true;
+  };
+
+  // LISTA SZÉTVÁLASZTÁSA KÉT HÉTRE + ORDERABLE HOZZÁADÁSA
+  const eHetiNapok = sortedMenuByDate
+    .filter((nap) => {
+      const napIdo = new Date(nap.date).getTime();
+      return (
+        napIdo >= jelenHetHetfo.getTime() && napIdo < jovoHetHetfo.getTime()
+      );
+    })
+    .map((nap) => ({ ...nap, orderable: isOrderable(nap.date) }));
+
+  const jovoHetiNapok = sortedMenuByDate
+    .filter((nap) => {
+      const napIdo = new Date(nap.date).getTime();
+      return (
+        napIdo >= jovoHetHetfo.getTime() && napIdo < jovoHetVasarnap.getTime()
+      );
+    })
+    .map((nap) => ({ ...nap, orderable: isOrderable(nap.date) }));
 
   // KOSÁRBA RAKÁS ÉS ÉRTESÍTÉS
   const handleAddToCartWithNotification = (item, date, dayName) => {
@@ -94,7 +116,7 @@ export default function Menu() {
   };
 
   return (
-    <section className="w-full mx-auto py-[10px] ">
+    <section className="w-full mx-auto py-[10px]">
       <h2 className="text-3xl font-bold mb-6 text-center text-teal-400 border-b-4 border-teal-900/50 pb-4 uppercase tracking-widest">
         Heti Menü
       </h2>

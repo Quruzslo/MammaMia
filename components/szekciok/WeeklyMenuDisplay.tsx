@@ -1,12 +1,25 @@
-// components/WeekMenuDisplay.tsx
 import { LiaCartPlusSolid } from "react-icons/lia";
 
-interface WeeklyMenuDisplayProps {
-  days: any[];
-  onAddToCart: (item: any, date: string, dayName: string) => void;
+interface DayItem {
+  name: string;
+  category: string;
+  price: number;
 }
 
-export default function WeekMenuDisplay({
+interface Day {
+  date: string;
+  dayName: string;
+  isClosed: boolean;
+  orderable: boolean;
+  items: DayItem[];
+}
+
+interface WeeklyMenuDisplayProps {
+  days: Day[];
+  onAddToCart: (item: DayItem, date: string, dayName: string) => void;
+}
+
+export default function WeeklyMenuDisplay({
   days,
   onAddToCart,
 }: WeeklyMenuDisplayProps) {
@@ -43,7 +56,7 @@ export default function WeekMenuDisplay({
           {/* Ételek Grid - Jobb oldal */}
           <div className="lg:w-4/5 p-[10px]">
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 md:gap-4">
-              {nap.items.map((item: any, ind: number) => (
+              {nap.items.map((item, ind) => (
                 <div
                   key={ind}
                   className="flex flex-col bg-neutral-900 rounded-lg border border-neutral-700 overflow-hidden hover:border-teal-500/50 transition-all group"
@@ -60,21 +73,24 @@ export default function WeekMenuDisplay({
                     </p>
                   </div>
 
-                  {/* Kosárba gomb */}
-                  <button
-                    disabled={nap.isClosed}
-                    onClick={() => onAddToCart(item, nap.date, nap.dayName)}
-                    className={`w-full py-3 flex justify-center items-center transition-all cursor-pointer ${
-                      nap.isClosed
-                        ? "bg-neutral-800 text-gray-600 cursor-not-allowed"
-                        : "bg-teal-600/10 text-teal-400 hover:bg-teal-600 hover:text-white active:bg-teal-700 active:text-white"
-                    }`}
-                  >
-                    <LiaCartPlusSolid size={20} className="fill-teal-100" />
-                    <p className="ml-2 text-xs font-bold uppercase text-teal-100">
-                      Kosárba
-                    </p>
-                  </button>
+                  {/* Kosárba gomb vagy nem rendelhető jelzés */}
+                  {nap.orderable && !nap.isClosed ? (
+                    <button
+                      onClick={() => onAddToCart(item, nap.date, nap.dayName)}
+                      className="w-full py-3 flex justify-center items-center transition-all cursor-pointer bg-teal-600/10 text-teal-400 hover:bg-teal-600 hover:text-white active:bg-teal-700"
+                    >
+                      <LiaCartPlusSolid size={20} className="fill-teal-100" />
+                      <p className="ml-2 text-xs font-bold uppercase text-teal-100">
+                        Kosárba
+                      </p>
+                    </button>
+                  ) : (
+                    <div className="w-full py-3 flex justify-center items-center bg-neutral-800">
+                      <p className="text-xs font-bold uppercase text-gray-500">
+                        {nap.isClosed ? "Zárva" : "Már nem rendelhető"}
+                      </p>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
