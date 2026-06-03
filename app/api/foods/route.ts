@@ -2,8 +2,6 @@
 import { NextResponse } from "next/server";
 import client from "@/lib/mongodb";
 
-export const dynamic = "force-dynamic";
-
 export async function GET() {
   try {
     const db = client.db("MammaMia");
@@ -13,14 +11,12 @@ export async function GET() {
     const now = new Date();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
-
-    // Hátralévő percek és másodpercek átváltása másodpercre
     const secondsUntilNextHour = (59 - minutes) * 60 + (60 - seconds);
 
     return NextResponse.json(productsFromDb, {
       headers: {
-        // A CDN és a böngésző pontosan a következő óra fordulójáig fogja cache-elni
-        "Cache-Control": `s-maxage=${secondsUntilNextHour}, stale-while-revalidate=59`,
+        // FONTOS: Csak s-maxage van, stale-while-revalidate NINCS!
+        "Cache-Control": `public, s-maxage=${secondsUntilNextHour}`,
       },
     });
   } catch (err) {
