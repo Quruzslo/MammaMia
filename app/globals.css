@@ -23,6 +23,13 @@ html {
   }
 } */
 
+h4,
+p,
+h1 {
+  text-wrap: wrap;
+  overflow-wrap: break-word;
+}
+
 body::before {
   content: "";
   position: fixed;
