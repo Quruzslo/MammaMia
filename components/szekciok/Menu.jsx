@@ -13,6 +13,8 @@ export default function Menu() {
   const { addToCart } = useContext(cartContext);
 
   useEffect(() => {
+    let intervalId;
+
     const fetchMenu = async () => {
       try {
         const response = await fetch("/api/foods", { cache: "no-store" });
@@ -25,7 +27,24 @@ export default function Menu() {
         setLoading(false);
       }
     };
+
     fetchMenu();
+
+    const most = new Date();
+    const msAKovetkezoOraig =
+      ((60 - most.getMinutes()) * 60 - most.getSeconds()) * 1000;
+
+    const timeoutId = setTimeout(() => {
+      fetchMenu();
+      // Elmentjük a külső változóba, hogy a useEffect takarító függvénye elérje
+      intervalId = setInterval(fetchMenu, 3600 * 1000);
+    }, msAKovetkezoOraig);
+
+    // takarítás a memory leak ellen
+    return () => {
+      clearTimeout(timeoutId);
+      if (intervalId) clearInterval(intervalId);
+    };
   }, []);
 
   if (loading)
