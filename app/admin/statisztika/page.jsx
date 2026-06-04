@@ -13,7 +13,7 @@ export default async function StatsPage() {
       <div className="w-[100%] md:w-[300px]">
         <AdminNav></AdminNav>{" "}
       </div>
-      <div className="bg-neutral-900 mx-auto w-[100%]">
+      <div className="bg-neutral-900 mx-auto w-[100%] max-w-[1800px] mx-auto">
         <AdminCharts></AdminCharts>
       </div>
     </section>

@@ -97,7 +97,7 @@ export default function AdminMenuUpload() {
       <div className="w-[100%] md:w-[300px]">
         <AdminNav></AdminNav>{" "}
       </div>
-      <div className="bg-neutral-900 mx-auto w-[100%] ">
+      <div className="bg-neutral-900 mx-auto w-[100%] max-w-[1800px] ">
         <h2 className="text-2xl font-bold text-teal-400 mb-6 uppercase tracking-wider border-b border-neutral-800 pb-4">
           Napi menü feltöltése
         </h2>

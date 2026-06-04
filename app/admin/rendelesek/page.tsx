@@ -85,11 +85,11 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
   }
 
   return (
-    <section className="py-6 px-4 w-[100%]  max-w-[1800px] mx-auto min-h-screen bg-neutral-900 text-gray-100 flex flex-col md:flex-row gap-3">
+    <section className="py-6 px-4 w-[100%]  mx-auto min-h-screen bg-neutral-900 text-gray-100 flex flex-col md:flex-row gap-3">
       <div className="flex flex-col gap-3 mb-[35px] w-[100%] md:w-[300px]">
         <AdminNav />
       </div>
-      <div className="flex flex-col w-[100%]  p-[10px]">
+      <div className="flex flex-col w-[100%]  p-[10px] max-w-[1800px] mx-auto">
         {/* TISZTA FÜL VÁLASZTÓ NAVIGÁCIÓ */}
         <div className="flex gap-4 mb-6 border-b border-neutral-800 pb-4">
           <a
@@ -122,7 +122,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
           />
         </div>
         {/* RENDELÉSEK MEGJELENÍTÉSE - A TE EREDETI JÓL BEBEÁLLÍTOTT KÁRTYÁID */}
-        <div className="grid gap-6">
+        <div className="grid gap-6 w-[100%] ">
           {orders.length === 0 ? (
             <p className="text-gray-500 italic p-4">
               Nincs megjeleníthető rendelés.
