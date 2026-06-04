@@ -159,7 +159,7 @@ export default function Header() {
                 </Link>
               )}
               <div className="info-tooltip rounded-xl bg-neutral-900 border border-neutral-800 transition-all p-4">
-                <p className="text-teal-100/50 text-nowrap">
+                <p className="text-teal-100/50 !text-nowrap">
                   {isLoggedIn
                     ? `Fiók: ${session?.user?.name}`
                     : "Felhasználói fiók"}

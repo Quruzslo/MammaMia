@@ -41,16 +41,16 @@ export default function Menu() {
       }, msAKovetkezoOraig);
     };
 
-    // 1. Indítás az oldal betöltésekor
+    //  oldal betöltésekor
     fetchMenu();
     startTimers();
 
-    // 2. Biztonsági háló a tab elalvása ellen
+    // Ha ki és visszatabolnak
     const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
-        fetchMenu(); // Azonnali frissítés visszatéréskor
+        fetchMenu();
 
-        // Kitakarítjuk a régi időzítőket, mielőtt újakat indítanánk (fontos a duplikáció ellen!)
+        // Kitakarítjuk a régi időzítőket a duplikáció ellen
         clearTimeout(timeoutId);
         if (intervalId) clearInterval(intervalId);
 
