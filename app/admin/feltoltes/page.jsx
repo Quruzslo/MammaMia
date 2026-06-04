@@ -24,7 +24,7 @@ export default function AdminMenuUpload() {
   const [isClosed, setIsClosed] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Az 5 fix ételhely kezdőállapota a pontos sémád szerint
+  // Az 5 fix ételhely kezdőállapota a pontos séma
   const [items, setItems] = useState([
     { type: "soup", name: "", price: "", category: "leves" },
     { type: "main", name: "", price: "", category: "A menü" },
@@ -60,7 +60,7 @@ export default function AdminMenuUpload() {
     };
 
     try {
-      // Meghívjuk a te auth-védett API végpontodat
+      // Postolás
       const response = await fetch("/api/admin/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -73,9 +73,7 @@ export default function AdminMenuUpload() {
         throw new Error(resData.error || "Hiba a mentés során");
       }
 
-      toast.success(
-        `${getHungarianDayName(date)}i menü sikeresen feltöltve és cache frissítve!`,
-      );
+      toast.success(`${getHungarianDayName(date)}i menü sikeresen feltöltve!`);
 
       // Form kiürítése (kivéve a dátumot, hátha a következőt akarja tölteni)
       setItems([
