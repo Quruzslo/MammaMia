@@ -212,7 +212,9 @@ export default function Header() {
             </Link>
             <Link
               href={
-                session?.user?.role === "admin" ? "admin/rendelesek" : "/fiokom"
+                session?.user?.role === "admin"
+                  ? "/admin/rendelesek"
+                  : "/fiokom"
               }
               onClick={() => setIsMenuOpen(false)}
               className="text-2xl font-black text-white uppercase tracking-[0.2em] hover:text-teal-500 transition-colors"
