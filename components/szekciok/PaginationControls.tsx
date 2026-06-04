@@ -23,7 +23,7 @@ export default function PaginationControls({
   }
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center gap-4 my-[10px]">
+    <div className="flex flex-col sm:flex-row justify-center items-center gap-4 my-[10px] w-auto">
       {/* ELŐZŐ OLDAL GOMB */}
       <button
         disabled={currentPage <= 1}
@@ -43,10 +43,10 @@ export default function PaginationControls({
             <button
               key={pageNum}
               onClick={() => router.push(`?page=${pageNum}&tab=${activeTab}`)}
-              className={`w-9 h-9 flex items-center justify-center rounded-lg text-sm font-bold transition-all cursor-pointer select-none border ${
+              className={`w-9 h-9 flex items-center justify-center  text-sm font-bold  ease-out duration-300 cursor-pointer select-none border ${
                 isActive
-                  ? "bg-teal-600 border-teal-500 text-white shadow-lg shadow-teal-900/30" // Aktív dizájn
-                  : "bg-neutral-800 border-neutral-700 text-gray-400 hover:bg-neutral-700 hover:text-gray-200" // Sima dizájn
+                  ? "bg-teal-600 border-teal-500 text-white shadow-lg shadow-teal-900/30 rounded-full "
+                  : "bg-neutral-800 border-neutral-700 text-gray-400 hover:bg-neutral-700 hover:text-gray-200 rounded-lg"
               }`}
             >
               {pageNum}

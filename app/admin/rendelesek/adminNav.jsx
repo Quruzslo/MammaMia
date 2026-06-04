@@ -48,7 +48,7 @@ export default function AdminNav() {
         Ételek feltöltése
       </Link>
       <button
-        className="ml-auto bg-red-300/70 p-2 rounded-sm hover:bg-red-500 mt-[20px]"
+        className="mr-auto bg-red-300/70 p-2 rounded-sm hover:bg-red-500 mt-[20px]"
         onClick={() => signOut()}
       >
         Kilépés

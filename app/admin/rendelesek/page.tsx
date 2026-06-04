@@ -113,15 +113,16 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             Összes rendelés
           </a>
         </div>
-
-        {/* RENDELÉSEK MEGJELENÍTÉSE - A TE EREDETI JÓL BEBEÁLLÍTOTT KÁRTYÁID */}
-        <div className="grid gap-6">
+        <div className="w-full justify-end my-4 flex">
           {/* Paginátor by Dr. Doofenshmirtz */}
           <PaginationControls
             currentPage={page}
             totalPages={totalPages}
             activeTab={activeTab}
           />
+        </div>
+        {/* RENDELÉSEK MEGJELENÍTÉSE - A TE EREDETI JÓL BEBEÁLLÍTOTT KÁRTYÁID */}
+        <div className="grid gap-6">
           {orders.length === 0 ? (
             <p className="text-gray-500 italic p-4">
               Nincs megjeleníthető rendelés.
@@ -204,12 +205,14 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
           )}
         </div>
 
-        {/* Paginátor by Dr. Doofenshmirtz */}
-        <PaginationControls
-          currentPage={page}
-          totalPages={totalPages}
-          activeTab={activeTab}
-        />
+        <div className="w-full justify-end my-4 flex">
+          {/* Paginátor by Dr. Doofenshmirtz */}
+          <PaginationControls
+            currentPage={page}
+            totalPages={totalPages}
+            activeTab={activeTab}
+          />
+        </div>
       </div>
     </section>
   );
