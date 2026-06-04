@@ -94,10 +94,10 @@ export default function AdminMenuUpload() {
 
   return (
     <section className="py-6 px-4 w-[100%] gap-3  mx-auto min-h-screen bg-neutral-900 text-gray-100  flex flex-col md:flex-row">
-      <div>
+      <div className="w-[100%] md:w-[300px]">
         <AdminNav></AdminNav>{" "}
       </div>
-      <div className="bg-neutral-900 mx-auto ">
+      <div className="bg-neutral-900 mx-auto w-[100%] ">
         <h2 className="text-2xl font-bold text-teal-400 mb-6 uppercase tracking-wider border-b border-neutral-800 pb-4">
           Napi menü feltöltése
         </h2>

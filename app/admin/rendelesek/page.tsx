@@ -86,7 +86,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
 
   return (
     <section className="py-6 px-4 w-[100%]  max-w-[1800px] mx-auto min-h-screen bg-neutral-900 text-gray-100 flex flex-col md:flex-row gap-3">
-      <div className="flex flex-col gap-3 mb-[35px] w-[100%] md:w-[250px]">
+      <div className="flex flex-col gap-3 mb-[35px] w-[100%] md:w-[300px]">
         <AdminNav />
       </div>
       <div className="flex flex-col w-[100%]  p-[10px]">
@@ -116,6 +116,12 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
 
         {/* RENDELÉSEK MEGJELENÍTÉSE - A TE EREDETI JÓL BEBEÁLLÍTOTT KÁRTYÁID */}
         <div className="grid gap-6">
+          {/* Paginátor by Dr. Doofenshmirtz */}
+          <PaginationControls
+            currentPage={page}
+            totalPages={totalPages}
+            activeTab={activeTab}
+          />
           {orders.length === 0 ? (
             <p className="text-gray-500 italic p-4">
               Nincs megjeleníthető rendelés.
@@ -198,7 +204,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
           )}
         </div>
 
-        {/* MODERN URL LAPOZÓ CONTROLS */}
+        {/* Paginátor by Dr. Doofenshmirtz */}
         <PaginationControls
           currentPage={page}
           totalPages={totalPages}

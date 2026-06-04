@@ -15,29 +15,53 @@ export default function PaginationControls({
 }: PaginationControlsProps) {
   const router = useRouter();
 
-  if (totalPages <= 1) return null; // Ha nincs elég adat több oldalhoz, meg se jelenik
+  if (totalPages <= 1) return null;
+
+  const pageNumbers: number[] = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
 
   return (
-    <div className="flex justify-center items-center gap-6 mt-10 mb-6">
+    <div className="flex flex-col sm:flex-row justify-center items-center gap-4 my-[10px]">
+      {/* ELŐZŐ OLDAL GOMB */}
       <button
         disabled={currentPage <= 1}
         onClick={() => router.push(`?page=${currentPage - 1}&tab=${activeTab}`)}
-        className="px-5 py-2.5 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 text-sm font-semibold rounded-xl text-gray-200 transition-all cursor-pointer select-none"
+        className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 text-sm font-semibold rounded-xl text-gray-200 transition-all cursor-pointer select-none"
       >
-        Előző oldal
+        Előző
       </button>
 
-      <span className="text-sm text-neutral-400 select-none">
-        <strong className="text-teal-400">{currentPage}</strong> / {totalPages}{" "}
-        oldal
-      </span>
+      {/* DINAMIKUS OLDALSZÁM GOMBOK */}
+      <div className="flex flex-row gap-[5px] items-center justify-center flex-wrap">
+        {pageNumbers.map((pageNum) => {
+          // Megnézzük, hogy ez a gomb az aktuális oldal-e
+          const isActive = pageNum === currentPage;
 
+          return (
+            <button
+              key={pageNum}
+              onClick={() => router.push(`?page=${pageNum}&tab=${activeTab}`)}
+              className={`w-9 h-9 flex items-center justify-center rounded-lg text-sm font-bold transition-all cursor-pointer select-none border ${
+                isActive
+                  ? "bg-teal-600 border-teal-500 text-white shadow-lg shadow-teal-900/30" // Aktív dizájn
+                  : "bg-neutral-800 border-neutral-700 text-gray-400 hover:bg-neutral-700 hover:text-gray-200" // Sima dizájn
+              }`}
+            >
+              {pageNum}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* KÖVETKEZŐ OLDAL GOMB */}
       <button
         disabled={currentPage >= totalPages}
         onClick={() => router.push(`?page=${currentPage + 1}&tab=${activeTab}`)}
-        className="px-5 py-2.5 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 text-sm font-semibold rounded-xl text-gray-200 transition-all cursor-pointer select-none"
+        className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 text-sm font-semibold rounded-xl text-gray-200 transition-all cursor-pointer select-none"
       >
-        Következő oldal
+        Következő
       </button>
     </div>
   );
