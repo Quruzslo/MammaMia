@@ -44,9 +44,6 @@ export async function POST(request: Request) {
       { upsert: true }, //  Ha nincs ilyen dátum, automatikusan beszúrja újként!
     );
 
-    // 5. Next.js cache ürítés, hogy a frontend azonnal lássa a változást
-
-    // revalidateTag("foods-list");
     revalidatePath("/api/foods");
 
     // Megnézzük, hogy új beszúrás (upserted) vagy frissítés történt-e a szebb üzenethez
