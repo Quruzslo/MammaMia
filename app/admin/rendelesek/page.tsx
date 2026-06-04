@@ -103,9 +103,9 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             Mai rendelések
           </a>
           <a
-            href="?page=1&tab=all"
+            href="?page=1&tab=osszes"
             className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-              activeTab === "all"
+              activeTab === "osszes"
                 ? "bg-teal-600 text-white"
                 : "bg-neutral-800 text-gray-400 hover:bg-neutral-700"
             }`}
