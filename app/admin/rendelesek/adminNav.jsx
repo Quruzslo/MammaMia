@@ -8,7 +8,7 @@ export default function AdminNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-row gap-2 bg-neutral-900/80 px-[20px] rounded-xl border border-neutral-800/80 w-full py-[35px] my-[20px]">
+    <nav className="flex flex-col gap-2 bg-neutral-900/80 px-[10px] rounded-xl border border-neutral-800/80 w-full py-[35px] my-[20px]">
       <Link
         href="/admin/rendelesek"
         className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all duration-200 items-center flex ${
