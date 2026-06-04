@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default async function AdminOrdersPage({ searchParams }: Props) {
-  // 1. SZIGORÚ SZERVEROLDALI AUTH VÉDELEM
+  // Auth védelem
   const session = await auth();
   if (!session || session.user?.role !== "admin") {
     redirect("/admin");
@@ -24,10 +24,10 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
 
   // 2. PARAMS BEOLVASÁSA
   const params = await searchParams;
-  const page = parseInt(params.page ?? "1", 10);
-  const activeTab = params.tab ?? "mai"; // 'mai' vagy 'all' fül
+  const page = parseInt(params.page ?? "1", 10); //első oldal a basic
+  const activeTab = params.tab ?? "mai"; // mai menük a basic
 
-  const limit = 10; // Fixen maximum 10 rendelés utazik egyszerre
+  const limit = 10; // 10 rendelés/ fetch
   const skip = (page - 1) * limit;
 
   // SZERVEROLDALI SZŰRÉS
