@@ -1,4 +1,4 @@
-// app/api/termekek/route.ts
+// app/api/foods/route.ts
 import { NextResponse } from "next/server";
 import client from "@/lib/mongodb";
 

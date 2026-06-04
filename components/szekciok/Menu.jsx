@@ -14,6 +14,7 @@ export default function Menu() {
 
   useEffect(() => {
     let intervalId;
+    let timeoutId;
 
     const fetchMenu = async () => {
       try {
@@ -28,22 +29,42 @@ export default function Menu() {
       }
     };
 
+    // Külön függvénybe rakjuk, hogy a useEffect elején ÉS a visibility váltáskor is meg tudjuk hívni
+    const startTimers = () => {
+      const most = new Date();
+      const msAKovetkezoOraig =
+        ((60 - most.getMinutes()) * 60 - most.getSeconds()) * 1000;
+
+      timeoutId = setTimeout(() => {
+        fetchMenu();
+        intervalId = setInterval(fetchMenu, 3600 * 1000);
+      }, msAKovetkezoOraig);
+    };
+
+    // 1. Indítás az oldal betöltésekor
     fetchMenu();
+    startTimers();
 
-    const most = new Date();
-    const msAKovetkezoOraig =
-      ((60 - most.getMinutes()) * 60 - most.getSeconds()) * 1000;
+    // 2. Biztonsági háló a tab elalvása ellen
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        fetchMenu(); // Azonnali frissítés visszatéréskor
 
-    const timeoutId = setTimeout(() => {
-      fetchMenu();
-      // Elmentjük a külső változóba, hogy a useEffect takarító függvénye elérje
-      intervalId = setInterval(fetchMenu, 3600 * 1000);
-    }, msAKovetkezoOraig);
+        // Kitakarítjuk a régi időzítőket, mielőtt újakat indítanánk (fontos a duplikáció ellen!)
+        clearTimeout(timeoutId);
+        if (intervalId) clearInterval(intervalId);
 
-    // takarítás a memory leak ellen
+        startTimers(); // Időzítők újraindítása a tiszta, aktuális időpont alapján
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Takarítás a memory leak ellen
     return () => {
       clearTimeout(timeoutId);
       if (intervalId) clearInterval(intervalId);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
