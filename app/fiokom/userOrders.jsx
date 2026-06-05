@@ -56,7 +56,7 @@ export default function UserOrders() {
 
   //  Ha be van töltve és hitelesítve van a user
   return (
-    <section className="max-w-[1800px] w-full mx-auto py-10 px-2 md:px-6 animate-fade-in">
+    <section className="max-w-[1800px] w-[100%] md:w-[80%] mx-auto py-10 px-2 md:px-6 animate-fade-in">
       {/* Hivatalos, letisztult Dashboard Címsor */}
       <div className="border-b border-stone-200 pb-5 mb-10">
         <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-[0.2em]">
