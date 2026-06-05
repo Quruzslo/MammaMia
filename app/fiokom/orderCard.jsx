@@ -108,7 +108,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                             {etel.quantity} db
                           </div>
                           {/* Részösszeg */}
-                          <div className="text-sm font-black text-stone-900 text-right ">
+                          <div className="text-sm font-black text-stone-900 text-right nowrap flex flex-row ">
                             {(etel.price * etel.quantity).toLocaleString()} Ft
                           </div>
                         </div>
