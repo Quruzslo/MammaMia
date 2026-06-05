@@ -54,21 +54,32 @@ export default function UserOrders() {
     );
   }
 
-  // 3. FŐ RENDERELÉS: Ha be van töltve és hitelesítve van a user
+  //  Ha be van töltve és hitelesítve van a user
   return (
-    <section className="max-w-[1800px] w-[100%] mx-auto py-8 px-[5px] animate-fade-in">
-      <h2 className="text-3xl font-bold mb-10 text-center text-teal-400 border-b-4 border-teal-900/50 pb-4 uppercase tracking-widest">
-        Rendeléseim
-      </h2>
+    <section className="max-w-[1800px] w-full mx-auto py-10 px-2 md:px-6 animate-fade-in">
+      {/* Hivatalos, letisztult Dashboard Címsor */}
+      <div className="border-b border-stone-200 pb-5 mb-10">
+        <h2 className="text-2xl md:text-3xl font-black text-stone-900 uppercase tracking-[0.2em]">
+          Rendelési előzmények
+        </h2>
+        <p className="text-xs text-stone-400 uppercase tracking-widest mt-1 font-bold">
+          Fiókod korábbi és folyamatban lévő rendelései
+        </p>
+      </div>
 
       {orders.length === 0 ? (
-        <div className="bg-neutral-800 rounded-xl p-[5px] text-center border-l-4 border-teal-600/30 max-w-md mx-auto shadow-2xl">
-          <p className="text-gray-400 font-medium">
-            Még nincsenek rendelési előzményeid.
+        /* Üres állapot - Elegáns minimalista kártya */
+        <div className="bg-white border border-stone-200 rounded-sm p-10 text-center max-w-md mx-auto shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+          <p className="text-stone-400 font-bold uppercase text-xs tracking-wider mb-2">
+            Nincsenek adatok
+          </p>
+          <p className="text-stone-500 text-sm italic">
+            Még nincsenek rendelési előzményeid ebben a fiókban.
           </p>
         </div>
       ) : (
-        <div className="space-y-6">
+        /* Rendelések listája */
+        <div className="space-y-4">
           {orders.map((order) => (
             <OrderCard
               key={order._id}

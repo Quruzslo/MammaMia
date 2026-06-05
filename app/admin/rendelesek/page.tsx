@@ -131,7 +131,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             orders.map((order: any) => (
               <div
                 key={order.orderId || order._id}
-                className={`p-5 border-l-4 rounded-xl bg-neutral-800 shadow-xl ${
+                className={`p-5 border-l-4 bg-neutral-800 shadow-xl ${
                   order.status === "succeeded"
                     ? "border-green-500"
                     : "border-red-500"

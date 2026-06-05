@@ -28,7 +28,7 @@ export default function SideCart() {
 
   return (
     <section
-      className={`h-screen w-full fixed left-0 top-0 bg-neutral-800/50 cart-overlay z-[10] transition-all duration-500 ease-[cubic-bezier(0.85,0,0.15,1)] ${
+      className={`h-screen w-full fixed left-0 top-0 bg-neutral-800/50 cart-overlay z-[40] transition-all duration-500 ease-[cubic-bezier(0.85,0,0.15,1)] ${
         sideCartState ? "active " : null
       }`}
       onClick={animateSideCart}
@@ -38,7 +38,7 @@ export default function SideCart() {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-row justify-between border-b border-teal-800 pb-2 w-full p-2 items-center">
-          <h2 className="text-teal-500 font-bold text-xl">Rendelésed</h2>
+          <h2 className="text-white/70 font-bold text-xl">Rendelésed</h2>
           {cartItems.length > 0 ? (
             <div
               onClick={() => clearCart()}
@@ -61,11 +61,11 @@ export default function SideCart() {
               // --- KÜLSŐ CIKLUS: NAPOK ---
               <div
                 key={nap.date}
-                className="bg-neutral-800 rounded-lg border border-teal-900  mb-2 "
+                className="bg-neutral-800 rounded-[5px]   mb-2  "
               >
-                <div className="bg-teal-950 p-2 border-b border-teal-900 flex justify-between items-center rounded-lg">
-                  <span className="text-teal-400 font-bold">{nap.dayName}</span>
-                  <span className="text-[10px] text-teal-600">{nap.date}</span>
+                <div className="bg-white/70 p-2 flex justify-between items-center rounded-[3px]">
+                  <span className="text-black font-bold">{nap.dayName}</span>
+                  <span className="text-[10px] text-black">{nap.date}</span>
                 </div>
 
                 <div className="p-2 flex flex-col gap-3">
@@ -78,7 +78,7 @@ export default function SideCart() {
                         <p className="text-sm text-teal-50 font-medium leading-tight">
                           {etel.name}
                         </p>
-                        <p className="text-xs text-teal-500">{etel.price} Ft</p>
+                        <p className="text-xs text-white">{etel.price} Ft</p>
                       </div>
 
                       {/* A gombok tárolója */}
@@ -86,25 +86,24 @@ export default function SideCart() {
                         <div className="flex items-center gap-1 sm:gap-1 md:gap-3">
                           <div className="flex items-center gap-1">
                             <button
-                              className="p-1 border border-teal-800 rounded-full"
+                              className="p-1 border border-white rounded-full"
                               onClick={() =>
                                 updateItemQuantity(etel.name, nap.date, 1)
                               }
                             >
-                              <FiPlus size={16} className="stroke-teal-300" />
+                              <FiPlus size={16} className="stroke-white" />
                             </button>
+                            <div className="bg-black/70 text-white/70 px-2 py-1 rounded text-xs font-bold min-w-[45px] text-center">
+                              {etel.quantity} db
+                            </div>
                             <button
-                              className="p-1 border border-teal-800 rounded-full"
+                              className="p-1 border border-white rounded-full"
                               onClick={() =>
                                 updateItemQuantity(etel.name, nap.date, -1)
                               }
                             >
-                              <FiMinus size={16} className="stroke-teal-300" />
+                              <FiMinus size={16} className="stroke-white" />
                             </button>
-                          </div>
-
-                          <div className="bg-teal-900/40 text-teal-300 px-2 py-1 rounded text-xs font-bold border border-teal-800 min-w-[45px] text-center">
-                            {etel.quantity} db
                           </div>
                         </div>
 

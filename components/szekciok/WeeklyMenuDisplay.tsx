@@ -32,68 +32,82 @@ export default function WeeklyMenuDisplay({
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-16 p-[10px] ">
       {days.map((nap) => (
         <div
           key={nap.date}
-          className={`flex flex-col lg:flex-row bg-neutral-800 rounded-xl overflow-hidden shadow-2xl border-l-4 ${
-            nap.isClosed ? "border-red-500 opacity-75" : "border-teal-500"
-          }`}
+          className="relative bg-transparent rounded-sm p-6 pt-12 md:p-10 shadow-[0_0_18px_10px_rgb(0,0,0,0.06)]  bg-white"
         >
-          {/* Dátum és Nap szekció - Bal oldal */}
-          <div className="lg:w-1/5 bg-neutral-900/50 p-[10px] flex flex-col justify-center items-center text-center border-b lg:border-b-0 lg:border-r border-neutral-700">
-            <h3 className="text-2xl font-black text-teal-400 uppercase tracking-tighter">
+          {/* 
+            Dátum badge
+          */}
+          <div className="absolute -top-5 -left-2 md:-top-6 md:-left-6 rotate-[-4deg] bg-stone-900 text-white px-6 py-2 rounded-sm shadow-xl z-20 border-2 border-dashed border-stone-600 transition-transform hover:rotate-0">
+            <span className="block text-xl md:text-2xl font-black uppercase tracking-widest text-white">
               {nap.dayName}
-            </h3>
-            <span className="text-sm text-gray-400 mt-1">{nap.date}</span>
-            {nap.isClosed && (
-              <span className="mt-4 px-3 py-1 bg-red-500/10 text-red-500 border border-red-500/20 rounded-full text-xs font-bold uppercase">
-                Zárva
-              </span>
-            )}
+            </span>
+            <span className="block text-sm text-stone-300 font-medium tracking-wider">
+              {nap.date}
+            </span>
           </div>
 
-          {/* Ételek Grid - Jobb oldal */}
-          <div className="lg:w-4/5 p-[10px]">
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 md:gap-4">
-              {nap.items.map((item, ind) => (
-                <div
-                  key={ind}
-                  className="flex flex-col bg-neutral-900 rounded-lg border border-neutral-700 overflow-hidden hover:border-teal-500/50 transition-all group"
-                >
-                  <div className="p-4 flex-grow">
-                    <span className="text-[10px] font-bold uppercase text-teal-500 tracking-widest block mb-1">
-                      {item.category}
-                    </span>
-                    <h4 className="text-gray-100 font-semibold leading-snug min-h-[40px] mb-2">
-                      {item.name}
-                    </h4>
-                    <p className="text-teal-400 font-bold">
-                      {item.price.toLocaleString()} Ft
-                    </p>
-                  </div>
+          {/* "Zárva" Overlay  */}
+          {nap.isClosed && (
+            <div className="absolute inset-0 bg-transparent backdrop-blur-[2px] z-10 flex items-center justify-center rounded-3xl p-[10px]">
+              <div className="bg-red-600 text-white px-10 py-3  text-4xl font-black uppercase tracking-[0.2em] shadow-2xl border-4 border-white">
+                Zárva
+              </div>
+            </div>
+          )}
 
-                  {/* Kosárba gomb vagy nem rendelhető jelzés */}
+          {/* Ételek Grid */}
+          <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-5 gap-2 ">
+            {nap.items.map((item, ind) => (
+              <div
+                key={ind}
+                className={`group flex flex-col justify-between p-[10px] bg-white rounded-[5px] transition-all duration-300  hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] hover:-translate-y-1 ${
+                  nap.orderable ? "opacity-100" : "opacity-40 grayscale"
+                }`}
+              >
+                <div>
+                  {/* Kategória tag */}
+                  <span className="inline-block p-[5px] mb-4 text-[10px] font-extrabold uppercase tracking-widest text-white bg-black rounded-sm">
+                    {item.category}
+                  </span>
+
+                  {/* Étel neve */}
+                  <h4 className="text-lg font-bold text-stone-800 leading-tight mb-4 group-hover:text-teal-700 transition-colors">
+                    {item.name}
+                  </h4>
+                </div>
+
+                {/* Ár és Kosár  */}
+                <div className="flex flex-col md:flex-row items-center justify-between mt-6 pt-4 border-t border-stone-200 border-dashed">
+                  <p className="text-[15px] font-black text-stone-700">
+                    {item.price.toLocaleString()}{" "}
+                    <span className="text-sm font-semibold text-stone-400">
+                      Ft
+                    </span>
+                  </p>
+
+                  {/* Kosár gomb vagy inaktív állapot */}
                   {nap.orderable && !nap.isClosed ? (
                     <button
                       onClick={() => onAddToCart(item, nap.date, nap.dayName)}
-                      className="w-full py-3 flex justify-center items-center transition-all cursor-pointer bg-teal-600/10 text-teal-400 hover:bg-teal-600 hover:text-white active:bg-teal-700"
+                      className="w-11 h-11 flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-teal-500 hover:scale-110 active:scale-95 transition-all duration-200 shadow-md focus:outline-none focus:ring-4 focus:ring-teal-500/30"
+                      title="Kosárba rakom"
                     >
-                      <LiaCartPlusSolid size={20} className="fill-teal-100" />
-                      <p className="ml-2 text-xs font-bold uppercase text-teal-100">
-                        Kosárba
-                      </p>
+                      <LiaCartPlusSolid size={22} />
                     </button>
                   ) : (
-                    <div className="w-full py-3 flex justify-center items-center bg-neutral-800">
-                      <p className="text-xs font-bold uppercase text-gray-500">
-                        {nap.isClosed ? "Zárva" : "Már nem rendelhető"}
-                      </p>
+                    <div className="px-3 py-1.5 rounded-sm bg-stone-100 border border-stone-200 flex items-center justify-center">
+                      <span className="text-[10px] font-bold uppercase text-stone-400">
+                        {nap.orderable ? "-" : "Már nem rendelhető"}
+                      </span>
                     </div>
                   )}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       ))}

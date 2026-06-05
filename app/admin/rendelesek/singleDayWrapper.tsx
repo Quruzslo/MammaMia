@@ -8,7 +8,7 @@ export default function SingleDayWrapper({ day }: { day: any }) {
 
   return (
     <>
-      <div className="flex flex-col rounded-lg border border-neutral-700 bg-neutral-900/50 overflow-hidden">
+      <div className="flex flex-col rounded-sm border border-neutral-700 bg-neutral-900/50 overflow-hidden">
         <div className="p-3 flex-grow text-center">
           <h3 className="text-sm font-bold text-gray-200">{day.dayName}</h3>
           <p className="text-xs text-gray-500 mb-2">{day.date}</p>

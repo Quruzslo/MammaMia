@@ -157,7 +157,7 @@ export default function Menu() {
 
   return (
     <section className="w-full mx-auto py-[10px]">
-      <h2 className="text-3xl font-bold mb-6 text-center text-teal-400 border-b-4 border-teal-900/50 pb-4 uppercase tracking-widest">
+      <h2 className="text-3xl font-bold mb-6 text-center text-white border-b-4 border-teal-900/50 pb-4 uppercase ">
         Heti Menü
       </h2>
 
@@ -165,7 +165,7 @@ export default function Menu() {
       <div className="flex justify-center gap-4 mb-10">
         <button
           onClick={() => setActiveTab("current")}
-          className={`px-6 py-2 rounded-xl font-bold uppercase text-xs tracking-wider transition-all cursor-pointer border ${
+          className={`px-6 py-2 rounded-sm font-bold uppercase text-xs tracking-wider transition-all cursor-pointer border ${
             activeTab === "current"
               ? "bg-teal-600 text-white border-teal-500 shadow-lg shadow-teal-600/20"
               : "bg-neutral-900 text-gray-400 border-neutral-800 hover:text-teal-400"
@@ -175,7 +175,7 @@ export default function Menu() {
         </button>
         <button
           onClick={() => setActiveTab("next")}
-          className={`px-6 py-2 rounded-xl font-bold uppercase text-xs tracking-wider transition-all cursor-pointer border ${
+          className={`px-6 py-2 rounded-sm font-bold uppercase text-xs tracking-wider transition-all cursor-pointer border ${
             activeTab === "next"
               ? "bg-teal-600 text-white border-teal-500 shadow-lg shadow-teal-600/20"
               : "bg-neutral-900 text-gray-400 border-neutral-800 hover:text-teal-400"
