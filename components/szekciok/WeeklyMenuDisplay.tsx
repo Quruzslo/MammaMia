@@ -1,4 +1,7 @@
+"use client";
+
 import { LiaCartPlusSolid } from "react-icons/lia";
+import { motion } from "framer-motion";
 
 interface DayItem {
   name: string;
@@ -19,6 +22,26 @@ interface WeeklyMenuDisplayProps {
   onAddToCart: (item: DayItem, date: string, dayName: string) => void;
 }
 
+// Motion animáció
+const cardMotionVariants = {
+  hidden: {
+    opacity: 0,
+    y: 60,
+    scale: 0.96,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      damping: 16,
+      stiffness: 90,
+      bounce: 0.2,
+    },
+  },
+};
+
 export default function WeeklyMenuDisplay({
   days,
   onAddToCart,
@@ -32,17 +55,20 @@ export default function WeeklyMenuDisplay({
   }
 
   return (
-    <div className="space-y-16 p-[10px] ">
+    <div className="space-y-16 p-[10px]">
       {days.map((nap) => (
-        <div
+        <motion.div
           key={nap.date}
-          className="relative bg-transparent rounded-sm px-[10px] py-[50px] md:p-10 shadow-[0_0_18px_10px_rgb(0,0,0,0.06)]  bg-white "
+          variants={cardMotionVariants}
+          initial="hidden"
+          whileInView="visible"
+          // kártyákon 5% treshold
+          viewport={{ once: false, amount: 0.05 }}
+          className="relative bg-white rounded-sm px-[10px] py-[50px] md:p-10 shadow-[0_0_18px_10px_rgba(0,0,0,0.06)]"
         >
-          {/* 
-            Dátum badge
-          */}
+          {/* ================= 1. DÁTUM BADGE ================= */}
           <div className="absolute -top-5 -left-2 md:-top-6 md:-left-6 rotate-[-4deg] bg-stone-900 text-white px-6 py-2 rounded-sm shadow-xl z-20 border-2 border-dashed border-stone-600 transition-transform hover:rotate-0">
-            <span className="block text-xl md:text-2xl font-black uppercase tracking-widest text-white">
+            <span className="block text-xl md:text-2xl font-black uppercase tracking-widest">
               {nap.dayName}
             </span>
             <span className="block text-sm text-stone-300 font-medium tracking-wider">
@@ -50,46 +76,42 @@ export default function WeeklyMenuDisplay({
             </span>
           </div>
 
-          {/* Már nem rendelhető badge */}
+          {/* ================= 2. LEJÁRT MENÜ BADGE ================= */}
           {!nap.orderable && (
-            <div className="absolute top-[5px] right-[5px] w-auto bg-red-400/70  text-center p-[5px] z-10 shadow-xl origin-center flex items-center justify-center p-[5px]">
-              <p className="text-white uppercase font-black text-[15px] tracking-widest ">
+            <div className="absolute top-[5px] right-[5px] bg-red-400/70 text-center p-[5px] z-10 shadow-xl flex items-center justify-center">
+              <p className="text-white uppercase font-black text-[15px] tracking-widest">
                 Lejárt menü
               </p>
             </div>
           )}
 
-          {/* "Zárva" Overlay  */}
+          {/* ================= 3. ZÁRVA OVERLAY ================= */}
           {nap.isClosed && (
-            <div className="inset-0 bg-transparent backdrop-blur-[2px] z-10 flex items-center justify-center rounded-3xl p-[10px]">
-              <div className="bg-red-600 text-white px-10 py-3  text-4xl font-black uppercase tracking-[0.2em] shadow-2xl border-4 border-white shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)]">
+            <div className="absolute inset-0 bg-transparent backdrop-blur-[2px] z-10 flex items-center justify-center rounded-sm p-[10px]">
+              <div className="bg-red-600 text-white px-10 py-3 text-4xl font-black uppercase tracking-[0.2em] shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] border-4 border-white">
                 Zárva
               </div>
             </div>
           )}
 
-          {/* Ételek Grid */}
-          <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-5 gap-2 ">
+          {/* ================= 4. ÉTELEK GRID ================= */}
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-2">
             {nap.items.map((item, ind) => (
               <div
                 key={ind}
-                className={`group flex flex-col justify-between p-[10px] bg-white rounded-[5px] transition-all duration-300 border border-stone-200 active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] hover:-translate-y-1 ${
+                className={`group flex flex-col justify-between p-[10px] bg-white rounded-[5px] transition-all duration-300 border border-stone-200 hover:-translate-y-1 active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] ${
                   nap.orderable ? "opacity-100" : "opacity-40 grayscale"
                 }`}
               >
                 <div>
-                  {/* Kategória tag */}
                   <span className="inline-block p-[5px] mb-4 text-[10px] font-extrabold uppercase tracking-widest text-white bg-black rounded-sm">
                     {item.category}
                   </span>
-
-                  {/* Étel neve */}
                   <h4 className="text-lg font-bold text-stone-800 leading-tight mb-4 group-hover:text-teal-700 transition-colors">
                     {item.name}
                   </h4>
                 </div>
 
-                {/* Ár és Kosár  */}
                 <div className="flex flex-col md:flex-row items-center justify-between mt-6 pt-4 border-t border-stone-200 border-dashed">
                   <p className="text-[15px] font-black text-stone-700">
                     {item.price.toLocaleString()}{" "}
@@ -98,7 +120,6 @@ export default function WeeklyMenuDisplay({
                     </span>
                   </p>
 
-                  {/* Kosár gomb vagy inaktív állapot */}
                   {nap.orderable && !nap.isClosed ? (
                     <button
                       onClick={() => onAddToCart(item, nap.date, nap.dayName)}
@@ -118,7 +139,7 @@ export default function WeeklyMenuDisplay({
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
   );
