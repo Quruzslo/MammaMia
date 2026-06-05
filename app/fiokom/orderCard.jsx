@@ -102,13 +102,13 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-4 ml-auto flex-row w-auto justify-end">
+                        <div className="flex flex-col md:flex-row items-center gap-2 ml-auto  w-auto justify-end">
                           {/* Mennyiség Tag */}
-                          <div className="bg-stone-50 text-stone-800 px-2.5 py-1 rounded-sm text-xs font-black border border-stone-200 min-w-[55px] text-center">
+                          <div className="bg-stone-50 text-stone-800 px-2.5 py-1 rounded-sm text-xs font-black border border-stone-200  text-center">
                             {etel.quantity} db
                           </div>
                           {/* Részösszeg */}
-                          <div className="text-sm font-black text-stone-900 text-right min-w-[80px]">
+                          <div className="text-sm font-black text-stone-900 text-right ">
                             {(etel.price * etel.quantity).toLocaleString()} Ft
                           </div>
                         </div>
