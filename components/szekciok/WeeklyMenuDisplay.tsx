@@ -64,7 +64,7 @@ export default function WeeklyMenuDisplay({
             {nap.items.map((item, ind) => (
               <div
                 key={ind}
-                className={`group flex flex-col justify-between p-[10px] bg-white rounded-[5px] transition-all duration-300 border border-stone-200 hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] hover:-translate-y-1 ${
+                className={`group flex flex-col justify-between p-[10px] bg-white rounded-[5px] transition-all duration-300 border border-stone-200 active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] hover:-translate-y-1 ${
                   nap.orderable ? "opacity-100" : "opacity-40 grayscale"
                 }`}
               >
