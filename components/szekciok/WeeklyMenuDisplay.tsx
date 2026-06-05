@@ -36,7 +36,7 @@ export default function WeeklyMenuDisplay({
       {days.map((nap) => (
         <div
           key={nap.date}
-          className="relative bg-transparent rounded-sm px-[5px] py-[25px] md:p-10 shadow-[0_0_18px_10px_rgb(0,0,0,0.06)]  bg-white"
+          className="relative bg-transparent rounded-sm px-[10px] py-[50px] md:p-10 shadow-[0_0_18px_10px_rgb(0,0,0,0.06)]  bg-white"
         >
           {/* 
             Dátum badge
@@ -52,8 +52,8 @@ export default function WeeklyMenuDisplay({
 
           {/* "Zárva" Overlay  */}
           {nap.isClosed && (
-            <div className="absolute inset-0 bg-transparent backdrop-blur-[2px] z-10 flex items-center justify-center rounded-3xl p-[10px]">
-              <div className="bg-red-600 text-white px-10 py-3  text-4xl font-black uppercase tracking-[0.2em] shadow-2xl border-4 border-white">
+            <div className="inset-0 bg-transparent backdrop-blur-[2px] z-10 flex items-center justify-center rounded-3xl p-[10px]">
+              <div className="bg-red-600 text-white px-10 py-3  text-4xl font-black uppercase tracking-[0.2em] shadow-2xl border-4 border-white shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)]">
                 Zárva
               </div>
             </div>
