@@ -36,7 +36,7 @@ export default function WeeklyMenuDisplay({
       {days.map((nap) => (
         <div
           key={nap.date}
-          className="relative bg-transparent rounded-sm px-[10px] py-[50px] md:p-10 shadow-[0_0_18px_10px_rgb(0,0,0,0.06)]  bg-white"
+          className="relative bg-transparent rounded-sm px-[10px] py-[50px] md:p-10 shadow-[0_0_18px_10px_rgb(0,0,0,0.06)]  bg-white "
         >
           {/* 
             Dátum badge
@@ -49,6 +49,15 @@ export default function WeeklyMenuDisplay({
               {nap.date}
             </span>
           </div>
+
+          {/* Már nem rendelhető badge */}
+          {!nap.orderable && (
+            <div className="absolute top-[5px] right-[5px] w-auto bg-red-400/70  text-center p-[5px] z-10 shadow-xl origin-center flex items-center justify-center p-[5px]">
+              <p className="text-white uppercase font-black text-[15px] tracking-widest ">
+                Lejárt menü
+              </p>
+            </div>
+          )}
 
           {/* "Zárva" Overlay  */}
           {nap.isClosed && (

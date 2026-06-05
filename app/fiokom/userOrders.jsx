@@ -59,12 +59,9 @@ export default function UserOrders() {
     <section className="max-w-[1800px] w-full mx-auto py-10 px-2 md:px-6 animate-fade-in">
       {/* Hivatalos, letisztult Dashboard Címsor */}
       <div className="border-b border-stone-200 pb-5 mb-10">
-        <h2 className="text-2xl md:text-3xl font-black text-stone-900 uppercase tracking-[0.2em]">
+        <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-[0.2em]">
           Rendelési előzmények
         </h2>
-        <p className="text-xs text-stone-400 uppercase tracking-widest mt-1 font-bold">
-          Fiókod korábbi és folyamatban lévő rendelései
-        </p>
       </div>
 
       {orders.length === 0 ? (
