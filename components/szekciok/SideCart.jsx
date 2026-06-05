@@ -63,7 +63,7 @@ export default function SideCart() {
                 key={nap.date}
                 className="bg-neutral-800 rounded-[5px]   mb-2  "
               >
-                <div className="bg-white/70 p-2 flex justify-between items-center rounded-[3px]">
+                <div className="bg-white p-2 flex justify-between items-center rounded-[3px]">
                   <span className="text-black font-bold">{nap.dayName}</span>
                   <span className="text-[10px] text-black">{nap.date}</span>
                 </div>
