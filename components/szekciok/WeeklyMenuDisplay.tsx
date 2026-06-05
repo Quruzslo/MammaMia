@@ -36,7 +36,7 @@ export default function WeeklyMenuDisplay({
       {days.map((nap) => (
         <div
           key={nap.date}
-          className="relative bg-transparent rounded-sm p-6 pt-12 md:p-10 shadow-[0_0_18px_10px_rgb(0,0,0,0.06)]  bg-white"
+          className="relative bg-transparent rounded-sm px-[5px] py-[25px] md:p-10 shadow-[0_0_18px_10px_rgb(0,0,0,0.06)]  bg-white"
         >
           {/* 
             Dátum badge
