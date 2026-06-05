@@ -1,19 +1,16 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { MongoClient } from "mongodb";
+import client from "@/lib/mongodb"; // A központi singleton klienst használjuk
 
 // Stripe init
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-const uri = process.env.MONGO_URI!;
-const client = new MongoClient(uri);
-const clientPromise = client.connect();
 
 export async function POST(req: Request) {
   try {
     const { paymentIntentId, formData, cartItems, userId } = await req.json();
 
-    const mongoClient = await clientPromise;
-    const db = mongoClient.db("MammaMia");
+    // Egyszerűen elkérjük az adatbázist a megosztott, cache-elt kliensből
+    const db = client.db("MammaMia");
 
     // Ellenőrizzük, hogy ez a fizetés ne legyen kétszer feldolgozva
     const alreadyProcessed = await db

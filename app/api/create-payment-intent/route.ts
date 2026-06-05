@@ -1,20 +1,15 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { MongoClient } from "mongodb";
+import client from "@/lib/mongodb";
 
 // Stripe init
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
-// MongoDB kliens példányosítása
-const uri = process.env.MONGO_URI!;
-const client = new MongoClient(uri);
 
 export async function POST(request: Request) {
   try {
     // Beolvassuk a form-adatokat, a kosarat és a user-id-t a frontendről
     const { cartItems, formData, userId } = await request.json();
 
-    await client.connect();
     const db = client.db("MammaMia");
 
     // Biztonsági árszámítás az adatbázisból
@@ -48,7 +43,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 1. LÉPÉS: RENDELÉS ELMENTÉSE PENDING STÁTUSSZAL A MONGODB-BE
+    // RENDELÉS ELMENTÉSE PENDING STÁTUSSZAL A MONGODB-BE
     const pendingOrder = {
       orderId: Date.now(),
       status: "pending",
@@ -61,26 +56,20 @@ export async function POST(request: Request) {
     };
 
     const dbResult = await db.collection("orders").insertOne(pendingOrder);
-
     const mongoOrderId = dbResult.insertedId.toString();
 
-    // 2. LÉPÉS: PAYMENTINTENT LÉTREHOZÁSA CSAK AZ ORDER ID-VAL
+    // PAYMENTINTENT LÉTREHOZÁSA CSAK AZ ORDER ID-VAL
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(totalAmount * 100),
       currency: "huf",
-      // A Stripe-nak CSAK a MongoDB rekord ID-ját adjuk át, így elkerüljük az 500 karakteres limitet
       metadata: {
         orderId: mongoOrderId,
       },
     });
 
-    // Visszaküldjük a frontendnek a titkot a kártya-űrlap kirajzolásához
     return NextResponse.json({ clientSecret: paymentIntent.client_secret });
   } catch (error: any) {
     console.error("Hiba történt:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
-  } finally {
-    // Lezárjuk a kapcsolatot
-    await client.close();
   }
 }

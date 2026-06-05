@@ -1,13 +1,11 @@
-export const dynamic = "force-dynamic"; // Ez kell a Next.js-nek Vercelen!
+export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { MongoClient, ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
+import client from "@/lib/mongodb";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
-const client = new MongoClient(process.env.MONGO_URI!);
-const clientPromise = client.connect();
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -38,8 +36,8 @@ export async function POST(req: Request) {
 
     if (mongoOrderId) {
       try {
-        const mongoClient = await clientPromise;
-        const db = mongoClient.db("MammaMia");
+        // Közvetlenül a központi, már cache-elt kapcsolatból kérjük el az adatbázist
+        const db = client.db("MammaMia");
 
         const updateResult = await db.collection("orders").updateOne(
           { _id: new ObjectId(mongoOrderId) },

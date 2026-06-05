@@ -15,7 +15,7 @@ export const POST = auth(async function POST(request) {
       );
     }
 
-    // 2. Kinyerjük a TE auth.ts-edből származó hitelesített ID-t
+    //  auth.ts-ből származó hitelesített ID
     const secureUserId = (session.user as any).userId;
 
     if (!secureUserId) {
