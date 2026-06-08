@@ -66,7 +66,7 @@ export default function WeeklyMenuDisplay({
           viewport={{ once: false, amount: 0.05 }}
           className="relative bg-white rounded-sm px-[10px] py-[50px] md:p-10 shadow-[0_0_18px_10px_rgba(0,0,0,0.06)]"
         >
-          {/* ================= 1. DÁTUM BADGE ================= */}
+          {/* dátum badge */}
           <div className="absolute -top-5 -left-2 md:-top-6 md:-left-6 rotate-[-4deg] bg-stone-900 text-white px-6 py-2 rounded-sm shadow-xl z-20 border-2 border-dashed border-stone-600 transition-transform hover:rotate-0">
             <span className="block text-xl md:text-2xl font-black uppercase tracking-widest">
               {nap.dayName}
@@ -76,7 +76,7 @@ export default function WeeklyMenuDisplay({
             </span>
           </div>
 
-          {/* ================= 2. LEJÁRT MENÜ BADGE ================= */}
+          {/* lejárt menü badge */}
           {!nap.orderable && (
             <div className="absolute top-[5px] right-[5px] bg-red-400/70 text-center p-[5px] z-10 shadow-xl flex items-center justify-center">
               <p className="text-white uppercase font-black text-[15px] tracking-widest">
@@ -85,7 +85,7 @@ export default function WeeklyMenuDisplay({
             </div>
           )}
 
-          {/* ================= 3. ZÁRVA OVERLAY ================= */}
+          {/* zárva overlay */}
           {nap.isClosed && (
             <div className="absolute inset-0 bg-transparent backdrop-blur-[2px] z-10 flex items-center justify-center rounded-sm p-[10px]">
               <div className="bg-red-600 text-white px-10 py-3 text-4xl font-black uppercase tracking-[0.2em] shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] border-4 border-white">
@@ -94,7 +94,7 @@ export default function WeeklyMenuDisplay({
             </div>
           )}
 
-          {/* ================= 4. ÉTELEK GRID ================= */}
+          {/*ételek grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-2">
             {nap.items.map((item, ind) => (
               <div
@@ -112,12 +112,10 @@ export default function WeeklyMenuDisplay({
                   </h4>
                 </div>
 
-                <div className="flex flex-col md:flex-row items-center justify-between mt-6 pt-4 border-t border-stone-200 border-dashed">
-                  <p className="text-[15px] font-black text-stone-700">
+                <div className="flex flex-col md:flex-row items-center justify-between mt-0 md:mt-6 pt-4 border-t border-stone-200 border-dashed">
+                  <p className="text-[15px]  text-stone-700">
                     {item.price.toLocaleString()}{" "}
-                    <span className="text-sm font-semibold text-stone-400">
-                      Ft
-                    </span>
+                    <span className="text-[15px] text-stone-700">Ft</span>
                   </p>
 
                   {nap.orderable && !nap.isClosed ? (
