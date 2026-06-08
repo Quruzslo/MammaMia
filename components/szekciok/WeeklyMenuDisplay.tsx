@@ -121,7 +121,7 @@ export default function WeeklyMenuDisplay({
                   {nap.orderable && !nap.isClosed ? (
                     <button
                       onClick={() => onAddToCart(item, nap.date, nap.dayName)}
-                      className="p-[5px] flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-teal-500 hover:scale-110 active:scale-95 transition-all duration-200 shadow-md focus:outline-none focus:ring-4 focus:ring-teal-500/30"
+                      className="p-[10px] flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-teal-500 hover:scale-110 active:scale-95 transition-all duration-200 shadow-md focus:outline-none focus:ring-4 focus:ring-teal-500/30"
                       title="Kosárba rakom"
                     >
                       <LiaCartPlusSolid size={22} />
