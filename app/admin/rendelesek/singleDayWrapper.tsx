@@ -27,7 +27,7 @@ export default function SingleDayWrapper({
           </span>
         </div>
         {day.status === "ordered" ? (
-          <div className="flex flex-row  items-center justify-center bg-gray-800/50 p-[10px] ">
+          <div className="flex flex-row  items-center justify-center bg-orange-400 p-[10px] ">
             <p className=" text-[15px]">Megrendelve</p>
           </div>
         ) : (

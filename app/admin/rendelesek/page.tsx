@@ -22,9 +22,9 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
     redirect("/admin");
   }
 
-  // 2. PARAMS BEOLVASÁSA
+  // Params beolvasás
   const params = await searchParams;
-  const page = parseInt(params.page ?? "1", 10); //első oldal a basic
+  const page = parseInt(params.page ?? "1", 10); // első oldal a basic
   const activeTab = params.tab ?? "mai"; // mai menük a basic
 
   const limit = 10; // 10 rendelés/ fetch
@@ -37,60 +37,85 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
   const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 
   // Logikai szűrő összeállítása a fül alapján
-  let filter: any = {};
+  let rawOrders: any[] = [];
+  let totalOrders = 0;
+
   if (activeTab === "mai") {
-    filter = { status: "succeeded", "items.date": todayStr };
+    const filter = { status: "succeeded", "items.date": todayStr };
+
+    rawOrders = await db.collection("orders").find(filter).toArray();
+    totalOrders = rawOrders.length;
+  } else {
+    const filter = {};
+
+    totalOrders = await db.collection("orders").countDocuments(filter);
+
+    rawOrders = await db
+      .collection("orders")
+      .find(filter)
+      .sort({ date: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray();
   }
 
-  // adott szűrőhöz tartozó elemek
-  const totalOrders = await db.collection("orders").countDocuments(filter);
-  const totalPages = Math.ceil(totalOrders / limit) || 1;
-
-  // Csak a pontosan szükséges 10 darabot rántjuk be a DB-ből
-  const rawOrders = await db
-    .collection("orders")
-    .find(filter)
-    .sort({ date: -1 })
-    .skip(skip)
-    .limit(limit)
-    .toArray();
-
   // MongoDB ObjectID-k és dátumok biztonságos szerver-kliens JSON parszolása
-  const orders = JSON.parse(JSON.stringify(rawOrders));
+  let orders = JSON.parse(JSON.stringify(rawOrders));
 
-  // 4. EREDETI PRIORITÁSOS RENDEZÉSED
   if (activeTab === "mai") {
     orders.sort((a: any, b: any) => {
-      const hasFoodTodayA = a.items?.some(
+      // mai napra vonatkozóan van-e olyan étel, ami még nincs kiszállítva
+      const hasPendingFoodTodayA = a.items?.some(
+        (food: any) => food.date === todayStr && food.status === "ordered",
+      );
+      const hasPendingFoodTodayB = b.items?.some(
+        (food: any) => food.date === todayStr && food.status === "ordered",
+      );
+
+      // van-e mai napra étele
+      const hasAnyFoodTodayA = a.items?.some(
         (food: any) => food.date === todayStr,
       );
-      const hasFoodTodayB = b.items?.some(
+      const hasAnyFoodTodayB = b.items?.some(
         (food: any) => food.date === todayStr,
       );
 
-      const getPriority = (order: any, hasFoodToday: boolean) => {
-        if (order.status === "succeeded" && hasFoodToday) return 3;
+      const getPriority = (
+        order: any,
+        hasPendingToday: boolean,
+        hasAnyToday: boolean,
+      ) => {
+        if (order.status === "succeeded" && hasPendingToday) return 4;
+        if (order.status === "succeeded" && hasAnyToday) return 3;
         if (order.status === "succeeded") return 2;
         return 1;
       };
 
-      const priorityA = getPriority(a, hasFoodTodayA);
-      const priorityB = getPriority(b, hasFoodTodayB);
+      const priorityA = getPriority(a, hasPendingFoodTodayA, hasAnyFoodTodayA);
+      const priorityB = getPriority(b, hasPendingFoodTodayB, hasAnyFoodTodayB);
 
       if (priorityA !== priorityB) {
         return priorityB - priorityA;
       }
+
+      // Ha egyforma a prioritás, legfrissebb előre
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
+
+    // frontend slice a mai fülön
+    orders = orders.slice(skip, skip + limit);
   }
 
+  // oldalszám a paginációhoz
+  const totalPages = Math.ceil(totalOrders / limit) || 1;
+
   return (
-    <section className="py-6 px-4 w-[100%]  mx-auto min-h-screen bg-neutral-900 text-gray-100 flex flex-col md:flex-row gap-3">
+    <section className="py-6 px-4 w-[100%] mx-auto min-h-screen bg-neutral-900 text-gray-100 flex flex-col md:flex-row gap-3">
       <div className="flex flex-col gap-3 mb-[35px] w-[100%] md:w-[300px]">
         <AdminNav />
       </div>
-      <div className="flex flex-col w-[100%]  p-[10px] max-w-[1800px] mx-auto">
-        {/* TISZTA FÜL VÁLASZTÓ NAVIGÁCIÓ */}
+      <div className="flex flex-col w-[100%] p-[10px] max-w-[1800px] mx-auto">
+        {/* Fül választás */}
         <div className="flex gap-4 mb-6 border-b border-neutral-800 pb-4">
           <a
             href="?page=1&tab=mai"
@@ -121,8 +146,8 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             activeTab={activeTab}
           />
         </div>
-        {/* RENDELÉSEK MEGJELENÍTÉSE - A TE EREDETI JÓL BEBEÁLLÍTOTT KÁRTYÁID */}
-        <div className="grid gap-6 w-[100%] ">
+        {/* Rendelés megjelenítés */}
+        <div className="grid gap-6 w-[100%]">
           {orders.length === 0 ? (
             <p className="text-gray-500 italic p-4">
               Nincs megjeleníthető rendelés.

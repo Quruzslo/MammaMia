@@ -24,16 +24,16 @@ export default function PaginationControls({
 
   return (
     <div className="flex flex-col sm:flex-row justify-center items-center gap-4 my-[10px] w-auto">
-      {/* ELŐZŐ OLDAL GOMB */}
+      {/* előző oldal gomb (href-fel is jó, csak akkor nincs disabled) */}
       <button
         disabled={currentPage <= 1}
         onClick={() => router.push(`?page=${currentPage - 1}&tab=${activeTab}`)}
-        className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 text-sm font-semibold rounded-xl text-gray-200 transition-all cursor-pointer select-none"
+        className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 text-sm font-semibold rounded-sm text-gray-200 transition-all cursor-pointer select-none"
       >
         Előző
       </button>
 
-      {/* DINAMIKUS OLDALSZÁM GOMBOK */}
+      {/* Dinamikus oldalszámok */}
       <div className="flex flex-row gap-[5px] items-center justify-center flex-wrap">
         {pageNumbers.map((pageNum) => {
           // Megnézzük, hogy ez a gomb az aktuális oldal-e
@@ -45,8 +45,8 @@ export default function PaginationControls({
               onClick={() => router.push(`?page=${pageNum}&tab=${activeTab}`)}
               className={`w-9 h-9 flex items-center justify-center  text-sm font-bold  ease-out duration-300 cursor-pointer select-none border ${
                 isActive
-                  ? "bg-teal-600 border-teal-500 text-white shadow-lg shadow-teal-900/30 rounded-full "
-                  : "bg-neutral-800 border-neutral-700 text-gray-400 hover:bg-neutral-700 hover:text-gray-200 rounded-lg"
+                  ? "bg-teal-600 border-teal-500 text-white shadow-lg shadow-teal-900/30 rounded-sm "
+                  : "bg-neutral-800 border-neutral-700 text-gray-400 hover:bg-neutral-700 hover:text-gray-200 rounded-sm"
               }`}
             >
               {pageNum}
@@ -55,11 +55,11 @@ export default function PaginationControls({
         })}
       </div>
 
-      {/* KÖVETKEZŐ OLDAL GOMB */}
+      {/* Kövi oldal gomb */}
       <button
         disabled={currentPage >= totalPages}
         onClick={() => router.push(`?page=${currentPage + 1}&tab=${activeTab}`)}
-        className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 text-sm font-semibold rounded-xl text-gray-200 transition-all cursor-pointer select-none"
+        className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 text-sm font-semibold rounded-sm text-gray-200 transition-all cursor-pointer select-none"
       >
         Következő
       </button>
