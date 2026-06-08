@@ -104,7 +104,7 @@ export default function WeeklyMenuDisplay({
                 }`}
               >
                 <div>
-                  <span className="inline-block p-[5px] mb-4 text-[10px] font-extrabold uppercase tracking-widest text-white bg-black rounded-sm hover:-translate-y-1 active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)]">
+                  <span className="inline-block p-[5px] mb-4 text-[10px] transition-all duration-300 font-extrabold uppercase tracking-widest text-white bg-black rounded-sm group-hover:-translate-y-1 group-active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:group-hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)]">
                     {item.category}
                   </span>
                   <h4 className="text-lg font-bold text-stone-800 leading-tight mb-4 group-hover:text-teal-700 transition-colors">
