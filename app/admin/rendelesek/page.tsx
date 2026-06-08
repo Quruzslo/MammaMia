@@ -42,7 +42,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
     filter = { status: "succeeded", "items.date": todayStr };
   }
 
-  // Megszámoljuk az adott szűrőhöz tartozó elemeket a beépített countDocuments-szel
+  // adott szűrőhöz tartozó elemek
   const totalOrders = await db.collection("orders").countDocuments(filter);
   const totalPages = Math.ceil(totalOrders / limit) || 1;
 

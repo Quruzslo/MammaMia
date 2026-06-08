@@ -42,7 +42,7 @@ export default function RootLayout({
             <SideCart></SideCart>
             <ToastContainer
               position="bottom-right"
-              autoClose={2500}
+              autoClose={1500}
               theme="dark"
             />
             {children}
