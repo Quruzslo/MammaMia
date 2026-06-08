@@ -49,7 +49,10 @@ export async function POST(request: Request) {
       status: "pending",
       customer: formData,
       userId: userId === "guest" ? null : (userId ?? null),
-      items: cartItems,
+      items: cartItems.map((cartDay) => ({
+        ...cartDay,
+        status: "ordered",
+      })),
       total: totalAmount,
       currency: "HUF",
       date: new Date().toISOString(),

@@ -1,8 +1,23 @@
 import { useEffect } from "react";
 
-export default function SingleModal({ day, onClose }) {
+export default function SingleModal({ day, onClose, orderId }) {
   // Ha nincs kiválasztott nap a propból, akkor bezárul
   if (!day) return null;
+
+  const settingOrder = async (orderId, orderDate) => {
+    try {
+      const data = await fetch("/api/modify-order", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: orderId,
+          dayDate: orderDate,
+        }),
+      });
+    } catch (error) {}
+  };
 
   return (
     <div
@@ -10,20 +25,22 @@ export default function SingleModal({ day, onClose }) {
       onClick={onClose}
     >
       <div
-        className="modal-zoom w-full max-w-lg max-h-[90vh] overflow-hidden rounded-2xl bg-neutral-900 border border-teal-500/30 shadow-2xl flex flex-col "
+        className="modal-zoom w-full max-w-lg max-h-[90vh] overflow-hidden rounded-sm bg-neutral-900  shadow-2xl flex flex-col "
         onClick={(e) => e.stopPropagation()}
       >
         {/* Fejléc */}
         <div className="p-6 border-b border-neutral-800 flex justify-between items-center bg-neutral-900">
           <div>
-            <h2 className="text-xl font-bold text-teal-400">{day.dayName}</h2>
+            <h2 className="text-xl font-bold text-white">{day.dayName}</h2>
             <p className="text-sm text-gray-400">{day.date}</p>
           </div>
           <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-white transition-colors text-3xl leading-none"
+            onClick={() => {
+              settingOrder(orderId, day.date);
+            }}
+            className="text-gray-500 text-white transition-colors text-[15px]  bg-green-400/50 rounded-sm p-[5px]"
           >
-            &times;
+            <p>Kiszállítás alatt</p>
           </button>
         </div>
 
@@ -32,7 +49,7 @@ export default function SingleModal({ day, onClose }) {
           {day.items.map((item, index) => (
             <div
               key={index}
-              className="p-4 rounded-xl bg-neutral-800 border border-neutral-700 hover:border-teal-500/50 transition-colors"
+              className="p-4 rounded-sm bg-neutral-800 border border-neutral-700 hover:border-teal-500/50 transition-colors"
             >
               <div className="flex justify-between items-start mb-2">
                 <span className="text-xs font-semibold uppercase tracking-wider text-teal-500">

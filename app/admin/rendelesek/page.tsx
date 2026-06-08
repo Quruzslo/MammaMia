@@ -133,8 +133,8 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                 key={order.orderId || order._id}
                 className={`p-5 border-l-4 bg-neutral-800 shadow-xl ${
                   order.status === "succeeded"
-                    ? "border-green-500"
-                    : "border-red-500"
+                    ? "border-green-700"
+                    : "border-red-700"
                 }`}
               >
                 <div className="flex flex-col lg:flex-row gap-6">
@@ -184,7 +184,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                       <p className="text-lg font-bold text-white">
                         {order.total?.toLocaleString()} Ft
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-white-500">
                         Státusz:{" "}
                         {order.status === "succeeded"
                           ? "Fizetve"
@@ -196,7 +196,11 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                   {/* Kliensoldali gomb wrapper és a napok gridje */}
                   <div className="lg:w-3/4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
                     {order.items?.map((day: any, idx: number) => (
-                      <SingleDayWrapper key={idx} day={day} />
+                      <SingleDayWrapper
+                        key={idx}
+                        day={day}
+                        orderId={order._id}
+                      />
                     ))}
                   </div>
                 </div>
