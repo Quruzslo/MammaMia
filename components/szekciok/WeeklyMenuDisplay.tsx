@@ -112,7 +112,7 @@ export default function WeeklyMenuDisplay({
                   </h4>
                 </div>
 
-                <div className="flex flex-col md:flex-row items-center justify-between mt-0 md:mt-6 pt-4 border-t border-stone-200 border-dashed">
+                <div className="flex flex-row items-center justify-between mt-0 md:mt-6 pt-4 border-t border-stone-200 border-dashed">
                   <p className="text-[15px]  text-stone-700">
                     {item.price.toLocaleString()}{" "}
                     <span className="text-[15px] text-stone-700">Ft</span>
@@ -121,7 +121,7 @@ export default function WeeklyMenuDisplay({
                   {nap.orderable && !nap.isClosed ? (
                     <button
                       onClick={() => onAddToCart(item, nap.date, nap.dayName)}
-                      className="w-11 h-11 flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-teal-500 hover:scale-110 active:scale-95 transition-all duration-200 shadow-md focus:outline-none focus:ring-4 focus:ring-teal-500/30"
+                      className="p-[5px] flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-teal-500 hover:scale-110 active:scale-95 transition-all duration-200 shadow-md focus:outline-none focus:ring-4 focus:ring-teal-500/30"
                       title="Kosárba rakom"
                     >
                       <LiaCartPlusSolid size={22} />
