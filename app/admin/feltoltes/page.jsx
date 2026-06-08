@@ -154,7 +154,7 @@ export default function AdminMenuUpload() {
                 >
                   {/* Fix kategória badge */}
                   <div className="md:col-span-2">
-                    <span className="inline-block px-3 py-1 bg-teal-900/30 text-teal-400 border border-teal-500/20 text-xs font-bold uppercase rounded-full tracking-wider w-full text-center">
+                    <span className="inline-block px-3 py-1  text-white  text-xs font-bold uppercase rounded-full tracking-wider w-full text-center">
                       {item.category}
                     </span>
                   </div>
