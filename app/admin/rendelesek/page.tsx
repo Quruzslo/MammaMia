@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import client from "@/lib/mongodb";
 import SingleDayWrapper from "./singleDayWrapper";
 import PaginationControls from "@/components/szekciok/PaginationControls";
+import SearchInput from "@/components/szekciok/SearchInput";
 
 // Ikonok--------------
 import { FaSquarePhone } from "react-icons/fa6";
@@ -12,7 +13,7 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import AdminNav from "./adminNav";
 
 interface Props {
-  searchParams: Promise<{ page?: string; tab?: string }>;
+  searchParams: Promise<{ page?: string; tab?: string; search?: string }>;
 }
 
 export default async function AdminOrdersPage({ searchParams }: Props) {
@@ -26,11 +27,11 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
   const params = await searchParams;
   const page = parseInt(params.page ?? "1", 10); // első oldal a basic
   const activeTab = params.tab ?? "mai"; // mai menük a basic
-
+  const searchQuery = params.search ?? ""; // keresőinputból a query
   const limit = 10; // 10 rendelés/ fetch
   const skip = (page - 1) * limit;
 
-  // SZERVEROLDALI SZŰRÉS
+  // szerveroldali lekérdezés
   const db = client.db("MammaMia");
 
   const today = new Date();
@@ -41,12 +42,30 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
   let totalOrders = 0;
 
   if (activeTab === "mai") {
-    const filter = { status: "succeeded", "items.date": todayStr };
+    // Alap szűrő a mai napra
+    const filter: any = { status: "succeeded", "items.date": todayStr };
+
+    // Hozzáadjuk a meglévő szűrőhöz (Név vagy Email alapján regex)
+    if (searchQuery) {
+      filter.$or = [
+        { "customer.fullName": { $regex: searchQuery, $options: "i" } },
+        { "customer.email": { $regex: searchQuery, $options: "i" } },
+      ];
+    }
 
     rawOrders = await db.collection("orders").find(filter).toArray();
     totalOrders = rawOrders.length;
   } else {
-    const filter = {};
+    // Alap üres szűrő az összesre
+    const filter: any = {};
+
+    // Hozzáadjuk a keresést az összes fülön is,ha van query
+    if (searchQuery) {
+      filter.$or = [
+        { "customer.fullName": { $regex: searchQuery, $options: "i" } },
+        { "customer.email": { $regex: searchQuery, $options: "i" } },
+      ];
+    }
 
     totalOrders = await db.collection("orders").countDocuments(filter);
 
@@ -115,28 +134,33 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
         <AdminNav />
       </div>
       <div className="flex flex-col w-[100%] p-[10px] max-w-[1800px] mx-auto">
-        {/* Fül választás */}
-        <div className="flex gap-4 mb-6 border-b border-neutral-800 pb-4">
-          <a
-            href="?page=1&tab=mai"
-            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-              activeTab === "mai"
-                ? "bg-teal-600 text-white"
-                : "bg-neutral-800 text-gray-400 hover:bg-neutral-700"
-            }`}
-          >
-            Mai rendelések
-          </a>
-          <a
-            href="?page=1&tab=osszes"
-            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-              activeTab === "osszes"
-                ? "bg-teal-600 text-white"
-                : "bg-neutral-800 text-gray-400 hover:bg-neutral-700"
-            }`}
-          >
-            Összes rendelés
-          </a>
+        {/* Fül választás és Keresőblokk */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-neutral-800 pb-4">
+          <div className="flex gap-4">
+            <a
+              href="?page=1&tab=mai"
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                activeTab === "mai"
+                  ? "bg-teal-600 text-white"
+                  : "bg-neutral-800 text-gray-400 hover:bg-neutral-700"
+              }`}
+            >
+              Mai rendelések
+            </a>
+            <a
+              href="?page=1&tab=osszes"
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                activeTab === "osszes"
+                  ? "bg-teal-600 text-white"
+                  : "bg-neutral-800 text-gray-400 hover:bg-neutral-700"
+              }`}
+            >
+              Összes rendelés
+            </a>
+          </div>
+
+          {/* Ide helyezzük el a hivatalos admin megjelenésű keresőt */}
+          <SearchInput />
         </div>
 
         <div className="w-full justify-end my-4 flex flex-col md:flex-row">
@@ -152,6 +176,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             activeTab={activeTab}
           />
         </div>
+
         {/* Rendelés megjelenítés */}
         <div className="grid gap-6 w-[100%]">
           {orders.length === 0 ? (
