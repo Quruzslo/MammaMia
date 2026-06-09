@@ -27,7 +27,7 @@ export default function NiceCard() {
   };
 
   return (
-    <section className="w-full flex flex-col md:flex-row p-[10px]">
+    <section className="w-full flex flex-col md:flex-row p-[10px] bg-white/10 backdrop-blur-lg my-[35px] rounded-lg">
       {/* BAL OLDAL: A kártya kép */}
       <div className="w-full md:w-[50%] nicecard-bal flex flex-row">
         <div style={{ position: "relative", width: "100%", height: "350px" }}>
@@ -56,13 +56,10 @@ export default function NiceCard() {
             <motion.svg
               key={index}
               variants={arrowVariants}
-              fill="#ffffff"
-              height="40px"
-              width="40px"
-              version="1.1"
+              fill="#f2ecd5"
+              className="w-[25px] h-[25px] md:w-[40px] md:h-[40px]"
               viewBox="0 0 511.947 511.947"
-              xmlSpace="preserve"
-              stroke="#ffffff"
+              stroke="#1d3a22"
             >
               <g strokeWidth="0"></g>
               <g strokeLinecap="round" strokeLinejoin="round"></g>
