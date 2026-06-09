@@ -26,7 +26,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
               Azonosító
             </span>
             <h4
-              className="text-stone-600 font-mono text-xs tracking-wide bg-[#faf9f6] px-3 py-1.5 rounded-sm border border-stone-200/80 break-all select-all mt-1"
+              className="text-stone-900 font-mono text-xs tracking-wide bg-[#faf9f6] px-3 py-1.5 rounded-sm border border-stone-200/80 break-all select-all mt-1"
               onClick={(e) => e.stopPropagation()}
             >
               {order._id}

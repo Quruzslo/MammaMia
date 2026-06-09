@@ -37,7 +37,6 @@ export default function UserOrders() {
     }
   }, [session?.user?.userId]);
 
-  // 2. FELTÉTELEK: Csak a Hookok után jöhetnek a korai return-ök!
   if (status === "loading") {
     return (
       <div className="max-w-md mx-auto py-16 text-center">
@@ -64,7 +63,7 @@ export default function UserOrders() {
         </h2>
       </div>
 
-      {orders.length === 0 ? (
+      {orders.length === 0 && status === !"loading" ? (
         /* Üres állapot - Elegáns minimalista kártya */
         <div className="bg-white border border-stone-200 rounded-sm p-10 text-center max-w-md mx-auto shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
           <p className="text-stone-400 font-bold uppercase text-xs tracking-wider mb-2">
