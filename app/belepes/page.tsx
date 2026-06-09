@@ -5,32 +5,14 @@ import { signIn } from "next-auth/react";
 export default function BelepesPage() {
   return (
     <main className="relative  min-h-screen bg-neutral-900 flex items-center justify-center overflow-hidden ">
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="flex flex-col items-center justify-center">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-teal-900/20 blur-[120px]" />
       </div>
 
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500/40 to-transparent" />
 
       <div className="relative  w-full max-w-sm mx-auto px-6 animate-fade-in">
-        <div className="flex justify-center mb-10">
-          <div className="w-10 h-10 rounded-xl border border-teal-700/50 bg-teal-900/30 flex items-center justify-center">
-            <svg
-              className="w-5 h-5 text-teal-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-              />
-            </svg>
-          </div>
-        </div>
-
-        <div className="bg-neutral-800/60 backdrop-blur-sm border border-neutral-700/50 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-neutral-800/60 backdrop-blur-sm border border-neutral-700/50 rounded-sm p-8 shadow-2xl">
           <div className="mb-8 text-center">
             <h1 className="text-xl font-semibold text-white tracking-tight mb-2">
               Bejelentkezés
@@ -45,7 +27,7 @@ export default function BelepesPage() {
               <div className="w-full border-t border-neutral-700/60" />
             </div>
             <div className="relative flex justify-center">
-              <span className="bg-neutral-800 px-3 text-xs text-gray-500 uppercase tracking-widest">
+              <span className="bg-neutral-800 px-3 text-xs text-white uppercase tracking-widest">
                 Folytatás
               </span>
             </div>
@@ -96,10 +78,6 @@ export default function BelepesPage() {
             </span>
           </p>
         </div>
-
-        <p className="mt-6 text-center text-xs text-neutral-600 tracking-wide">
-          © {new Date().getFullYear()} — Minden jog fenntartva
-        </p>
       </div>
     </main>
   );

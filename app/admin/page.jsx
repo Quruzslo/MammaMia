@@ -47,27 +47,8 @@ export default function AdminPage() {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500/40 to-transparent" />
 
       <div className="relative z-10 w-full max-w-sm mx-auto px-6 animate-fade-in">
-        {/* Felső ikon  */}
-        <div className="flex justify-center mb-8">
-          <div className="w-12 h-12 rounded-xl border border-teal-700/50 bg-teal-900/30 flex items-center justify-center shadow-xl shadow-teal-950/20">
-            <svg
-              className="w-5 h-5 text-teal-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-              />
-            </svg>
-          </div>
-        </div>
-
         {/* Bejelentkező kártya */}
-        <div className="bg-neutral-800/60 backdrop-blur-sm border border-neutral-700/50 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-neutral-800/60 backdrop-blur-sm border border-neutral-700/50 rounded-sm p-8 shadow-2xl">
           <div className="mb-6 text-center">
             <h1 className="text-xl font-semibold text-white tracking-tight mb-2 uppercase">
               MammaMia Admin
@@ -82,7 +63,7 @@ export default function AdminPage() {
               <div className="w-full border-t border-neutral-700/60" />
             </div>
             <div className="relative flex justify-center">
-              <span className="bg-neutral-800 px-3 text-xs text-gray-500 uppercase tracking-widest">
+              <span className="bg-neutral-800 px-3 text-xs text-white uppercase tracking-widest">
                 Azonosítás
               </span>
             </div>
@@ -130,7 +111,7 @@ export default function AdminPage() {
               disabled={loading}
               className="
                 group w-full flex items-center justify-center gap-3 mt-6
-                px-5 py-3 rounded-xl
+                px-5 py-3 rounded-sm
                 bg-teal-600 hover:bg-teal-500 disabled:bg-teal-800/40
                 border border-teal-500/30 disabled:border-transparent
                 text-sm font-semibold text-white disabled:text-gray-500
@@ -147,11 +128,6 @@ export default function AdminPage() {
             </button>
           </form>
         </div>
-
-        {/* Footer */}
-        <p className="mt-6 text-center text-xs text-neutral-600 tracking-wide">
-          © {new Date().getFullYear()} — Minden jog fenntartva
-        </p>
       </div>
     </main>
   );

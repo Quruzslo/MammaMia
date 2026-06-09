@@ -31,7 +31,7 @@ export default function CheckoutOrders() {
       className="cart-wrapper p-4 bg-neutral-900 flex flex-col gap-4 ml-auto w-[100%] md:w-[100%] h-full overflow-auto  shadow-2xl rounded-lg"
       onClick={(e) => e.stopPropagation()}
     >
-      <h2 className="text-teal-500 font-bold text-xl border-b border-teal-800 pb-2">
+      <h2 className="text-white font-bold text-xl border-b border-teal-800 pb-2">
         Rendelés összegzése
       </h2>
 
@@ -60,7 +60,7 @@ export default function CheckoutOrders() {
             className="bg-neutral-800 rounded-lg border border-teal-900  mb-2"
           >
             <div className="bg-teal-950 p-2 border-b border-teal-900 flex justify-between items-center rounded-lg">
-              <span className="text-teal-400 font-bold">{nap.dayName}</span>
+              <span className="text-white font-bold">{nap.dayName}</span>
               <span className="text-[10px] text-teal-600">{nap.date}</span>
             </div>
 
@@ -79,7 +79,7 @@ export default function CheckoutOrders() {
                   </div>
 
                   <div className="flex items-center gap-2 max-w-[50%]">
-                    <div className="flex items-center gap-3">
+                    {/* <div className="flex items-center gap-3">
                       <button
                         onClick={() =>
                           updateItemQuantity(etel.name, nap.date, 1)
@@ -94,15 +94,15 @@ export default function CheckoutOrders() {
                       >
                         <FiMinus size={14} className="stroke-teal-300" />
                       </button>
-                    </div>
+                    </div> */}
                     <div className="bg-teal-900/40 text-teal-300 px-2 py-1 rounded text-xs font-bold border border-teal-800 flex-nowrap">
                       {etel.quantity} db
                     </div>
-                    <div className="flex items-center gap-3 px-2 py-1 rounded border border-red-300">
+                    {/* <div className="flex items-center gap-3 px-2 py-1 rounded border border-red-300">
                       <button onClick={() => removeFromCart(etel, nap.date)}>
                         <BsTrash size={14} className="fill-red-300" />
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ))}
@@ -113,7 +113,7 @@ export default function CheckoutOrders() {
 
       {cartItems.length > 0 && (
         <div className="flex flex-col gap-2 justify-center items-center mt-auto">
-          <p className="text-teal-500">Összesen: {totalItemsPrice} Ft.</p>
+          <p className="text-white">Összesen: {totalItemsPrice} Ft.</p>
         </div>
       )}
     </div>

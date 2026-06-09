@@ -1,12 +1,15 @@
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SingleModal({ day, onClose, orderId }) {
   // Ha nincs kiválasztott nap a propból, akkor bezárul
   if (!day) return null;
 
-  const settingOrder = async (orderId, orderDate) => {
+  const router = useRouter();
+
+  const settingOrder = async (orderId, orderDate, nextStatus) => {
     try {
-      const data = await fetch("/api/modify-order", {
+      const res = await fetch("/api/modify-order", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -14,69 +17,131 @@ export default function SingleModal({ day, onClose, orderId }) {
         body: JSON.stringify({
           id: orderId,
           dayDate: orderDate,
+          status: nextStatus,
         }),
       });
-    } catch (error) {}
+
+      if (res.ok) {
+        router.refresh();
+      } else {
+        console.error("Hiba történt a státusz frissítésekor");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center bg-black/80 z-[100] p-4 backdrop-blur-sm "
+      className="fixed inset-0 flex items-center justify-center bg-white/50 z-[100] p-4"
       onClick={onClose}
     >
       <div
-        className="modal-zoom w-full max-w-lg max-h-[90vh] overflow-hidden rounded-sm bg-neutral-900  shadow-2xl flex flex-col "
+        className="w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800"
+        style={{
+          borderRadius: "4px",
+          boxShadow: "0 4px 24px rgba(0,0,0,0.12)",
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Fejléc */}
-        <div className="p-6 border-b border-neutral-800 flex justify-between items-center bg-neutral-900">
-          <div>
-            <h2 className="text-xl font-bold text-white">{day.dayName}</h2>
-            <p className="text-sm text-gray-400">{day.date}</p>
+        <div className="flex items-stretch border-b border-neutral-200 dark:border-neutral-800">
+          {/* Bal oldali csík */}
+          <div
+            className={`w-[5px] flex-shrink-0 ${day.status === "ordered" ? "bg-orange-400" : "bg-green-400"}`}
+          />
+
+          <div className="flex-1 px-5 py-4 flex justify-between items-center">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-400 mb-0.5">
+                Rendelés részletei
+              </p>
+              <h2 className="text-base font-medium text-neutral-900 dark:text-neutral-100 mb-0.5">
+                {day.dayName}
+              </h2>
+              <p className="text-xs text-neutral-500">{day.date}</p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {day.status === "ordered" ? (
+                <button
+                  onClick={() => settingOrder(orderId, day.date, "shipped")}
+                  className="text-xs font-medium hover:bg-green-600 bg-transparent text-white px-3.5 py-1.5 cursor-pointer transition-colors"
+                  style={{ borderRadius: "2px" }}
+                >
+                  Kiszállítás alá
+                </button>
+              ) : (
+                <button
+                  onClick={() => settingOrder(orderId, day.date, "ordered")}
+                  className="text-xs font-medium bg-white dark:bg-transparent hover:bg-neutral-50 dark:hover:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border border-neutral-300 dark:border-neutral-700 px-3.5 py-1.5 cursor-pointer transition-colors"
+                  style={{ borderRadius: "2px" }}
+                >
+                  Visszaállítás megrendeltre
+                </button>
+              )}
+
+              <button
+                onClick={onClose}
+                className="w-8 h-8 flex items-center justify-center border border-neutral-200 dark:border-neutral-700 text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors cursor-pointer"
+                style={{ borderRadius: "2px" }}
+              >
+                ✕
+              </button>
+            </div>
           </div>
-          <button
-            onClick={() => {
-              settingOrder(orderId, day.date);
-            }}
-            className="text-gray-500 text-white transition-colors text-[15px]  bg-green-400/50 rounded-sm p-[5px]"
-          >
-            <p>Kiszállítás alatt</p>
-          </button>
         </div>
 
-        {/* Tartalom - Görgethető rész */}
-        <div className="p-6 overflow-y-auto space-y-4 bg-neutral-900/50">
+        {/* Tartalom */}
+        <div className="flex-1 overflow-y-auto px-5 py-4 space-y-2 bg-neutral-50 dark:bg-neutral-900/30">
           {day.items.map((item, index) => (
             <div
               key={index}
-              className="p-4 rounded-sm bg-neutral-800 border border-neutral-700 hover:border-teal-500/50 transition-colors"
+              className="border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950"
+              style={{ borderRadius: "2px" }}
             >
-              <div className="flex justify-between items-start mb-2">
-                <span className="text-xs font-semibold uppercase tracking-wider text-teal-500">
-                  {item.category}
-                </span>
-                <span className="font-bold text-gray-100">
-                  {item.price * item.quantity} Ft
-                </span>
-              </div>
-              <h4 className="text-lg text-gray-200 mb-1">{item.name}</h4>
-              <div className="flex justify-between text-sm text-gray-400">
-                <span className=" text-sm text-gray-100">
-                  {item.price} Ft / adag
-                </span>
-                <span className="font-medium text-gray-300">
-                  {item.quantity} db
-                </span>
+              <div className="px-3.5 py-3">
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="text-[10px] font-semibold uppercase tracking-widest text-neutral-400">
+                    {item.category}
+                  </span>
+                  <span className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                    {(item.price * item.quantity).toLocaleString("hu-HU")} Ft
+                  </span>
+                </div>
+                <p className="text-sm font-medium text-neutral-800 dark:text-neutral-200 mb-1">
+                  {item.name}
+                </p>
+                <div className="flex justify-between">
+                  <span className="text-xs text-neutral-500">
+                    {item.price.toLocaleString("hu-HU")} Ft / adag
+                  </span>
+                  <span className="text-xs text-neutral-500">
+                    {item.quantity} db
+                  </span>
+                </div>
               </div>
             </div>
           ))}
         </div>
 
         {/* Lábléc */}
-        <div className="p-6 border-t border-neutral-800 bg-neutral-900">
+        <div className="border-t border-neutral-200 dark:border-neutral-800 px-5 py-3.5 flex justify-between items-center">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-400 mb-0.5">
+              Összesen
+            </p>
+            <p className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+              {day.items
+                .reduce((sum, item) => sum + item.price * item.quantity, 0)
+                .toLocaleString("hu-HU")}{" "}
+              Ft
+            </p>
+          </div>
           <button
             onClick={onClose}
-            className="w-full py-3 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-teal-900/20"
+            className="text-sm font-medium text-neutral-600 dark:text-neutral-400 border border-neutral-300 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-900 px-5 py-2 transition-colors cursor-pointer"
+            style={{ borderRadius: "2px" }}
           >
             Bezárás
           </button>

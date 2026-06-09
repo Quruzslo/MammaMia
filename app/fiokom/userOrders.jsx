@@ -7,7 +7,7 @@ import { useSession, signOut } from "next-auth/react";
 
 export default function UserOrders() {
   const [orders, setOrders] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   const [activeOrderId, setActiveOrderId] = useState(null);
   const { status, data: session } = useSession();
 
@@ -27,6 +27,7 @@ export default function UserOrders() {
 
         const data = await res.json();
         setOrders(data);
+        setLoading(false);
       } catch (error) {
         console.error("Hiba a fetchelés során:", error);
       }
@@ -37,7 +38,7 @@ export default function UserOrders() {
     }
   }, [session?.user?.userId]);
 
-  if (status === "loading") {
+  if (loading) {
     return (
       <div className="max-w-md mx-auto py-16 text-center">
         <p className="text-gray-400 font-medium">Betöltés...</p>

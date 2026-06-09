@@ -138,7 +138,13 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             Összes rendelés
           </a>
         </div>
-        <div className="w-full justify-end my-4 flex">
+
+        <div className="w-full justify-end my-4 flex flex-col md:flex-row">
+          <div className="w-auto mr-auto p-[10px] bg-neutral-800 rounded-sm flex items-center justify-center">
+            <p className="text-gray-300 text-[15px] text-bold">
+              {totalOrders} rendelés
+            </p>
+          </div>
           {/* Paginátor by Dr. Doofenshmirtz */}
           <PaginationControls
             currentPage={page}

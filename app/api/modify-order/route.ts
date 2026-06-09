@@ -15,7 +15,7 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    const { id, dayDate } = await request.json();
+    const { id, dayDate, status } = await request.json();
 
     if (!id || !dayDate) {
       return NextResponse.json(
@@ -32,7 +32,7 @@ export async function PATCH(request: NextRequest) {
         "items.date": dayDate,
       },
       {
-        $set: { "items.$.status": "shipped" },
+        $set: { "items.$.status": status },
       },
     );
 
