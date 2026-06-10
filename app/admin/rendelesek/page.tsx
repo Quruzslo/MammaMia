@@ -4,6 +4,7 @@ import client from "@/lib/mongodb";
 import SingleDayWrapper from "./singleDayWrapper";
 import PaginationControls from "@/components/szekciok/PaginationControls";
 import SearchInput from "@/components/szekciok/SearchInput";
+import HandleCopy from "@/utils/handleCopy";
 
 // Ikonok--------------
 import { FaSquarePhone } from "react-icons/fa6";
@@ -13,7 +14,7 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import AdminNav from "./adminNav";
 
 interface Props {
-  searchParams: Promise<{ page?: string; tab?: string; search?: string }>;
+  searchParams: Promise<{ page?: string; tab?: string; search?: any }>;
 }
 
 export default async function AdminOrdersPage({ searchParams }: Props) {
@@ -45,12 +46,16 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
     // Alap szűrő a mai napra
     const filter: any = { status: "succeeded", "items.date": todayStr };
 
-    // Hozzáadjuk a meglévő szűrőhöz (Név vagy Email alapján regex)
+    // Keresés paraméter név, email, orderId alapján
     if (searchQuery) {
       filter.$or = [
         { "customer.fullName": { $regex: searchQuery, $options: "i" } },
         { "customer.email": { $regex: searchQuery, $options: "i" } },
       ];
+
+      if (/^\d+$/.test(searchQuery)) {
+        filter.$or.push({ orderId: Number(searchQuery) });
+      }
     }
 
     rawOrders = await db.collection("orders").find(filter).toArray();
@@ -59,12 +64,16 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
     // Alap üres szűrő az összesre
     const filter: any = {};
 
-    // Hozzáadjuk a keresést az összes fülön is,ha van query
+    // Hozzáadjuk a keresést az összes fülön is, ha van query
     if (searchQuery) {
       filter.$or = [
         { "customer.fullName": { $regex: searchQuery, $options: "i" } },
         { "customer.email": { $regex: searchQuery, $options: "i" } },
       ];
+
+      if (/^\d+$/.test(searchQuery)) {
+        filter.$or.push({ orderId: Number(searchQuery) });
+      }
     }
 
     totalOrders = await db.collection("orders").countDocuments(filter);
@@ -159,7 +168,6 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             </a>
           </div>
 
-          {/* Ide helyezzük el a hivatalos admin megjelenésű keresőt */}
           <SearchInput />
         </div>
 
@@ -169,7 +177,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
               {totalOrders} rendelés
             </p>
           </div>
-          {/* Paginátor by Dr. Doofenshmirtz */}
+
           <PaginationControls
             currentPage={page}
             totalPages={totalPages}
@@ -234,6 +242,11 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                         <p className="pt-2 italic text-sm text-gray-100">
                           {new Date(order.date).toLocaleDateString("hu-HU")}
                         </p>
+                      </div>
+
+                      <div className="flex flex-col nowrap gap-2 items-start">
+                        <p>Rendelésszám:</p>
+                        <HandleCopy textToCopy={order.orderId} />
                       </div>
                     </div>
 

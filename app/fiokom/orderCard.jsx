@@ -29,7 +29,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
               className="text-stone-900 font-mono text-xs tracking-wide bg-[#faf9f6] px-3 py-1.5 rounded-sm border border-stone-200/80 break-all select-all mt-1"
               onClick={(e) => e.stopPropagation()}
             >
-              {order._id}
+              {order.orderId}
             </h4>
           </div>
         </div>
