@@ -269,6 +269,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                         key={idx}
                         day={day}
                         orderId={order._id}
+                        orderObject={order}
                       />
                     ))}
                   </div>
