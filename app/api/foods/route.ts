@@ -15,7 +15,7 @@ export async function GET() {
 
     return NextResponse.json(productsFromDb, {
       headers: {
-        // FONTOS: Csak s-maxage van, stale-while-revalidate NINCS!
+        // Cache élettartam
         "Cache-Control": `public, s-maxage=${secondsUntilNextHour}`,
       },
     });

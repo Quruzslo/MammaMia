@@ -87,7 +87,6 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
       .toArray();
   }
 
-  // MongoDB ObjectID-k és dátumok biztonságos szerver-kliens JSON parszolása
   let orders = JSON.parse(JSON.stringify(rawOrders));
 
   if (activeTab === "mai") {
