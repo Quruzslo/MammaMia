@@ -12,7 +12,7 @@ export default function AdminNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-col gap-2 bg-neutral-900/80 px-[10px] rounded-xl border border-neutral-800/80 w-[100%] py-[20px] ">
+    <nav className="flex flex-col gap-2 bg-neutral-900/80 px-[10px] rounded-xl border border-neutral-800/80 w-[100%] py-[20px] sticky top-[75px]">
       <Link
         href="/admin/statisztika"
         className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-sm transition-all duration-200 items-center flex flex-row nowrap gap-2 ${

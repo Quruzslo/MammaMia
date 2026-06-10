@@ -104,8 +104,8 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        console.error("Szerver hiba részletei:", errorData);
-        alert(`Szerver hiba: ${errorData.error || response.statusText}`);
+        console.error("Hiba részletei:", errorData);
+        alert(` ${errorData.error || response.statusText}`);
         return;
       }
 
