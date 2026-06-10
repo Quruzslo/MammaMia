@@ -1,10 +1,6 @@
 "use client";
 //ikonok
-import {
-  IoBagHandleOutline,
-  IoMenuOutline,
-  IoCloseOutline,
-} from "react-icons/io5";
+import { IoBagHandleOutline } from "react-icons/io5";
 import { CiUser } from "react-icons/ci";
 import { IoDocuments } from "react-icons/io5";
 import { BsClockHistory } from "react-icons/bs";
@@ -15,15 +11,18 @@ import { useContext, useState, useEffect } from "react";
 import { cartContext } from "../contexts/cartProvider";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const { cartItems, animateSideCart } = useContext(cartContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // NextAuth kliensoldali logika
+  // NextAuth
   const { data: session, status } = useSession();
   const isLoading = status === "loading";
   const isLoggedIn = status === "authenticated";
+
+  const pathname = usePathname();
 
   const totalItemsAmount = cartItems.reduce((totalSum, day) => {
     const daySum = day.items.reduce((acc, food) => acc + food.quantity, 0);
@@ -88,7 +87,10 @@ export default function Header() {
           <nav className="hidden md:block">
             <ul className="flex gap-8 items-center">
               <li>
-                <a href="/#menu" className="nav-link">
+                <a
+                  href="/#menu"
+                  className={`nav-link ${pathname === "/" || pathname === "/#menu" ? "active" : ""}`}
+                >
                   Étlap
                 </a>
               </li>
@@ -206,7 +208,7 @@ export default function Header() {
             <Link
               href="/"
               onClick={() => setIsMenuOpen(false)}
-              className="text-2xl font-black text-white uppercase tracking-[0.2em] hover:text-teal-500 transition-colors"
+              className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${pathname === "/" ? "text-teal-500" : "text-white hover:text-teal-500"}`}
             >
               Étlap
             </Link>
@@ -217,7 +219,7 @@ export default function Header() {
                   : "/fiokom"
               }
               onClick={() => setIsMenuOpen(false)}
-              className="text-2xl font-black text-white uppercase tracking-[0.2em] hover:text-teal-500 transition-colors"
+              className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${pathname === "/fiokom" || pathname.startsWith("/admin") ? "text-teal-500" : "text-white hover:text-teal-500"}`}
             >
               {session?.user?.role === "admin"
                 ? "Rendelések (Admin)"

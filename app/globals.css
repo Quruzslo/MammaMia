@@ -60,17 +60,42 @@ a {
 }
 
 .nav-link {
+  position: relative;
   font-size: 0.875rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: #a3a3a3;
   transition: all 0.3s ease;
-}
-.nav-link:hover {
-  color: #2dd4bf;
+  padding: 10px;
 }
 
+.nav-link.active,
+.nav-link:hover {
+  color: #181818;
+  z-index: 2;
+}
+
+.nav-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  z-index: -1;
+  opacity: 1;
+  clip-path: inset(0 100% 0 0);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link.active::before,
+.nav-link:hover::before {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+}
 .menu-btn-wrapper {
   position: relative;
 }

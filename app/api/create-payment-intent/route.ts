@@ -10,6 +10,36 @@ export async function POST(request: Request) {
     // Beolvassuk a form-adatokat, a kosarat és a user-id-t a frontendről
     const { cartItems, formData, userId } = await request.json();
 
+    const todayBudapestStr = new Date().toLocaleDateString("en-CA", {
+      timeZone: "Europe/Budapest",
+    });
+
+    const currentHourBudapest = parseInt(
+      new Date().toLocaleTimeString("en-GB", {
+        timeZone: "Europe/Budapest",
+        hour: "2-digit",
+      }),
+      10,
+    );
+
+    const hasExpiredItem = cartItems.some((cartDay: any) => {
+      const isPastDate = cartDay.date < todayBudapestStr;
+
+      const isTodayPastNoon =
+        cartDay.date === todayBudapestStr && currentHourBudapest >= 12;
+
+      return isPastDate || isTodayPastNoon;
+    });
+
+    if (hasExpiredItem) {
+      return NextResponse.json(
+        {
+          error:
+            "A kosaradban lejárt napú, vagy aznapi (de már 12:00 utáni) rendelés található! Kérjük, frissítsd a kosarad.",
+        },
+        { status: 400 },
+      );
+    }
     const db = client.db("MammaMia");
 
     // Biztonsági árszámítás az adatbázisból
@@ -49,7 +79,7 @@ export async function POST(request: Request) {
       status: "pending",
       customer: formData,
       userId: userId === "guest" ? null : (userId ?? null),
-      items: cartItems.map((cartDay) => ({
+      items: cartItems.map((cartDay: any) => ({
         ...cartDay,
         status: "ordered",
       })),
