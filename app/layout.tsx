@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Nunito } from "next/font/google";
 import "./globals.css";
 import CartProvider from "@/components/contexts/cartProvider";
 import UserProvider from "@/components/contexts/userProvider";
@@ -9,6 +9,7 @@ import Footer from "@/components/szekciok/Footer";
 import ScrollToTop from "@/components/szekciok/scrollToTop";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -16,6 +17,11 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
 });
 
@@ -31,11 +37,11 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="hu"
       data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${nunito.variable} h-full antialiased`}
     >
-      <body className=" flex flex-col">
+      <body className="font-nunito flex flex-col">
         <UserProvider>
           <CartProvider>
             <Header></Header>

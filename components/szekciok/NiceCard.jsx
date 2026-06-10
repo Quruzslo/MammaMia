@@ -72,9 +72,8 @@ export default function NiceCard() {
           ))}
         </motion.div>
 
-        {/* CÍMSOR (bg-fixed kivéve, elírások és w-classes javítva) */}
         <div>
-          <h2 className="text-[20px] md:text-[40px] uppercase font-black text-center text-transparent bg-clip-text bg-fixed bg-cover bg-center bg-[url('/otp_szepkartyanobg.png')]">
+          <h2 className="text-[20px] md:text-[40px] [-webkit-text-stroke:1px_white] uppercase font-black text-center text-transparent bg-clip-text bg-fixed bg-cover bg-center bg-[url('/otp_szepkartyanobg.png')]">
             Szépkártya elfogadóhely
           </h2>
         </div>

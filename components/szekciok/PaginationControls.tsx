@@ -6,12 +6,14 @@ interface PaginationControlsProps {
   currentPage: number;
   totalPages: number;
   activeTab: string;
+  searchQuery: string;
 }
 
 export default function PaginationControls({
   currentPage,
   totalPages,
   activeTab,
+  searchQuery,
 }: PaginationControlsProps) {
   const router = useRouter();
 
@@ -24,10 +26,14 @@ export default function PaginationControls({
 
   return (
     <div className="flex flex-col sm:flex-row justify-center items-center gap-4 my-[10px] w-auto">
-      {/* előző oldal gomb (href-fel is jó, csak akkor nincs disabled) */}
+      {/* Előző oldal gomb */}
       <button
         disabled={currentPage <= 1}
-        onClick={() => router.push(`?page=${currentPage - 1}&tab=${activeTab}`)}
+        onClick={() =>
+          router.push(
+            `?page=${currentPage - 1}&tab=${activeTab}${searchQuery ? `&search=${searchQuery}` : ""}`,
+          )
+        }
         className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 text-sm font-semibold rounded-sm text-gray-200 transition-all cursor-pointer select-none"
       >
         Előző
@@ -36,14 +42,17 @@ export default function PaginationControls({
       {/* Dinamikus oldalszámok */}
       <div className="flex flex-row gap-[5px] items-center justify-center flex-wrap">
         {pageNumbers.map((pageNum) => {
-          // Megnézzük, hogy ez a gomb az aktuális oldal-e
           const isActive = pageNum === currentPage;
 
           return (
             <button
               key={pageNum}
-              onClick={() => router.push(`?page=${pageNum}&tab=${activeTab}`)}
-              className={`w-9 h-9 flex items-center justify-center  text-sm font-bold  ease-out duration-300 cursor-pointer select-none border ${
+              onClick={() =>
+                router.push(
+                  `?page=${pageNum}&tab=${activeTab}${searchQuery ? `&search=${searchQuery}` : ""}`,
+                )
+              }
+              className={`w-9 h-9 flex items-center justify-center text-sm font-bold ease-out duration-300 cursor-pointer select-none border ${
                 isActive
                   ? "bg-teal-600 border-teal-500 text-white shadow-lg shadow-teal-900/30 rounded-sm "
                   : "bg-neutral-800 border-neutral-700 text-gray-400 hover:bg-neutral-700 hover:text-gray-200 rounded-sm"
@@ -58,7 +67,11 @@ export default function PaginationControls({
       {/* Kövi oldal gomb */}
       <button
         disabled={currentPage >= totalPages}
-        onClick={() => router.push(`?page=${currentPage + 1}&tab=${activeTab}`)}
+        onClick={() =>
+          router.push(
+            `?page=${currentPage + 1}&tab=${activeTab}${searchQuery ? `&search=${searchQuery}` : ""}`,
+          )
+        }
         className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 text-sm font-semibold rounded-sm text-gray-200 transition-all cursor-pointer select-none"
       >
         Következő

@@ -174,6 +174,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             currentPage={page}
             totalPages={totalPages}
             activeTab={activeTab}
+            searchQuery={searchQuery}
           />
         </div>
 
@@ -271,6 +272,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             currentPage={page}
             totalPages={totalPages}
             activeTab={activeTab}
+            searchQuery={searchQuery}
           />
         </div>
       </div>
