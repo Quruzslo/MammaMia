@@ -5,6 +5,7 @@ import SingleDayWrapper from "./singleDayWrapper";
 import PaginationControls from "@/components/szekciok/PaginationControls";
 import SearchInput from "@/components/szekciok/SearchInput";
 import HandleCopy from "@/utils/handleCopy";
+import OrderActions from "./orderToggle";
 
 // Ikonok--------------
 import { FaSquarePhone } from "react-icons/fa6";
@@ -198,12 +199,19 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                 className={`p-5 border-l-4 bg-neutral-800 shadow-xl ${
                   order.status === "succeeded"
                     ? "border-green-700"
-                    : "border-red-700"
+                    : order.status === "pending"
+                      ? "border-orange-500"
+                      : "border-red-700"
                 }`}
               >
                 <div className="flex flex-col lg:flex-row gap-6">
                   {/* Vevő adatai szekció */}
-                  <div className="lg:w-1/4 border-r-0 lg:border-r border-neutral-700 pr-4">
+                  <div className="lg:w-1/4 border-r-0 lg:border-r border-neutral-700 pr-4 relative">
+                    <OrderActions
+                      orderId={order._id}
+                      currentStatus={order.status}
+                    />
+
                     <h2 className="font-bold text-xl text-white mb-1">
                       {order.customer?.fullName}
                     </h2>
@@ -253,11 +261,13 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                       <p className="text-lg font-bold text-white">
                         {order.total?.toLocaleString()} Ft
                       </p>
-                      <p className="text-xs text-white-500">
+                      <p className="text-xs text-neutral-400">
                         Státusz:{" "}
                         {order.status === "succeeded"
                           ? "Fizetve"
-                          : "Nincs fizetve"}
+                          : order.status === "deleted"
+                            ? "Törölve"
+                            : "Nincs fizetve"}
                       </p>
                     </div>
                   </div>

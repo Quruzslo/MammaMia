@@ -9,7 +9,7 @@ export default function SingleModal({ day, onClose, orderId }) {
 
   const settingOrder = async (orderId, orderDate, nextStatus) => {
     try {
-      const res = await fetch("/api/modify-order", {
+      const res = await fetch("/api/admin/modify-order", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export default function SingleModal({ day, onClose, orderId }) {
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800"
+        className="w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col bg-black  border border-neutral-200 "
         style={{
           borderRadius: "4px",
           boxShadow: "0 4px 24px rgba(0,0,0,0.12)",
@@ -45,7 +45,7 @@ export default function SingleModal({ day, onClose, orderId }) {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Fejléc */}
-        <div className="flex items-stretch border-b border-neutral-200 dark:border-neutral-800">
+        <div className="flex items-stretch border-b border-neutral-200 ">
           {/* Bal oldali csík */}
           <div
             className={`w-[5px] flex-shrink-0 ${day.status === "ordered" ? "bg-orange-400" : "bg-green-400"}`}
@@ -74,7 +74,7 @@ export default function SingleModal({ day, onClose, orderId }) {
               ) : (
                 <button
                   onClick={() => settingOrder(orderId, day.date, "ordered")}
-                  className="text-xs font-medium bg-white dark:bg-transparent hover:bg-neutral-50 dark:hover:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border border-neutral-300 dark:border-neutral-700 px-3.5 py-1.5 cursor-pointer transition-colors"
+                  className="text-xs font-medium bg-white dark:bg-transparent hover:bg-neutral-50  text-neutral-600  border border-neutral-300  px-3.5 py-1.5 cursor-pointer transition-colors"
                   style={{ borderRadius: "2px" }}
                 >
                   Visszaállítás megrendeltre
@@ -83,10 +83,10 @@ export default function SingleModal({ day, onClose, orderId }) {
 
               <button
                 onClick={onClose}
-                className="w-8 h-8 flex items-center justify-center border border-neutral-200 dark:border-neutral-700 text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors cursor-pointer"
+                className="text-sm font-medium text-neutral-200  border border-neutral-300  hover:bg-neutral-50 hover:text-black px-3.5 py-1.5 transition-colors cursor-pointer"
                 style={{ borderRadius: "2px" }}
               >
-                ✕
+                Bezárás
               </button>
             </div>
           </div>
@@ -140,10 +140,9 @@ export default function SingleModal({ day, onClose, orderId }) {
           </div>
           <button
             onClick={onClose}
-            className="text-sm font-medium text-neutral-600 dark:text-neutral-400 border border-neutral-300 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-900 px-5 py-2 transition-colors cursor-pointer"
-            style={{ borderRadius: "2px" }}
+            className="text-sm font-medium text-red-300 hover:text-red-600 border border-neutral-300  hover:bg-neutral-50  px-5 py-2 transition-colors cursor-pointer"
           >
-            Bezárás
+            Törlés
           </button>
         </div>
       </div>

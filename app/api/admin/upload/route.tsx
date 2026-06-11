@@ -4,7 +4,7 @@ import client from "@/lib/mongodb";
 import { revalidateTag, revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
-  // 1. Auth és Admin ellenőrzés a működő GET mintád alapján
+  // 1. Auth és Admin ellenőrzés
   const session = await auth();
 
   if (!session || session.user?.role !== "admin") {
