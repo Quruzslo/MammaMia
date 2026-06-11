@@ -39,6 +39,7 @@ export default function NiceCard() {
               padding: "10px",
             }}
             alt="Szépkártya elfogadó hetimenü kifőzde"
+            loading="lazy"
           />
         </div>
       </div>
