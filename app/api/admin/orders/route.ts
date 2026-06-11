@@ -11,7 +11,6 @@ export async function GET() {
       { status: 403 },
     );
   }
-  const { role, email } = session.user;
 
   try {
     const db = client.db("MammaMia");

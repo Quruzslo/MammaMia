@@ -9,7 +9,7 @@ export async function PATCH(req: Request) {
     const session = await auth();
     if (!session || session.user?.role !== "admin") {
       return NextResponse.json(
-        { error: "Illetéktelen hozzáférés" },
+        { error: "Ehhez nem férhetsz hozzá" },
         { status: 401 },
       );
     }

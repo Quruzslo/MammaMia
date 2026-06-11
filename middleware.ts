@@ -20,7 +20,7 @@ export default middlewareAuth((req) => {
     return Response.redirect(newUrl);
   }
 
-  // 2. ADMIN ALOLDALAK VÉDELME (Kivéve maga a login)
+  // 2. ADMIN ALOLDALAK VÉDELME
 
   if (pathname.startsWith("/admin") && pathname !== "/admin") {
     const userRole = req.auth?.user?.role;

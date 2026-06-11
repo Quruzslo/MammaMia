@@ -2,8 +2,8 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
-import { MongoClient } from "mongodb";
 import bcrypt from "bcryptjs";
+import client from "./lib/mongodb";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -20,9 +20,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        const client = new MongoClient(process.env.MONGO_URI!);
         try {
-          await client.connect();
           const db = client.db("MammaMia");
 
           const admin = await db.collection("admins").findOne({
@@ -53,8 +51,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         } catch (error) {
           console.error("Szerveroldali login hiba:", error);
           return null;
-        } finally {
-          await client.close();
         }
       },
     }),
