@@ -1,17 +1,24 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { MdEdit, MdClose, MdCheck } from "react-icons/md";
 
 interface OrderActionsProps {
   orderId: string;
   currentStatus: string;
+  setIsEditing: any;
+  isEditing: boolean;
 }
 
 export default function OrderActions({
   orderId,
   currentStatus,
+  setIsEditing,
+  isEditing,
 }: OrderActionsProps) {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleUpdateStatus = async (targetStatus: string) => {
     try {
@@ -31,6 +38,7 @@ export default function OrderActions({
         throw new Error(errorData.error || "Hiba történt");
       }
 
+      setIsOpen(false);
       router.refresh();
     } catch (error: any) {
       console.error("Hálózati vagy szerver hiba:", error);
@@ -39,9 +47,12 @@ export default function OrderActions({
   };
 
   return (
-    <div className="editing-wrapper relative flex flex-col mb-[20px] group w-fit">
-      {/* A 3 pötty */}
-      <div className="editing-btn flex flex-row nowrap gap-[5px] cursor-pointer py-2">
+    <div className="editing-wrapper relative flex flex-col mb-[20px] w-fit">
+      {/* 3 pötty */}
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className="editing-btn flex flex-row nowrap gap-[5px] cursor-pointer py-2 px-1 hover:opacity-80"
+      >
         <div className="w-[7px] h-[7px] rounded-full bg-white" />
         <div className="w-[7px] h-[7px] rounded-full bg-white" />
         <div className="w-[7px] h-[7px] rounded-full bg-white" />
@@ -49,11 +60,22 @@ export default function OrderActions({
 
       {/* A Dropdown Menü */}
       <div
-        className="flex flex-col gap-2 bg-white rounded-sm p-[15px] shadow-xl absolute left-0 
-                   top-[40px] invisible opacity-0 z-50 transition-all duration-300 ease-in-out
-                   group-hover:visible group-hover:top-[30px] group-hover:opacity-100 group-active:visible group-active:top-[30px] group-active:opacity-100"
+        className={`flex flex-col gap-2 bg-white rounded-sm p-[15px] shadow-xl absolute left-0 
+                   z-50 transition-all duration-300 ease-in-out
+                   ${
+                     isOpen
+                       ? "visible top-[30px] opacity-100"
+                       : "invisible top-[40px] opacity-0"
+                   }`}
       >
-        <div className="flex flex-row nowrap gap-2 cursor-pointer hover:bg-gray-100 px-[15px] py-3 rounded">
+        <div
+          onClick={() => {
+            setIsEditing(!isEditing);
+            setIsOpen(false);
+          }}
+          className="flex flex-row nowrap gap-2 cursor-pointer hover:bg-gray-100 px-[15px] py-3 rounded"
+        >
+          <MdEdit fill={"black"} size={18} />
           <p className="text-black text-sm !text-nowrap">Adatok szerkesztése</p>
         </div>
 
@@ -78,7 +100,7 @@ export default function OrderActions({
           </div>
         )}
 
-        {/* EXTRA: FIZETVE GOMB  */}
+        {/* EXTRA: FIZETVE GOMB */}
         {currentStatus === "pending" && (
           <div
             onClick={() => handleUpdateStatus("succeeded")}

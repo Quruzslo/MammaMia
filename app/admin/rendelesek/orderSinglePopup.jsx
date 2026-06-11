@@ -126,7 +126,7 @@ export default function SingleModal({ day, onClose, orderId }) {
         </div>
 
         {/* Lábléc */}
-        <div className="border-t border-neutral-200 dark:border-neutral-800 px-5 py-3.5 flex justify-between items-center">
+        <div className="border-t border-neutral-200 d px-5 py-3.5 flex justify-between items-center">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-400 mb-0.5">
               Összesen
@@ -139,8 +139,12 @@ export default function SingleModal({ day, onClose, orderId }) {
             </p>
           </div>
           <button
-            onClick={onClose}
-            className="text-sm font-medium text-red-300 hover:text-red-600 border border-neutral-300  hover:bg-neutral-50  px-5 py-2 transition-colors cursor-pointer"
+            onClick={() => {
+              settingOrder(orderId, day.date, "deleted");
+              onClose();
+            }}
+            className="text-xs font-medium bg-red-200  hover:bg-neutral-50  text-neutral-600  border border-neutral-300  px-3.5 py-1.5 cursor-pointer transition-colors"
+            style={{ borderRadius: "2px" }}
           >
             Törlés
           </button>

@@ -4,13 +4,8 @@ import client from "@/lib/mongodb";
 import SingleDayWrapper from "./singleDayWrapper";
 import PaginationControls from "@/components/szekciok/PaginationControls";
 import SearchInput from "@/components/szekciok/SearchInput";
-import HandleCopy from "@/utils/handleCopy";
-import OrderActions from "./orderToggle";
 
-// Ikonok--------------
-import { FaSquarePhone } from "react-icons/fa6";
-import { FaHouseUser } from "react-icons/fa";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import CustomerSection from "./CustomerSection";
 
 import AdminNav from "./adminNav";
 
@@ -206,56 +201,8 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
               >
                 <div className="flex flex-col lg:flex-row gap-6">
                   {/* Vevő adatai szekció */}
-                  <div className="lg:w-1/4 border-r-0 lg:border-r border-neutral-700 pr-4 relative">
-                    <OrderActions
-                      orderId={order._id}
-                      currentStatus={order.status}
-                    />
-
-                    <h2 className="font-bold text-xl text-white mb-1">
-                      {order.customer?.fullName}
-                    </h2>
-                    <p className="text-sm text-teal-500 mb-3">
-                      {order.customer?.email}
-                    </p>
-
-                    <div className="flex flex-col gap-3">
-                      <div className="flex flex-row nowrap gap-2 items-center">
-                        <FaSquarePhone
-                          style={{ width: "20px", height: "20px" }}
-                          className="text-green-200"
-                        />
-                        <p className="text-sm text-gray-100">
-                          {order.customer?.phone}
-                        </p>
-                      </div>
-
-                      <div className="flex flex-row nowrap gap-2 items-center">
-                        <FaHouseUser
-                          style={{ width: "20px", height: "20px" }}
-                          className="text-green-200"
-                        />
-                        <p className="text-sm text-gray-100">
-                          {order.customer?.city}, {order.customer?.street}{" "}
-                          {order.customer?.houseNumber}
-                        </p>
-                      </div>
-
-                      <div className="flex flex-row nowrap gap-2 items-center">
-                        <FaRegCalendarAlt
-                          style={{ width: "20px", height: "20px" }}
-                          className="text-green-200"
-                        />
-                        <p className="pt-2 italic text-sm text-gray-100">
-                          {new Date(order.date).toLocaleDateString("hu-HU")}
-                        </p>
-                      </div>
-
-                      <div className="flex flex-col nowrap gap-2 items-start">
-                        <p>Rendelésszám:</p>
-                        <HandleCopy textToCopy={order.orderId} />
-                      </div>
-                    </div>
+                  <div className="lg:w-1/4 border-r-0 lg:border-r border-neutral-700  relative">
+                    <CustomerSection order={order} />
 
                     <div className="mt-4 pt-4 border-t border-neutral-700">
                       <p className="text-lg font-bold text-white">

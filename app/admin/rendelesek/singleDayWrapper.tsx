@@ -33,24 +33,46 @@ export default function SingleDayWrapper({
         </div>
 
         <div>
-          {orderObject.status === "pending" && (
+          {orderObject.status === "deleted" && (
             <div className="flex items-center gap-1.5 px-3.5 py-2.5">
               <div className="size-[10px] rounded-full bg-red-600" />
+              <span className="text-xs text-gray-100">Törölve</span>
+            </div>
+          )}
+
+          {orderObject.status === "pending" && (
+            <div className="flex items-center gap-1.5 px-3.5 py-2.5">
+              <div className="size-[10px] rounded-full bg-gray-500" />
               <span className="text-xs text-gray-100">Függőben</span>
             </div>
           )}
-          {orderObject.status !== "pending" && day.status === "ordered" && (
-            <div className="flex items-center gap-1.5 px-3.5 py-2.5">
-              <div className="size-[10px] rounded-full bg-amber-500" />
-              <span className="text-xs text-gray-100">Megrendelve</span>
-            </div>
-          )}
-          {orderObject.status !== "pending" && day.status !== "ordered" && (
-            <div className="flex items-center gap-1.5 px-3.5 py-2.5">
-              <div className="size-[10px]  rounded-full bg-green-700" />
-              <span className="text-xs text-gray-100">Futárnak átadva</span>
-            </div>
-          )}
+
+          {orderObject.status !== "pending" &&
+            orderObject.status !== "deleted" &&
+            day.status === "deleted" && (
+              <div className="flex items-center gap-1.5 px-3.5 py-2.5">
+                <div className="size-[10px] rounded-full bg-red-400" />
+                <span className="text-xs text-gray-100">Nap lemondva</span>
+              </div>
+            )}
+
+          {orderObject.status !== "pending" &&
+            orderObject.status !== "deleted" &&
+            day.status === "ordered" && (
+              <div className="flex items-center gap-1.5 px-3.5 py-2.5">
+                <div className="size-[10px] rounded-full bg-amber-500" />
+                <span className="text-xs text-gray-100">Megrendelve</span>
+              </div>
+            )}
+
+          {orderObject.status !== "pending" &&
+            orderObject.status !== "deleted" &&
+            day.status === "shipped" && (
+              <div className="flex items-center gap-1.5 px-3.5 py-2.5">
+                <div className="size-[10px] rounded-full bg-green-700" />
+                <span className="text-xs text-gray-100">Futárnak átadva</span>
+              </div>
+            )}
         </div>
 
         <button
