@@ -51,7 +51,7 @@ export default function OrderActions({
       <div
         className="flex flex-col gap-2 bg-white rounded-sm p-[15px] shadow-xl absolute left-0 
                    top-[40px] invisible opacity-0 z-50 transition-all duration-300 ease-in-out
-                   group-hover:visible group-hover:top-[30px] group-hover:opacity-100"
+                   group-hover:visible group-hover:top-[30px] group-hover:opacity-100 group-active:visible group-active:top-[30px] group-active:opacity-100"
       >
         <div className="flex flex-row nowrap gap-2 cursor-pointer hover:bg-gray-100 px-[15px] py-3 rounded">
           <p className="text-black text-sm !text-nowrap">Adatok szerkesztése</p>
