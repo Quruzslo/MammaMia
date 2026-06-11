@@ -203,20 +203,6 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                   {/* Vevő adatai szekció */}
                   <div className="lg:w-1/4 border-r-0 lg:border-r border-neutral-700  relative">
                     <CustomerSection order={order} />
-
-                    <div className="mt-4 pt-4 border-t border-neutral-700">
-                      <p className="text-lg font-bold text-white">
-                        {order.total?.toLocaleString()} Ft
-                      </p>
-                      <p className="text-xs text-neutral-400">
-                        Státusz:{" "}
-                        {order.status === "succeeded"
-                          ? "Fizetve"
-                          : order.status === "deleted"
-                            ? "Törölve"
-                            : "Nincs fizetve"}
-                      </p>
-                    </div>
                   </div>
 
                   {/* Kliensoldali gomb wrapper és a napok gridje */}
