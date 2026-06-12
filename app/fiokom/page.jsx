@@ -11,7 +11,7 @@ import { useState } from "react";
 export default function UserDashboard() {
   const [currentMenu, setCurrentMenu] = useState("orders");
   return (
-    <div className="user-dashboard flex flex-col md:flex-row gap-6 w-full bg-white min-h-screen items-start px-4 py-8">
+    <div className="user-dashboard flex flex-col md:flex-row gap-6 w-full bg-white min-h-screen items-start px-[10px] py-8">
       {/* Oldalsáv Menü */}
       <div className="user-dashboard-nav w-full md:sticky md:top-[75px] bg-gray-800 border border-gray-200 shadow-lg grid grid-cols-1 md:grid-cols-1 md:w-[250px] gap-1 p-3 rounded-lg overflow-y-auto">
         <div
