@@ -181,7 +181,7 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
 
           <button
             onClick={handleOrder}
-            className="w-full bg-black hover:bg-gray-800 text-white font-bold py-3 px-4 rounded transition-colors text-sm uppercase tracking-wider mt-2"
+            className="w-full bg-black hover:bg-gray-700 text-white font-bold py-3 px-4 rounded transition-colors text-sm uppercase tracking-wider mt-2"
           >
             Tovább a fizetéshez
           </button>

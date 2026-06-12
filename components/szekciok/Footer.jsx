@@ -71,7 +71,7 @@ export default function Footer() {
           <div className="w-full h-[180px] rounded-xl overflow-hidden border border-neutral-800 shadow-xl relative group/map">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3216.3434660034095!2d17.775670412349772!3d46.414491670984866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47683f0057e6b25d%3A0xc6d10f8e86b3fa34!2sMamma%20Mia!5e1!3m2!1shu!2shu!4v1779900529552!5m2!1shu!2shu"
-              className="w-full h-full border-0 absolute inset-0 grayscale opacity-80 contrast-125 transition-all duration-300 group-hover/map:grayscale-0 group-hover/map:opacity-100"
+              className="w-full h-full border-0 absolute inset-0 md:grayscale md:opacity-80 md:contrast-125 transition-all duration-300 group-hover/map:grayscale-0 group-hover/map:opacity-100"
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

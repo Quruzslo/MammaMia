@@ -77,7 +77,7 @@ export default function CheckoutOrders() {
                     className="flex flex-row justify-between items-start border-b border-gray-100 last:border-0 pb-3 last:pb-0"
                   >
                     <div className="flex flex-col max-w-[65%]">
-                      <p className="text-sm text-gray-800 font-medium leading-tight">
+                      <p className="text-sm text-black font-black">
                         {etel.name}
                       </p>
                       <p className="text-sm text-gray-500 mt-1">
