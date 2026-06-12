@@ -27,10 +27,10 @@ export default function NiceCard() {
   };
 
   return (
-    <section className="w-full flex flex-col md:flex-row p-[10px] bg-white/10 backdrop-blur-lg my-[35px] rounded-lg">
+    <section className="w-full flex flex-col md:flex-row p-[10px]  my-[35px] rounded-lg items-center justify-center">
       {/* BAL OLDAL: A kártya kép */}
-      <div className="w-full md:w-[50%] nicecard-bal flex flex-row">
-        <div style={{ position: "relative", width: "100%", height: "350px" }}>
+      <div className="w-[300px] md:w-[50%] nicecard-bal flex flex-row">
+        <div className="relative w-[100%] h-[350px]">
           <Image
             src={Szepkartya}
             fill
@@ -74,7 +74,7 @@ export default function NiceCard() {
         </motion.div>
 
         <div>
-          <h2 className="text-[20px] md:text-[40px] [-webkit-text-stroke:1px_white] uppercase font-black text-center text-transparent bg-clip-text bg-fixed bg-cover bg-center bg-[url('/otp_szepkartyanobg.png')]">
+          <h2 className="text-[25px] md:text-[40px] [-webkit-text-stroke:1px_white] uppercase font-black text-center text-transparent bg-clip-text bg-fixed bg-cover bg-center bg-[url('/otp_szepkartyanobg.png')]">
             Szépkártya elfogadóhely
           </h2>
         </div>

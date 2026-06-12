@@ -106,11 +106,11 @@ export default function Header() {
             <div className="flex flex-col menu-btn-wrapper">
               <button
                 onClick={() => animateSideCart()}
-                className="relative p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-teal-500/50 transition-all group"
+                className="relative p-2.5 rounded-full  transition-all group"
               >
-                <IoBagHandleOutline size={24} className="stroke-teal-500" />
+                <IoBagHandleOutline size={24} className="stroke-white" />
                 {cartItems.length > 0 && (
-                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-teal-500 text-neutral-950 text-[10px] font-black rounded-full flex items-center justify-center shadow-lg">
+                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-white text-neutral-950 text-[10px] font-black rounded-full flex items-center justify-center shadow-lg">
                     {totalItemsAmount}
                   </div>
                 )}
@@ -124,7 +124,7 @@ export default function Header() {
             <div className="flex flex-row menu-btn-wrapper items-center gap-3">
               {isLoading ? (
                 // Betöltési állapot dizájn
-                <div className="p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 animate-pulse w-[46px] h-[46px]" />
+                <div className="p-[5px] rounded-full w-5 h-5 bg-neutral-900 border border-neutral-800 animate-pulse w-[46px] h-[46px]" />
               ) : isLoggedIn ? (
                 // Ha be van jelentkezve: (Admin vagy Fiókom)
                 <Link
@@ -134,14 +134,14 @@ export default function Header() {
                       : "/fiokom"
                   }
                 >
-                  <div className="relative p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-teal-500/50 transition-all group flex-row flex gap-3 items-center">
+                  <div className="relative w-[35px] h-[35px] rounded-full transition-all group flex-row flex gap-3 items-center">
                     {session?.user?.image ? (
                       // Google profilkép
                       <img
                         src={session.user.image}
                         alt="Profilkép"
                         referrerPolicy="no-referrer"
-                        className="w-6 h-6 rounded-lg object-cover"
+                        className="w-full h-full rounded-full object-cover"
                       />
                     ) : (
                       // Név első betűje ikon helyett, ha nincs kép
@@ -155,8 +155,8 @@ export default function Header() {
               ) : (
                 // Ha nincs bejelentkezve
                 <Link href="/belepes">
-                  <button className="relative p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-teal-500/50 transition-all group">
-                    <CiUser size={24} className="fill-teal-50/50" />
+                  <button className="relative p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-white transition-all group">
+                    <CiUser size={24} className="fill-white" />
                   </button>
                 </Link>
               )}
@@ -173,23 +173,23 @@ export default function Header() {
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden relative w-12 h-12 flex flex-col justify-center items-center gap-1.5 rounded-xl bg-neutral-900 border border-neutral-800 text-teal-500 overflow-hidden"
+              className="md:hidden relative w-12 h-12 flex flex-col justify-center items-center gap-1.5  text-white overflow-hidden"
             >
               {/* Felső vonal */}
               <span
-                className={`w-6 h-0.5 bg-teal-500 rounded-full transition-all duration-300 ease-in-out origin-center
+                className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ease-in-out origin-center
       ${isMenuOpen ? "translate-y-2 rotate-45" : ""}`}
               ></span>
 
               {/* Középső vonal */}
               <span
-                className={`w-6 h-0.5 bg-teal-500 rounded-full transition-all duration-300 ease-in-out
+                className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ease-in-out
       ${isMenuOpen ? "opacity-0" : ""}`}
               ></span>
 
               {/* Alsó vonal */}
               <span
-                className={`w-6 h-0.5 bg-teal-500 rounded-full transition-all duration-300 ease-in-out origin-center
+                className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ease-in-out origin-center
       ${isMenuOpen ? "-translate-y-2 -rotate-45" : ""}`}
               ></span>
             </button>

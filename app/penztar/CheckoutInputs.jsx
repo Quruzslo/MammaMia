@@ -126,8 +126,10 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
   return (
     <>
       {formState === "form" ? (
-        <div className="w-full flex flex-col sticky top-[120px] cart-wrapper p-4 bg-neutral-900 gap-4 ml-auto shadow-2xl rounded-lg">
-          <h2 className="text-teal-50 text-xl font-bold">Szállítási adatok</h2>
+        <div className="w-full flex flex-col sticky top-[120px] cart-wrapper p-4 bg-white gap-4 ml-auto shadow-sm border border-gray-200 rounded-lg">
+          <h2 className="text-gray-900 text-xl font-bold border-b border-gray-200 pb-3">
+            Szállítási adatok
+          </h2>
           <form className="flex flex-col gap-3">
             <FloatingInput
               name="fullName"
@@ -179,14 +181,14 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
 
           <button
             onClick={handleOrder}
-            className="text-teal-300 mt-4 border-2 border-teal-900 rounded-lg p-2 hover:bg-teal-900/30 transition-colors"
+            className="w-full bg-black hover:bg-gray-800 text-white font-bold py-3 px-4 rounded transition-colors text-sm uppercase tracking-wider mt-2"
           >
             Tovább a fizetéshez
           </button>
         </div>
       ) : (
-        <div className="w-full flex flex-col sticky top-[120px] p-4 bg-neutral-900 gap-4 ml-auto shadow-2xl rounded-lg">
-          <h2 className="text-teal-50 text-xl font-bold mb-4">
+        <div className="w-full flex flex-col sticky top-[120px] p-4 bg-white gap-4 ml-auto shadow-sm border border-gray-200 rounded-lg">
+          <h2 className="text-gray-900 text-xl font-bold border-b border-gray-200 pb-3 mb-2">
             Bankkártyás fizetés
           </h2>
 
@@ -195,7 +197,7 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
               stripe={stripePromise}
               options={{
                 clientSecret,
-                appearance: { theme: "night", labels: "floating" },
+                appearance: { theme: "stripe", labels: "floating" },
               }}
             >
               <CheckoutStripe formData={formData} cartItems={cartItems} />
@@ -204,7 +206,7 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
 
           <button
             onClick={() => setFormState("form")}
-            className="text-teal-500 text-sm mt-4 underline"
+            className="text-gray-500 hover:text-gray-800 text-sm mt-4 underline transition-colors text-center"
           >
             Vissza az adatokhoz
           </button>

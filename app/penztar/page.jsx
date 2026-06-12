@@ -13,7 +13,7 @@ export default function Checkout() {
   };
   return (
     <>
-      <section className="mt-[50px] align-center justify-center flex bg-teal-950 max-w-[1800px] w-[90%] md:w-[80%] mx-auto ">
+      <section className="mt-[50px] align-center justify-center flex  max-w-[1800px] w-[90%] md:w-[80%] mx-auto ">
         {" "}
         {formState === "form" ? (
           <h1 className="text-[30px] rounded-lg shadow uppercase  text-white text-center ">

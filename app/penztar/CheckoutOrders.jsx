@@ -28,92 +28,86 @@ export default function CheckoutOrders() {
 
   return (
     <div
-      className="cart-wrapper p-4 bg-neutral-900 flex flex-col gap-4 ml-auto w-[100%] md:w-[100%] h-full overflow-auto  shadow-2xl rounded-lg"
+      className="cart-wrapper p-4 bg-white flex flex-col gap-4 ml-auto w-[100%] md:w-[100%] h-full overflow-auto shadow-sm border border-gray-200 rounded-lg"
       onClick={(e) => e.stopPropagation()}
     >
-      <h2 className="text-white font-bold text-xl border-b border-teal-800 pb-2">
+      <h2 className="text-gray-900 font-bold text-xl border-b border-gray-200 pb-3">
         Rendelés összegzése
       </h2>
 
       {cartItems.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-3 ">
-          <p className="text-teal-100/50 text-center mt-10 italic">
+        <div className="flex flex-col items-center justify-center gap-4 py-8">
+          <p className="text-gray-500 text-center italic">
             A kosarad még üres...
           </p>
           <Link href="/">
-            <div className=" checkout-btn-menu-wrapper p-2 bg-teal-600  mx-auto  rounded flex flex-row gap-3">
-              <p className="checkout-btn-menu-text text-neutral-900 font-bold uppercase tracking-widest">
-                Étlap{" "}
+            <div className="checkout-btn-menu-wrapper px-6 py-2.5 bg-black hover:bg-gray-800 transition-colors mx-auto rounded flex flex-row items-center gap-3 cursor-pointer">
+              <p className="checkout-btn-menu-text text-white font-bold uppercase tracking-widest text-sm">
+                Étlap
               </p>
               <MdOutlineRestaurantMenu
-                size={24}
-                className="stroke-neutral-900 checkout-btn-menu-icon"
+                size={20}
+                className="fill-white checkout-btn-menu-icon"
               />
             </div>
           </Link>
         </div>
       ) : (
-        cartItems.map((nap) => (
-          // --- KÜLSŐ CIKLUS: NAPOK ---
-          <div
-            key={nap.date}
-            className="bg-neutral-800 rounded-lg border border-teal-900  mb-2"
-          >
-            <div className="bg-teal-950 p-2 border-b border-teal-900 flex justify-between items-center rounded-lg">
-              <span className="text-white font-bold">{nap.dayName}</span>
-              <span className="text-[10px] text-teal-600">{nap.date}</span>
-            </div>
+        <div className="flex flex-col gap-3">
+          {cartItems.map((nap) => (
+            // --- KÜLSŐ CIKLUS: NAPOK ---
+            <div
+              key={nap.date}
+              className="bg-white rounded-sm border border-gray-200 overflow-hidden"
+            >
+              <div className="bg-gray-50 px-3 py-2 border-b border-gray-200 flex justify-between items-center">
+                <span className="text-gray-800 font-semibold text-sm uppercase tracking-wide">
+                  {nap.dayName}
+                </span>
+                <span className="text-[11px] font-medium text-gray-500">
+                  {nap.date}
+                </span>
+              </div>
 
-            <div className="p-2 flex flex-col gap-3">
-              {nap.items.map((etel, index) => (
-                // --- BELSŐ CIKLUS: ÉTELEK AZ ADOTT NAPON ---
-                <div
-                  key={`${nap.date}-${etel.name}`}
-                  className="flex flex-row justify-between items-center border-b border-neutral-700 last:border-0 pb-2"
-                >
-                  <div className="flex flex-col max-w-[50%]">
-                    <p className="text-sm text-teal-50 font-medium">
-                      {etel.name}
-                    </p>
-                    <p className="text-xs text-teal-500">{etel.price} Ft</p>
-                  </div>
-
-                  <div className="flex items-center gap-2 max-w-[50%]">
-                    {/* <div className="flex items-center gap-3">
-                      <button
-                        onClick={() =>
-                          updateItemQuantity(etel.name, nap.date, 1)
-                        }
-                      >
-                        <FiPlus size={14} className="stroke-teal-300" />
-                      </button>
-                      <button
-                        onClick={() =>
-                          updateItemQuantity(etel.name, nap.date, -1)
-                        }
-                      >
-                        <FiMinus size={14} className="stroke-teal-300" />
-                      </button>
-                    </div> */}
-                    <div className="bg-teal-900/40 text-teal-300 px-2 py-1 rounded text-xs font-bold border border-teal-800 flex-nowrap">
-                      {etel.quantity} db
+              <div className="p-3 flex flex-col gap-3">
+                {nap.items.map((etel, index) => (
+                  // --- BELSŐ CIKLUS: ÉTELEK AZ ADOTT NAPON ---
+                  <div
+                    key={`${nap.date}-${etel.name}`}
+                    className="flex flex-row justify-between items-start border-b border-gray-100 last:border-0 pb-3 last:pb-0"
+                  >
+                    <div className="flex flex-col max-w-[65%]">
+                      <p className="text-sm text-gray-800 font-medium leading-tight">
+                        {etel.name}
+                      </p>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {etel.price} Ft
+                      </p>
                     </div>
-                    {/* <div className="flex items-center gap-3 px-2 py-1 rounded border border-red-300">
-                      <button onClick={() => removeFromCart(etel, nap.date)}>
-                        <BsTrash size={14} className="fill-red-300" />
-                      </button>
-                    </div> */}
+
+                    <div className="flex items-center gap-2">
+                      <div className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs font-semibold border border-gray-200 whitespace-nowrap">
+                        {etel.quantity} db
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))
+          ))}
+        </div>
       )}
 
       {cartItems.length > 0 && (
-        <div className="flex flex-col gap-2 justify-center items-center mt-auto">
-          <p className="text-white">Összesen: {totalItemsPrice} Ft.</p>
+        <div className="mt-auto pt-4 border-t border-gray-200">
+          <div className="flex justify-between items-end">
+            <p className="text-gray-500 font-medium text-sm mb-1">
+              Fizetendő összesen(ÁFA-t tartalmazza):
+            </p>
+            <p className="text-gray-900 text-xl font-bold">
+              {totalItemsPrice} Ft
+            </p>
+          </div>
         </div>
       )}
     </div>

@@ -37,8 +37,8 @@ export default function SideCart() {
         className="cart-wrapper p-4 bg-neutral-900 flex flex-col gap-4 ml-auto w-[80%] md:w-[50%] lg:w-[40%] h-full overflow-auto pt-[100px] shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.85,0,0.15,1)] transform"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-row justify-between border-b border-teal-800 pb-2 w-full p-2 items-center">
-          <h2 className="text-white/70 font-bold text-xl">Rendelésed</h2>
+        <div className="flex flex-row justify-between border-b border-white pb-2 w-full p-2 items-center">
+          <h2 className="text-white/70 font-bold text-xl">Kosár tartalma</h2>
           {cartItems.length > 0 ? (
             <div
               onClick={() => clearCart()}
@@ -127,16 +127,20 @@ export default function SideCart() {
         )}
 
         {cartItems.length > 0 && (
-          <div className="flex flex-col gap-2 justify-center items-center mt-auto">
-            <p className="text-teal-500">Összesen: {totalItemsPrice} Ft.</p>
-            <Link href="/penztar">
-              <button
-                onClick={animateSideCart}
-                className="mt-auto w-full bg-teal-600 hover:bg-teal-500 text-black font-black py-3 rounded-md transition-colors px-4"
-              >
-                RENDELÉS LEADÁSA
-              </button>
-            </Link>
+          <div className="flex flex-col md:flex-row gap-2 md:gap-0 justify-center items-center mt-auto border-t border-white pt-[15px]">
+            <div className="items-center justify-center flex flex-row w-[100%] md:w-[50%]">
+              <p className="text-white">Összesen: {totalItemsPrice} Ft.</p>
+            </div>
+            <div className="items-center justify-center flex flex-row w-[100%] md:w-[50%]">
+              <Link href="/penztar">
+                <button
+                  onClick={animateSideCart}
+                  className="mt-auto w-full  hover:bg-white text-white  hover:text-black border border-white font-black py-3 rounded-md transition-colors px-4"
+                >
+                  Tovább a fizetéshez
+                </button>
+              </Link>
+            </div>
           </div>
         )}
       </div>
