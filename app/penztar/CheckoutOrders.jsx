@@ -60,7 +60,7 @@ export default function CheckoutOrders() {
               key={nap.date}
               className="bg-white rounded-sm border border-gray-200 overflow-hidden"
             >
-              <div className="bg-gray-50 px-3 py-2 border-b border-gray-200 flex justify-between items-center">
+              <div className="bg-gray-300 px-3 py-2 border-b border-gray-200 flex justify-between items-center">
                 <span className="text-gray-800 font-semibold text-sm uppercase tracking-wide">
                   {nap.dayName}
                 </span>
