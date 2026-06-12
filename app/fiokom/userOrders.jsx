@@ -56,17 +56,16 @@ export default function UserOrders() {
 
   //  Ha be van töltve és hitelesítve van a user
   return (
-    <section className="max-w-[1800px] w-[100%] md:w-[80%] mx-auto py-10 px-2 md:px-6 animate-fade-in">
-      {/* Hivatalos, letisztult Dashboard Címsor */}
+    <section className="max-w-[1800px] w-[100%] mx-auto py-10 px-2 md:px-6 animate-fade-in">
+      {/*  Dashboard címsor */}
       <div className="border-b border-stone-200 pb-5 mb-10">
-        <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-[0.2em]">
+        <h2 className="text-2xl md:text-3xl font-black text-black uppercase tracking-[0.2em]">
           Rendelési előzmények
         </h2>
       </div>
 
-      {orders.length === 0 && status === !"loading" ? (
-        /* Üres állapot - Elegáns minimalista kártya */
-        <div className="bg-white border border-stone-200 rounded-sm p-10 text-center max-w-md mx-auto shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+      {orders.length === 0 || status === !"loading" ? (
+        <div className="bg-white border border-stone-200 rounded-sm p-10 text-center max-w-md mx-auto ">
           <p className="text-stone-400 font-bold uppercase text-xs tracking-wider mb-2">
             Nincsenek adatok
           </p>
@@ -76,7 +75,7 @@ export default function UserOrders() {
         </div>
       ) : (
         /* Rendelések listája */
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 items-start">
           {orders.map((order) => (
             <OrderCard
               key={order._id}

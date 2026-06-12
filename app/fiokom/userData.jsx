@@ -103,23 +103,23 @@ export default function UserData() {
   }
 
   return (
-    <div className="w-full max-w-xl mx-auto bg-neutral-900/50 border border-neutral-800 p-6 rounded-2xl shadow-xl backdrop-blur-sm">
-      <div className="mb-6">
-        <h2 className="text-xl font-bold text-gray-100">
-          Szállítási & Értesítési adatok
+    <div className="w-full max-w-xl mx-auto bg-white border border-gray-200 p-6 sm:p-8 rounded-sm ">
+      <div className="mb-6 border-b border-gray-100 pb-4">
+        <h2 className="text-lg font-bold text-gray-900">
+          Szállítási és értesítési adatok
         </h2>
-        <p className="text-xs text-neutral-400 mt-1">
+        <p className="text-sm text-gray-500 mt-1">
           Kérjük, pontosan add meg az adataidat a későbbi gyors fizetéshez és
           kiszállításhoz.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         {/* Város */}
         <div className="flex flex-col gap-1.5">
           <label
             htmlFor="city"
-            className="text-xs font-semibold text-neutral-400 uppercase tracking-wider"
+            className="text-xs font-bold text-gray-500 uppercase tracking-wider"
           >
             Város
           </label>
@@ -130,7 +130,7 @@ export default function UserData() {
             value={formData.city}
             onChange={handleChange}
             placeholder="Pl. Budapest"
-            className="w-full px-4 py-2.5 rounded-xl bg-neutral-950 border border-neutral-800 text-gray-200 text-sm focus:outline-none focus:border-teal-500 transition-colors"
+            className="w-full px-4 py-2.5 rounded bg-white border border-gray-300 text-gray-900 text-sm focus:outline-none focus:border-black focus:ring-0 transition-colors"
             required
           />
         </div>
@@ -140,7 +140,7 @@ export default function UserData() {
           <div className="col-span-2 flex flex-col gap-1.5">
             <label
               htmlFor="street"
-              className="text-xs font-semibold text-neutral-400 uppercase tracking-wider"
+              className="text-xs font-bold text-gray-500 uppercase tracking-wider"
             >
               Utca / Köz / Út
             </label>
@@ -151,7 +151,7 @@ export default function UserData() {
               value={formData.street}
               onChange={handleChange}
               placeholder="Pl. Kifőzde utca"
-              className="w-full px-4 py-2.5 rounded-xl bg-neutral-950 border border-neutral-800 text-gray-200 text-sm focus:outline-none focus:border-teal-500 transition-colors"
+              className="w-full px-4 py-2.5 rounded bg-white border border-gray-300 text-gray-900 text-sm focus:outline-none focus:border-black focus:ring-0 transition-colors"
               required
             />
           </div>
@@ -159,7 +159,7 @@ export default function UserData() {
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="houseNumber"
-              className="text-xs font-semibold text-neutral-400 uppercase tracking-wider"
+              className="text-xs font-bold text-gray-500 uppercase tracking-wider"
             >
               Házszám
             </label>
@@ -170,7 +170,7 @@ export default function UserData() {
               value={formData.houseNumber}
               onChange={handleChange}
               placeholder="Pl. 12/A"
-              className="w-full px-4 py-2.5 rounded-xl bg-neutral-950 border border-neutral-800 text-gray-200 text-sm focus:outline-none focus:border-teal-500 transition-colors"
+              className="w-full px-4 py-2.5 rounded bg-white border border-gray-300 text-gray-900 text-sm focus:outline-none focus:border-black focus:ring-0 transition-colors"
               required
             />
           </div>
@@ -180,7 +180,7 @@ export default function UserData() {
         <div className="flex flex-col gap-1.5">
           <label
             htmlFor="tel"
-            className="text-xs font-semibold text-neutral-400 uppercase tracking-wider"
+            className="text-xs font-bold text-gray-500 uppercase tracking-wider"
           >
             Telefonszám
           </label>
@@ -191,7 +191,7 @@ export default function UserData() {
             value={formData.tel}
             onChange={handleChange}
             placeholder="Pl. +36 30 123 4567"
-            className="w-full px-4 py-2.5 rounded-xl bg-neutral-950 border border-neutral-800 text-gray-200 text-sm focus:outline-none focus:border-teal-500 transition-colors"
+            className="w-full px-4 py-2.5 rounded bg-white border border-gray-300 text-gray-900 text-sm focus:outline-none focus:border-black focus:ring-0 transition-colors"
             required
           />
         </div>
@@ -199,10 +199,10 @@ export default function UserData() {
         {/* Visszajelző üzenetek (Siker / Hiba) */}
         {message.text && (
           <div
-            className={`p-3 rounded-xl text-xs font-medium text-center ${
+            className={`p-3.5 rounded text-sm font-semibold text-center ${
               message.type === "success"
-                ? "bg-teal-500/10 text-teal-400 border border-teal-500/20"
-                : "bg-red-500/10 text-red-400 border border-red-500/20"
+                ? "bg-green-50 text-green-700 border border-green-200"
+                : "bg-red-50 text-red-700 border border-red-200"
             }`}
           >
             {message.text}
@@ -213,9 +213,9 @@ export default function UserData() {
         <button
           type="submit"
           disabled={saving}
-          className="w-full mt-2 py-3 px-4 rounded-xl bg-teal-500 hover:bg-teal-600 disabled:bg-teal-800 text-neutral-950 font-bold text-sm tracking-wide transition-all shadow-lg shadow-teal-500/10 active:scale-[0.98]"
+          className="w-full mt-4 py-3 px-4 rounded bg-black hover:bg-gray-800 disabled:bg-gray-400 text-white font-bold text-sm tracking-wide transition-colors active:scale-[0.99] flex justify-center items-center"
         >
-          {saving ? "Mentés folyamatban..." : "Adatok módosítása"}
+          {saving ? "Mentés folyamatban..." : "Adatok mentése"}
         </button>
       </form>
     </div>

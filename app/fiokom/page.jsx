@@ -11,32 +11,44 @@ import { useState } from "react";
 export default function UserDashboard() {
   const [currentMenu, setCurrentMenu] = useState("orders");
   return (
-    <div className="user-dashboard flex flex-col md:flex-row gap-3 w-[100%] bg-neutral-900  min-h-[100vh] items-start px-4 py-4">
-      <div className="user-dashboard-nav w-[100%] md:sticky md:top-[75px] rounded-xl border border-neutral-600/80 grid grid-cols-1 md:grid-cols-3 md:w-[250px] md:flex md:flex-col gap-2 px-[5px] py-[25px]  rounded-lg overflow-y-auto ">
-        <div
-          onClick={() => signOut()}
-          className="flex flex-row w-auto relative py-[5px] px-[20px] rounded-sm bg-neutral-700 border border-neutral-800 hover:border-teal-500/50 transition-all gap-2 cursor-pointer "
-        >
-          <CiLogout size={24} className="fill-white" />
-          <button className="text-red-300">Kilépés</button>
-        </div>
+    <div className="user-dashboard flex flex-col md:flex-row gap-6 w-full bg-white min-h-screen items-start px-4 py-8">
+      {/* Oldalsáv Menü */}
+      <div className="user-dashboard-nav w-full md:sticky md:top-[75px] bg-gray-800 border border-gray-200 shadow-lg grid grid-cols-1 md:grid-cols-1 md:w-[250px] gap-1 p-3 rounded-lg overflow-y-auto">
         <div
           onClick={() => setCurrentMenu("orders")}
-          className="flex flex-row w-auto relative py-[5px] px-[20px] rounded-sm bg-neutral-700 border border-neutral-800 hover:border-teal-500/50 transition-all gap-2 cursor-pointer"
+          className="flex flex-row items-center w-full py-2.5 px-4 rounded-sm border border-gray-100 hover:bg-gray-100 text-gray-100 hover:text-black transition-colors gap-3 cursor-pointer"
         >
-          <PiBowlFood size={24} className="fill-white" />
-          <button className="text-white">Rendeléseim</button>
+          <PiBowlFood size={22} className="text-current" />
+          <button className="font-semibold text-sm">Rendeléseim</button>
         </div>
+
         <div
           onClick={() => setCurrentMenu("datas")}
-          className="flex flex-row w-auto relative py-[5px] px-[20px] rounded-sm bg-neutral-700 border border-neutral-800 hover:border-teal-500/50 transition-all gap-2 cursor-pointer"
+          className="flex flex-row items-center w-full py-2.5 px-4 rounded-sm border border-gray-100 hover:bg-gray-100 text-gray-100 hover:text-black transition-colors gap-3 cursor-pointer"
         >
-          <CiViewList size={24} className="fill-white" />
-          <button className="text-white">Adataim</button>
+          <CiViewList size={22} className="text-current" />
+          <button className="font-semibold text-sm">Adataim</button>
+        </div>
+
+        {/* Elválasztó vonal a Kilépés előtt */}
+        <div className="h-px bg-gray-100 my-1 w-full"></div>
+
+        <div
+          onClick={() => signOut()}
+          className="flex flex-row items-center w-full py-2.5 px-4 rounded-md bg-white hover:bg-red-50 group transition-colors gap-3 cursor-pointer"
+        >
+          <CiLogout
+            size={22}
+            className="text-red-500 group-hover:text-red-600"
+          />
+          <button className="text-red-500 group-hover:text-red-600 font-semibold text-sm">
+            Kilépés
+          </button>
         </div>
       </div>
 
-      <div className="user-dashboard-main w-[100%] md:w-[80%] p-2 bg-neutral-900/70 rounded-lg ">
+      {/* Fő tartalom */}
+      <div className="user-dashboard-main w-full  p-[10px]  bg-white border border-gray-200  rounded-sm">
         {currentMenu === "orders" ? <UserOrders /> : <UserData />}
       </div>
     </div>
