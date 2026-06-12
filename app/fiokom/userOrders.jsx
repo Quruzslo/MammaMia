@@ -59,13 +59,13 @@ export default function UserOrders() {
     <section className="max-w-[1800px] w-[100%] mx-auto p-[10px] animate-fade-in">
       {/*  Dashboard címsor */}
       <div className="border-b border-stone-200 pb-5 mb-10">
-        <h2 className="text-2xl md:text-3xl font-black text-black uppercase tracking-[0.2em]">
+        <h2 className="text-[15px] md:text-3xl font-black text-black">
           Rendelési előzmények
         </h2>
       </div>
 
       {orders.length === 0 || status === !"loading" ? (
-        <div className="bg-white border border-stone-200 rounded-sm p-10 text-center max-w-md mx-auto ">
+        <div className="bg-white border border-stone-200 rounded-sm p-[10px] text-center  mx-auto ">
           <p className="text-stone-400 font-bold uppercase text-xs tracking-wider mb-2">
             Nincsenek adatok
           </p>
