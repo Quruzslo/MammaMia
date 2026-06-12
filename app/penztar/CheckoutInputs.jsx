@@ -103,7 +103,7 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
         setClientSecret(data.clientSecret);
         setFormState("payment");
       } else {
-        alert("Hiba történt a fizetés indításakor.");
+        alert("Hiba történt a fizetés indításakor:");
       }
     } catch (error) {
       console.error("Hiba:", error);
