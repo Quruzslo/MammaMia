@@ -12,7 +12,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
     >
       {/* --- KÁRTYA FEJLÉC  --- */}
       <div
-        className="grid grid-cols-2 sm:grid-cols-3  lg:grid-cols-6 items-center gap-4 p-4 md:p-5 cursor-pointer select-none group w-full border-b border-gray-50"
+        className="grid grid-cols-2 sm:grid-cols-3  lg:grid-cols-6 items-center gap-4 p-[5px] cursor-pointer select-none group w-full border-b border-gray-50"
         onClick={() => setCardOpen(!cardOpen)}
       >
         {/* 1. Azonosító Blokk */}
