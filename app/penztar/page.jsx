@@ -14,7 +14,7 @@ export default function Checkout() {
   };
   return (
     <>
-      <section className="mt-[50px] align-center justify-center flex  max-w-[1800px] w-[90%] md:w-[80%] mx-auto gap-3 ">
+      <section className="mt-[50px] align-center justify-center flex  max-w-[1800px] w-[90%] md:w-[80%] mx-auto gap-2 md:gap-3 ">
         {/* Étlap */}
         <div
           className={`rounded-l-sm p-[10px] pr-[35px] transition-colors duration-300 
