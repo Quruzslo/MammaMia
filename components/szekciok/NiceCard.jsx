@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Szepkartya from "../../public/otp_szepkartyanobg.png";
+import Szepkartya from "../../public/szep_kartyak.png";
 
 export default function NiceCard() {
   //  szülő konténer variánsa
@@ -29,8 +29,8 @@ export default function NiceCard() {
   return (
     <section className="w-full flex flex-col md:flex-row p-[10px]  my-[35px] rounded-lg items-center justify-center">
       {/* BAL OLDAL: A kártya kép */}
-      <div className="w-[300px] md:w-[50%] nicecard-bal flex flex-row">
-        <div className="relative w-[100%] h-[350px]">
+      <div className="w-[100%] md:w-[50%] nicecard-bal flex flex-row">
+        <div className="relative w-[100%] h-[250px]">
           <Image
             src={Szepkartya}
             fill
