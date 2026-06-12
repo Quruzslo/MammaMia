@@ -56,7 +56,7 @@ export default function UserOrders() {
 
   //  Ha be van töltve és hitelesítve van a user
   return (
-    <section className="max-w-[1800px] w-[100%] mx-auto py-10 px-2 md:px-6 animate-fade-in">
+    <section className="max-w-[1800px] w-[100%] mx-auto p-[10px] animate-fade-in">
       {/*  Dashboard címsor */}
       <div className="border-b border-stone-200 pb-5 mb-10">
         <h2 className="text-2xl md:text-3xl font-black text-black uppercase tracking-[0.2em]">
@@ -75,7 +75,7 @@ export default function UserOrders() {
         </div>
       ) : (
         /* Rendelések listája */
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 items-start">
+        <div className="grid grid-cols-1  gap-3 items-start">
           {orders.map((order) => (
             <OrderCard
               key={order._id}

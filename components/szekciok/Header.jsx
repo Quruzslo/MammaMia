@@ -106,9 +106,9 @@ export default function Header() {
             <div className="flex flex-col menu-btn-wrapper">
               <button
                 onClick={() => animateSideCart()}
-                className="relative p-2.5 rounded-full  transition-all group"
+                className="relative p-[10px] border-2 border-transparent rounded-full  transition-all group hover:border-2 hover:border-white  active:border-2 active:border-white"
               >
-                <IoBagHandleOutline size={24} className="stroke-white" />
+                <IoBagHandleOutline size={"20px"} className="stroke-white" />
                 {cartItems.length > 0 && (
                   <div className="absolute -top-1 -right-1 w-5 h-5 bg-white text-neutral-950 text-[10px] font-black rounded-full flex items-center justify-center shadow-lg">
                     {totalItemsAmount}
@@ -134,7 +134,7 @@ export default function Header() {
                       : "/fiokom"
                   }
                 >
-                  <div className="relative w-[35px] h-[35px] rounded-full transition-all group flex-row flex gap-3 items-center">
+                  <div className="relative w-[35px] h-[35px] rounded-full hover:border-2 hover:border-white  active:border-2 active:border-white transition-all group flex-row flex gap-3 items-center">
                     {session?.user?.image ? (
                       // Google profilkép
                       <img
@@ -160,7 +160,7 @@ export default function Header() {
                   </button>
                 </Link>
               )}
-              <div className="info-tooltip rounded-xl bg-neutral-900 border border-neutral-800 transition-all p-4">
+              <div className="info-tooltip rounded-sm bg-neutral-900 border border-neutral-800 transition-all p-4">
                 <p className="text-teal-100/50 !text-nowrap">
                   {isLoggedIn
                     ? `Fiók: ${session?.user?.name}`
@@ -183,8 +183,8 @@ export default function Header() {
 
               {/* Középső vonal */}
               <span
-                className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ease-in-out
-      ${isMenuOpen ? "opacity-0" : ""}`}
+                className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ease-in-out translate-x-[0px]
+      ${isMenuOpen ? " translate-x-[40px]" : ""}`}
               ></span>
 
               {/* Alsó vonal */}
