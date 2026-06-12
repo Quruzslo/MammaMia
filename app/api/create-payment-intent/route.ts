@@ -35,7 +35,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error:
-            "A kosaradban lejárt napú, vagy aznapi (de már 12:00 utáni) rendelés található! Kérjük, frissítsd a kosarad.",
+            "A kosaradban lejárt menü, vagy aznapi (de már 12:00 utáni) rendelés található! Kérjük, frissítsd a kosarad.",
         },
         { status: 400 },
       );

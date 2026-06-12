@@ -134,7 +134,7 @@ export default function Header() {
                       : "/fiokom"
                   }
                 >
-                  <div className="relative w-[35px] h-[35px] rounded-full hover:border-2 hover:border-white  active:border-2 active:border-white transition-all group flex-row flex gap-3 items-center">
+                  <div className="relative w-[35px] h-[35px] rounded-full hover:border-2 hover:border-white  active:border-2 active:border-white transition-all group flex-row flex gap-3 items-center justify-center">
                     {session?.user?.image ? (
                       // Google profilkép
                       <img
