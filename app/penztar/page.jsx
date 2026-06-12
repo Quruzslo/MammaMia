@@ -49,7 +49,7 @@ export default function Checkout() {
         {/* FIZETÉS NYÍL */}
         <div
           className={`rounded-l-sm p-[10px] pr-[35px] transition-colors duration-300 ${
-            formState === "stripe"
+            formState !== "form"
               ? "bg-teal-600 text-white"
               : "bg-white text-black "
           }`}

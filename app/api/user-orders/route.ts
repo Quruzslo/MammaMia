@@ -48,7 +48,7 @@ export const POST = auth(async function POST(request) {
     const ordersCollection = db.collection("orders");
 
     const userOrders = await ordersCollection
-      .find({ userId: secureUserId })
+      .find({ userId: secureUserId, status: "succeeded" })
       .sort({ date: -1 })
       .toArray();
 
