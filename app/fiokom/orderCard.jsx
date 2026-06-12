@@ -85,13 +85,13 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                     </span>
                   </div>
 
-                  {/* Ételek listája (FLEXBOX ALAPÚ) */}
+                  {/* Ételek listája  */}
                   <div className="p-3 sm:p-4 flex flex-col gap-1 bg-white">
                     {/* --- BELSŐ CIKLUS 2: ÉTELEK --- */}
                     {nap.items.map((etel) => (
                       <div
                         key={`${nap.date}-${etel.name}`}
-                        className="flex flex-col sm:flex-row justify-between sm:items-center border-b border-gray-100 last:border-0 py-3 last:pb-0 gap-3"
+                        className="flex flex-col sm:flex-row justify-between sm:items-center border-b-3 border-gray-400 last:border-0 py-3 last:pb-0 gap-2"
                       >
                         {/* Bal oldal: Név és Egységár */}
                         <div className="flex flex-col w-full sm:w-auto pr-0 sm:pr-4">
@@ -103,8 +103,8 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                           </p>
                         </div>
 
-                        {/* Jobb oldal: Mennyiség és Összesen (Mobilon egymás mellé húzva) */}
-                        <div className="flex flex-row items-center justify-between sm:justify-end gap-4 w-full sm:w-auto mt-2 sm:mt-0 border-t sm:border-0 border-gray-50 pt-2 sm:pt-0">
+                        {/* Jobb oldal: Mennyiség és Összesen  */}
+                        <div className="flex flex-row items-center justify-between sm:justify-end gap-4 w-full sm:w-auto border-t sm:border-0 border-gray-100 pt-2 sm:pt-0">
                           {/* Mennyiség Tag */}
                           <div className="bg-gray-100 text-gray-800 px-3 py-1.5 rounded text-xs font-semibold border border-gray-200 text-center whitespace-nowrap shrink-0">
                             {etel.quantity} db
