@@ -31,7 +31,7 @@ export async function POST(req: Request) {
   if (event.type === "payment_intent.succeeded") {
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
-    // Kiszedjük a Stripe-ból azt a MongoDB ID-t, amit a fizetés indításakor rátettünk
+    // Order id-t kiszedjük
     const mongoOrderId = paymentIntent.metadata.orderId;
 
     if (mongoOrderId) {
