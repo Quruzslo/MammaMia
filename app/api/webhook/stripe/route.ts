@@ -28,16 +28,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
+  const db = client.db("MammaMia");
+
   if (event.type === "payment_intent.succeeded") {
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
-
-    // Order id-t kiszedjük
     const mongoOrderId = paymentIntent.metadata.orderId;
 
     if (mongoOrderId) {
       try {
-        const db = client.db("MammaMia");
-
         const updateResult = await db.collection("orders").updateOne(
           { _id: new ObjectId(mongoOrderId) },
           {
@@ -58,9 +56,39 @@ export async function POST(req: Request) {
           );
         }
       } catch (dbError: any) {
-        console.error("Adatbázis hiba a webhookban:", dbError.message);
+        console.error(
+          "Adatbázis hiba a webhookban (succeeded):",
+          dbError.message,
+        );
         return NextResponse.json(
           { error: "Adatbázis hiba, újrapróbáljuk a frissítést" },
+          { status: 500 },
+        );
+      }
+    }
+  } else if (event.type === "payment_intent.payment_failed") {
+    const paymentIntent = event.data.object as Stripe.PaymentIntent;
+    const mongoOrderId = paymentIntent.metadata.orderId;
+
+    if (mongoOrderId) {
+      try {
+        const deleteResult = await db.collection("orders").deleteOne({
+          _id: new ObjectId(mongoOrderId),
+        });
+
+        if (deleteResult.deletedCount === 1) {
+          console.log(
+            `Sikertelen fizetés! A függő rendelés törölve a DB-ből: ${mongoOrderId}`,
+          );
+        } else {
+          console.warn(
+            `Sikertelen fizetés jött, de a rendelés nem található a DB-ben: ${mongoOrderId}`,
+          );
+        }
+      } catch (dbError: any) {
+        console.error("Adatbázis hiba a webhookban (failed):", dbError.message);
+        return NextResponse.json(
+          { error: "Adatbázis hiba a törlés során" },
           { status: 500 },
         );
       }
