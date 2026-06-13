@@ -1,15 +1,10 @@
 import { NextResponse } from "next/server";
-import Stripe from "stripe";
 import client from "@/lib/mongodb";
 import crypto from "crypto";
 
-// Stripe init
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
 export async function POST(request: Request) {
   try {
-    // Beolvassuk a form-adatokat, a kosarat és a user-id-t a frontendről
-    const { cartItems, formData, userId } = await request.json();
+    const { cartItems, formData } = await request.json();
 
     if (!cartItems || !Array.isArray(cartItems) || cartItems.length === 0) {
       return NextResponse.json(
@@ -50,7 +45,7 @@ export async function POST(request: Request) {
 
     const db = client.db("MammaMia");
 
-    // OPTIMALIZÁLÁS: Csak azokat a dátumokat kérjük le, amik ténylegesen a kosárban vannak
+    // releváns dátummal lekérdezés
     const cartDates = cartItems.map((item: any) => item.date);
     const productsFromDb = await db
       .collection("foods")
@@ -86,12 +81,12 @@ export async function POST(request: Request) {
       );
     }
 
-    // pending státusszak mentjük és csak az id-t adjuk át a paymentIntentnek(méret korlát miatt)
-    const pendingOrder = {
+    // Rendelés mentése egyedi ID-val
+    const adminOrder = {
       orderId: crypto.randomUUID(),
-      status: "pending",
+      status: "succeeded",
       customer: formData,
-      userId: userId === "guest" ? null : (userId ?? null),
+      userId: "admin",
       items: cartItems.map((cartDay: any) => ({
         ...cartDay,
         status: "ordered",
@@ -101,19 +96,9 @@ export async function POST(request: Request) {
       date: new Date().toISOString(),
     };
 
-    const dbResult = await db.collection("orders").insertOne(pendingOrder);
-    const mongoOrderId = dbResult.insertedId.toString();
+    await db.collection("orders").insertOne(adminOrder);
 
-    // PAYMENTINTENT
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(totalAmount * 100),
-      currency: "huf",
-      metadata: {
-        orderId: mongoOrderId,
-      },
-    });
-
-    return NextResponse.json({ clientSecret: paymentIntent.client_secret });
+    return NextResponse.json({ message: "Rendelés rögzítve." });
   } catch (error: any) {
     console.error("Hiba történt:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });

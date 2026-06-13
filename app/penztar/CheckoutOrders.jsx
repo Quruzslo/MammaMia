@@ -28,7 +28,7 @@ export default function CheckoutOrders() {
 
   return (
     <div
-      className="cart-wrapper p-4 bg-white flex flex-col gap-4 ml-auto w-[100%] md:w-[100%] h-full overflow-auto shadow-sm border border-gray-200 rounded-lg"
+      className="cart-wrapper p-4 bg-white flex flex-col gap-4 ml-auto w-[100%] md:w-[100%] h-full overflow-auto shadow-sm border border-gray-200 rounded-sm"
       onClick={(e) => e.stopPropagation()}
     >
       <h2 className="text-gray-900 font-bold text-xl border-b border-gray-200 pb-3">

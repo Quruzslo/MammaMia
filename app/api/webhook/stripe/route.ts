@@ -36,7 +36,6 @@ export async function POST(req: Request) {
 
     if (mongoOrderId) {
       try {
-        // Közvetlenül a központi, már cache-elt kapcsolatból kérjük el az adatbázist
         const db = client.db("MammaMia");
 
         const updateResult = await db.collection("orders").updateOne(
