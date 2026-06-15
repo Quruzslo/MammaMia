@@ -7,6 +7,7 @@ import FloatingInput from "./FloatingInput.jsx";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useSession } from "next-auth/react";
+import { toast } from "react-toastify";
 
 const stripePromise = loadStripe(
   "pk_test_51TU3e2GXOLsnJNTFtaucBVNqDIZkGg4Kr5tZPdEVc6nt6BalUxTK9JgkW4S7grTRgBchl3KSfpkFQ9Nw1lLqIvQP000ckMABxG",
@@ -103,7 +104,12 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
         setClientSecret(data.clientSecret);
         setFormState("payment");
       } else {
-        alert("Kérlek vedd ki a lejárt termékeket a kosaradból!");
+        toast.error(
+          <div>
+            <p className="font-bold">{data.error}</p>
+            <p className="text-xs mt-1">Hibás dátum: {data.expiredDate}</p>
+          </div>,
+        );
       }
     } catch (error) {
       console.error("Hiba:", error);
