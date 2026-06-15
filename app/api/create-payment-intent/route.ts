@@ -43,7 +43,7 @@ export async function POST(request: Request) {
         {
           error:
             "A kosaradban lejárt menü, vagy aznapi (de már 12:00 utáni) rendelés található! Kérjük, frissítsd a kosarad.",
-          item: hasExpiredItem,
+          item: hasExpiredItem.date,
         },
 
         { status: 400 },
