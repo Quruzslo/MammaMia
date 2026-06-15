@@ -74,7 +74,7 @@ export default function NiceCard() {
         </motion.div>
 
         <div>
-          <h2 className="text-[25px] md:text-[40px] [-webkit-text-stroke:1px_white] uppercase font-black text-center text-transparent bg-clip-text bg-fixed bg-cover bg-center bg-[url('/otp_szepkartyanobg.png')]">
+          <h2 className="text-[25px] md:text-[40px] text-white uppercase font-black text-center ">
             Szépkártya elfogadóhely
           </h2>
         </div>
@@ -82,3 +82,5 @@ export default function NiceCard() {
     </section>
   );
 }
+
+// [-webkit-text-stroke:1px_white] text-transparent bg-clip-text bg-fixed bg-cover bg-center bg-[url('/otp_szepkartyanobg.png')]
