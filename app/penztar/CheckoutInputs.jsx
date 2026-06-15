@@ -107,7 +107,7 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
         toast.error(
           <div>
             <p className="font-bold">{data.error}</p>
-            <p className="text-xs mt-1">Hibás dátum: {data.expiredDate}</p>
+            <p className="text-xs mt-1">Lejárt dátum: {data.item}</p>
           </div>,
         );
       }
