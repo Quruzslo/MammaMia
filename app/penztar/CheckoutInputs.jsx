@@ -41,7 +41,7 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
         }
       }
 
-      // 2. Adatbázis (ha van session, ez felülírja/kiegészíti a storage-et)
+      // Adatbázis (ha van session, ez felülírja/kiegészíti a storage-et)
       if (status === "authenticated" && session?.user) {
         try {
           const response = await fetch("/api/user-data-fetch");
@@ -103,7 +103,7 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
         setClientSecret(data.clientSecret);
         setFormState("payment");
       } else {
-        alert("Hiba történt a fizetés indításakor:");
+        alert("Kérlek vedd ki a lejárt termékeket a kosaradból!");
       }
     } catch (error) {
       console.error("Hiba:", error);

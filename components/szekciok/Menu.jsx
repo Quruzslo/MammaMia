@@ -29,7 +29,7 @@ export default function Menu() {
       }
     };
 
-    // Külön függvénybe rakjuk, hogy a useEffect elején ÉS a visibility váltáskor is meg tudjuk hívni
+    // Külön függvény, újrahasználható
     const startTimers = () => {
       const most = new Date();
       const msAKovetkezoOraig =
