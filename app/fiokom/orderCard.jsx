@@ -111,7 +111,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
         </div>
 
         {/* 6. Nyitó fül / gomb */}
-        <div className="flex items-center justify-start order-6 md:order-6 col-span-1 sm:col-span-3 md:col-span-1 mt-2 md:mt-0 pt-2 sm:pt-0 border-t sm:border-0 border-gray-50">
+        <div className="flex items-center justify-end order-6 md:order-6 col-span-1 sm:col-span-3 md:col-span-1 mt-2 md:mt-0 pt-2 sm:pt-0 border-t sm:border-0 border-gray-50">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -129,7 +129,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
         </div>
       </div>
 
-      {/* --- LENYÍLÓ TARTALOM (GRID ANIMÁCIÓ) --- */}
+      {/* --- LENYÍLÓ TARTALOM  --- */}
       <div
         className={`grid transition-all duration-500 ease-[cubic-bezier(0.85,0,0.15,1)] ${
           cardOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
