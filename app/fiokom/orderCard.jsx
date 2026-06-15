@@ -17,14 +17,14 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
       >
         {/* 1. Azonosító Blokk */}
         <div className="flex flex-col wrap order-1 md:order-1 col-span-1 items-start justify-start">
-          <span className="text-[10px] font-bold uppercase text-gray-900 tracking-widest block mb-1 md:hidden">
+          <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest block mb-1 md:hidden">
             Azonosító
           </span>
           <span
-            className="font-mono text-xs font-bold text-gray-900 bg-gray-100 px-2.5 py-1.5 rounded border border-gray-200 w-fit truncate select-all"
+            className="font-mono text-xs font-bold text-gray-900 bg-gray-100 px-2.5 py-1.5 rounded border border-gray-200 w-fit truncate select-all text-wrap"
             onClick={(e) => e.stopPropagation()}
           >
-            #{order.orderId || (order._id ? order._id.substring(0, 8) : "N/A")}
+            {order.orderId || (order._id ? order._id.substring(0, 8) : "N/A")}
           </span>
         </div>
 
@@ -33,7 +33,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
           <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest block mb-1 md:hidden">
             Rendelés Dátuma
           </span>
-          <span className="text-sm font-semibold text-gray-700">
+          <span className=" text-xs font-bold text-gray-900 bg-gray-100 px-2.5 py-1.5 rounded border border-gray-200">
             {new Date(order.date).toLocaleDateString("hu-HU", {
               year: "numeric",
               month: "short",
@@ -47,8 +47,8 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
           <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest block mb-1 md:hidden">
             Mennyiség
           </span>
-          <div className="flex items-baseline gap-1">
-            <span className="text-lg md:text-xl font-bold tabular-nums text-gray-900">
+          <div className="flex items-baseline gap-1 text-xs font-bold text-gray-900 bg-gray-100 px-2.5 py-1.5 rounded border border-gray-200">
+            <span className=" ">
               {order.items?.reduce(
                 (osszMennyiseg, nap) =>
                   osszMennyiseg +
@@ -59,7 +59,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
                 0,
               ) || 0}
             </span>
-            <span className="text-xs font-medium text-gray-500">étel</span>
+            <span className="">étel</span>
           </div>
         </div>
 
@@ -105,7 +105,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
           <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest block mb-1 md:hidden">
             Fizetett összeg
           </span>
-          <span className="text-sm font-black text-gray-900 bg-gray-50 border border-gray-100 px-3 py-1.5 rounded">
+          <span className="text-sm font-bold text-gray-900 bg-gray-50 border border-gray-100 px-3 py-1.5 rounded">
             {order.total.toLocaleString()} Ft
           </span>
         </div>
