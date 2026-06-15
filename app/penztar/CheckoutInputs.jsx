@@ -13,7 +13,12 @@ const stripePromise = loadStripe(
   "pk_test_51TU3e2GXOLsnJNTFtaucBVNqDIZkGg4Kr5tZPdEVc6nt6BalUxTK9JgkW4S7grTRgBchl3KSfpkFQ9Nw1lLqIvQP000ckMABxG",
 );
 
-export default function CheckoutInputs({ cartItems, setFormState, formState }) {
+export default function CheckoutInputs({
+  cartItems,
+  setFormState,
+  formState,
+  setExpiredItem,
+}) {
   const [clientSecret, setClientSecret] = useState("");
   const { data: session, status } = useSession();
   const [errors, setErrors] = useState({});
@@ -104,6 +109,7 @@ export default function CheckoutInputs({ cartItems, setFormState, formState }) {
         setClientSecret(data.clientSecret);
         setFormState("payment");
       } else {
+        setExpiredItem(data.item ? data.item.toString() : "");
         toast.error(
           <div>
             <p className="font-xs">{data.error}</p>
