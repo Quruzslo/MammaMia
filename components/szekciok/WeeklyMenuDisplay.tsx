@@ -23,7 +23,7 @@ interface WeeklyMenuDisplayProps {
 }
 
 // Motion animáció
-const cardMotionVariants = {
+const cardMotionVariants: {} = {
   hidden: {
     opacity: 0,
     y: 60,
@@ -95,7 +95,7 @@ export default function WeeklyMenuDisplay({
           )}
 
           {/*ételek grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-2">
             {nap.items.map((item, ind) => (
               <div
                 key={ind}

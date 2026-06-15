@@ -30,6 +30,7 @@ export default function AdminMenuUpload() {
     { type: "main", name: "", price: "", category: "A menü" },
     { type: "main", name: "", price: "", category: "B menü" },
     { type: "main", name: "", price: "", category: "C menü" },
+    { type: "main", name: "", price: "", category: "D menü" },
     { type: "fix", name: "", price: "", category: "Állandó" },
   ]);
 
@@ -75,12 +76,13 @@ export default function AdminMenuUpload() {
 
       toast.success(`${getHungarianDayName(date)}i menü sikeresen feltöltve!`);
 
-      // Form kiürítése (kivéve a dátumot, hátha a következőt akarja tölteni)
+      // Form kiürítése
       setItems([
         { type: "soup", name: "", price: "", category: "leves" },
         { type: "main", name: "", price: "", category: "A menü" },
         { type: "main", name: "", price: "", category: "B menü" },
         { type: "main", name: "", price: "", category: "C menü" },
+        { type: "main", name: "", price: "", category: "D menü" },
         { type: "fix", name: "", price: "", category: "Állandó" },
       ]);
       setIsClosed(false);
@@ -140,7 +142,7 @@ export default function AdminMenuUpload() {
             </div>
           </div>
 
-          {/* Ételek bevitele (Csak ha nincs zárva az adott nap) */}
+          {/* Ételek bevitele  */}
           {!isClosed && (
             <div className="space-y-4">
               <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">
