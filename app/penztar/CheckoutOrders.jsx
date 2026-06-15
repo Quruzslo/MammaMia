@@ -64,7 +64,10 @@ export default function CheckoutOrders({ expiredItem }) {
             >
               <div className="bg-gray-300 px-3 py-2 border-b border-gray-200 flex justify-between items-center">
                 <span className="text-gray-800 font-semibold text-sm uppercase tracking-wide">
-                  {nap.dayName}
+                  {nap.dayName}{" "}
+                  {expiredItem ? (
+                    <p className="text-red-600 text-bold ml-[10px]">Lejárt</p>
+                  ) : null}
                 </span>
                 <span className="text-[11px] font-medium text-gray-500">
                   {nap.date}

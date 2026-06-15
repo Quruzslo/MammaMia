@@ -46,7 +46,7 @@ export async function POST(request: Request) {
           item: hasExpiredItem.date,
         },
 
-        { status: 400 },
+        { status: 200 },
       );
     }
 
