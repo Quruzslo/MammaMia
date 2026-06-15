@@ -12,6 +12,9 @@ export default function Checkout() {
   const settingFormState = (state) => {
     setFormState(state);
   };
+
+  const [expiredItem, setExpiredItem] = useState("");
+
   return (
     <>
       <section className="mt-[50px] align-center justify-center flex  max-w-[1800px] w-[90%] md:w-[80%] mx-auto gap-2 md:gap-3 ">
@@ -68,10 +71,11 @@ export default function Checkout() {
             cartItems={cartItems}
             setFormState={settingFormState}
             formState={formState}
+            setExpiredItem={setExpiredItem}
           ></CheckoutInputs>
         </div>
         <div className="w-[100%] md:w-[50%]">
-          <CheckoutOrders></CheckoutOrders>
+          <CheckoutOrders expiredItem={expiredItem}></CheckoutOrders>
         </div>
       </section>
     </>

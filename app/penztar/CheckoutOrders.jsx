@@ -9,7 +9,7 @@ import { FiPlus } from "react-icons/fi";
 import { FiMinus } from "react-icons/fi";
 import { MdOutlineRestaurantMenu } from "react-icons/md";
 
-export default function CheckoutOrders() {
+export default function CheckoutOrders({ expiredItem }) {
   const {
     cartItems,
     sideCartState,
@@ -58,7 +58,9 @@ export default function CheckoutOrders() {
             // --- KÜLSŐ CIKLUS: NAPOK ---
             <div
               key={nap.date}
-              className="bg-white rounded-sm border border-gray-200 overflow-hidden"
+              className={`rounded-sm border border-gray-200 overflow-hidden ${
+                nap.date === expiredItem ? "bg-red-600/50" : "bg-white"
+              }`}
             >
               <div className="bg-gray-300 px-3 py-2 border-b border-gray-200 flex justify-between items-center">
                 <span className="text-gray-800 font-semibold text-sm uppercase tracking-wide">
