@@ -4,9 +4,9 @@ import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 export default function OrderCard({ order, cardOpen, setCardOpen }) {
   return (
     <div
-      className={`bg-white rounded-sm border transition-all duration-300 flex flex-col mb-4 last:mb-0 overflow-hidden ${
+      className={`odd:bg-neutral-100 even:bg-neutral-200 rounded-sm border transition-all duration-300 flex flex-col mb-4 last:mb-0 overflow-hidden py-[15px] ${
         cardOpen
-          ? "border-gray-900 ring-1 ring-gray-900 shadow-md"
+          ? "border-gray-500 ring-1 ring-gray-500 shadow-md"
           : "border-gray-200 hover:border-gray-300  hover:shadow-md"
       }`}
     >
@@ -117,7 +117,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
               e.stopPropagation();
               setCardOpen(!cardOpen);
             }}
-            className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all border ${
+            className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-sm text-xs font-bold uppercase tracking-wider transition-all border ${
               cardOpen
                 ? "bg-gray-900 text-white border-gray-900 shadow-xs"
                 : "bg-white text-gray-700 border-gray-200 group-hover:border-gray-900 group-hover:text-gray-900"
@@ -129,7 +129,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
         </div>
       </div>
 
-      {/* --- LENYÍLÓ TARTALOM  --- */}
+      {/* --- dropdown --- */}
       <div
         className={`grid transition-all duration-500 ease-[cubic-bezier(0.85,0,0.15,1)] ${
           cardOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
@@ -141,7 +141,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
               Rendelt ételek napok szerint
             </span>
 
-            {/* Belső kártyák elrendezése modern hálózatba */}
+            {/* Belső kártyák  */}
             <div className="grid gap-4 sm:grid-cols-1 ">
               {order.items &&
                 order.items
