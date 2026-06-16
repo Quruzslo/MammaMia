@@ -2,6 +2,7 @@ import AdminNav from "../rendelesek/adminNav";
 import AdminCharts from "./charts";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import FoodCounter from "./foodCounter";
 
 export default async function StatsPage() {
   const session = await auth();
@@ -15,6 +16,7 @@ export default async function StatsPage() {
       </div>
       <div className="bg-neutral-900 mx-auto w-[100%] max-w-[1800px] mx-auto">
         <AdminCharts></AdminCharts>
+        <FoodCounter></FoodCounter>
       </div>
     </section>
   );
