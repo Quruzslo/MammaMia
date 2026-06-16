@@ -13,7 +13,7 @@ export default function FoodCounter() {
         const result = await res.json();
 
         if (result.success) {
-          setStats(result.data); // Elmentjük az állapotba
+          setStats(result.data);
         } else {
           console.error("API hiba:", result.error);
         }
@@ -31,13 +31,13 @@ export default function FoodCounter() {
     return <p className="p-4 text-center">Adatok betöltése a konyhának...</p>;
 
   return (
-    <div className="p-6">
+    <div className="p-[5px] w-[100%]">
       <h1 className="text-2xl font-bold mb-4">Megrendelt ételek táblázat</h1>
 
       {stats.length === 0 ? (
         <p>Nincs aktív rendelés a mai/jövőbeli napokra.</p>
       ) : (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto w-[100%]">
           <table className="min-w-full border-collapse border border-gray-200">
             <thead>
               <tr className="bg-black">
@@ -59,7 +59,7 @@ export default function FoodCounter() {
                   </td>
                   <td className="border p-2 font-semibold">{item.dishName}</td>
                   <td className="border p-2 text-sm ">{item.category}</td>
-                  <td className="border p-2 text-center text-lg font-bold text-orange-300">
+                  <td className="border p-2 text-center text-lg font-black text-orange-300">
                     {item.totalQuantity} db
                   </td>
                   <td className="border p-2 text-center text-sm ">
