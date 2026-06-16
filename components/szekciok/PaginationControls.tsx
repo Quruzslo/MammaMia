@@ -31,7 +31,7 @@ export default function PaginationControls({
         disabled={currentPage <= 1}
         onClick={() =>
           router.push(
-            `?page=${currentPage - 1}&tab=${activeTab}${searchQuery ? `&search=${searchQuery}` : ""}`,
+            `?page=${currentPage - 1}&tab=${activeTab ? activeTab : ""}${searchQuery ? `&search=${searchQuery}` : ""}`,
           )
         }
         className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 text-sm font-semibold rounded-sm text-gray-200 transition-all cursor-pointer select-none"
@@ -49,7 +49,7 @@ export default function PaginationControls({
               key={pageNum}
               onClick={() =>
                 router.push(
-                  `?page=${pageNum}&tab=${activeTab}${searchQuery ? `&search=${searchQuery}` : ""}`,
+                  `?page=${pageNum}&tab=${activeTab ? activeTab : ""}${searchQuery ? `&search=${searchQuery}` : ""}`,
                 )
               }
               className={`w-9 h-9 flex items-center justify-center text-sm font-bold ease-out duration-300 cursor-pointer select-none border ${
@@ -69,7 +69,7 @@ export default function PaginationControls({
         disabled={currentPage >= totalPages}
         onClick={() =>
           router.push(
-            `?page=${currentPage + 1}&tab=${activeTab}${searchQuery ? `&search=${searchQuery}` : ""}`,
+            `?page=${currentPage + 1}&tab=${activeTab ? activeTab : ""}${searchQuery ? `&search=${searchQuery}` : ""}`,
           )
         }
         className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 text-sm font-semibold rounded-sm text-gray-200 transition-all cursor-pointer select-none"

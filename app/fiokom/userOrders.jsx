@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import OrderCard from "./orderCard";
 import { useSession, signOut } from "next-auth/react";
+import PaginationControls from "../../components/szekciok/PaginationControls";
+import { useSearchParams } from "next/navigation";
 
 export default function UserOrders() {
   const [orders, setOrders] = useState([]);
@@ -15,7 +17,7 @@ export default function UserOrders() {
     const fetchUserOrders = async () => {
       try {
         const userId = session?.user?.userId;
-        if (!userId) throw new Error("Nem található userId a session-ben");
+        if (!userId) throw new Error("Nem található azonosító a session-ben");
 
         const res = await fetch("/api/user-orders", {
           method: "POST",
@@ -37,6 +39,15 @@ export default function UserOrders() {
       fetchUserOrders();
     }
   }, [session?.user?.userId]);
+
+  // Paginátor logika -----------
+  const searchParams = useSearchParams();
+  const pageParam = searchParams.get("page");
+  const activePage = pageParam ? Number(pageParam) : 1;
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(orders.length / itemsPerPage);
+  const startIndex = (activePage - 1) * itemsPerPage;
+  const sortedOrders = orders.slice(startIndex, startIndex + itemsPerPage);
 
   if (loading) {
     return (
@@ -74,19 +85,36 @@ export default function UserOrders() {
           </p>
         </div>
       ) : (
-        /* Rendelések listája */
-        <div className="grid grid-cols-1 gap-3 items-start">
-          {orders.map((order) => (
-            <OrderCard
-              key={order._id}
-              order={order}
-              cardOpen={activeOrderId === order._id}
-              setCardOpen={() =>
-                setActiveOrderId(activeOrderId === order._id ? null : order._id)
-              }
-            />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-row items-center justify-end my-[15px]">
+            <PaginationControls
+              currentPage={activePage}
+              totalPages={totalPages}
+            ></PaginationControls>
+          </div>
+
+          {/* Rendelések lista  */}
+          <div className="grid grid-cols-1 gap-3 items-start">
+            {sortedOrders.map((order) => (
+              <OrderCard
+                key={order._id}
+                order={order}
+                cardOpen={activeOrderId === order._id}
+                setCardOpen={() =>
+                  setActiveOrderId(
+                    activeOrderId === order._id ? null : order._id,
+                  )
+                }
+              />
+            ))}
+          </div>
+          <div className="flex flex-row items-center justify-end my-[15px]">
+            <PaginationControls
+              currentPage={activePage}
+              totalPages={totalPages}
+            ></PaginationControls>
+          </div>
+        </>
       )}
     </section>
   );
