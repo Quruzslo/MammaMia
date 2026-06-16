@@ -28,11 +28,13 @@ export default function FoodCounter() {
   }, []);
 
   if (loading)
-    return <p className="p-4 text-center">Adatok betöltése a konyhának...</p>;
+    return (
+      <p className="p-4 text-center animate-bounce">Adatok betöltése a ...</p>
+    );
 
   return (
     <div className="p-[5px] w-[100%]">
-      <h1 className="text-2xl font-bold mb-4">Megrendelt ételek táblázat</h1>
+      <h1 className="text-2xl font-bold mb-4">Megrendelt ételek összesítő</h1>
 
       {stats.length === 0 ? (
         <p>Nincs aktív rendelés a mai/jövőbeli napokra.</p>
