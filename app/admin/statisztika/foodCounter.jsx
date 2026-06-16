@@ -61,7 +61,7 @@ export default function FoodCounter() {
                   </td>
                   <td className="border p-2 font-semibold">{item.dishName}</td>
                   <td className="border p-2 text-sm ">{item.category}</td>
-                  <td className="border p-2 text-center text-lg font-black text-orange-300">
+                  <td className="border p-2 text-center text-lg font-black">
                     {item.totalQuantity} db
                   </td>
                   <td className="border p-2 text-center text-sm ">
