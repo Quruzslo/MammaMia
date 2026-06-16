@@ -80,7 +80,7 @@ export default function Footer() {
 
           {/* Közösségi Link  */}
           <a
-            className="flex items-center justify-between w-full p-3 rounded-xl bg-neutral-900/60 border border-neutral-800/80 hover:border-white transition-all duration-300 group"
+            className="flex items-center justify-between w-full p-3 rounded-full bg-neutral-900/60 border border-neutral-800/80 hover:border-white transition-all duration-300 group"
             href="https://www.facebook.com/mammamiakifozde"
             target="_blank"
             rel="noopener noreferrer"
@@ -102,7 +102,7 @@ export default function Footer() {
       </div>
 
       {/* Alsó copyright sáv */}
-      <div className="w-full border-t border-neutral-900 bg-neutral-950 py-4 text-center text-xs text-neutral-600">
+      <div className="w-full border-t border-neutral-900 bg-neutral-950 py-4 text-center text-xs text-neutral-200">
         © {new Date().getFullYear()} Mamma Mia Kifőzde. Minden jog fenntartva.
       </div>
     </footer>

@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       10,
     );
 
-    const hasExpiredItem = cartItems.some((cartDay: any) => {
+    const hasExpiredItem = cartItems.find((cartDay: any) => {
       const isPastDate = cartDay.date < todayBudapestStr;
       const isTodayPastNoon =
         cartDay.date === todayBudapestStr && currentHourBudapest >= 12;
@@ -38,14 +38,14 @@ export async function POST(request: Request) {
         {
           error:
             "A kosaradban lejárt menü, vagy aznapi (de már 12:00 utáni) rendelés található! Kérjük, frissítsd a kosarad.",
+          item: hasExpiredItem.date,
         },
-        { status: 400 },
+
+        { status: 200 },
       );
     }
-
     const db = client.db("MammaMia");
 
-    // releváns dátummal lekérdezés
     const cartDates = cartItems.map((item: any) => item.date);
     const productsFromDb = await db
       .collection("foods")

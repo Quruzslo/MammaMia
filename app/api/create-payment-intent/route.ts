@@ -52,7 +52,6 @@ export async function POST(request: Request) {
 
     const db = client.db("MammaMia");
 
-    // OPTIMALIZÁLÁS: Csak azokat a dátumokat kérjük le, amik ténylegesen a kosárban vannak
     const cartDates = cartItems.map((item: any) => item.date);
     const productsFromDb = await db
       .collection("foods")
