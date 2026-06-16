@@ -33,7 +33,7 @@ export default function FoodCounter() {
     );
 
   return (
-    <div className="p-[5px] w-[100%]">
+    <div className="p-[5px] w-[100%] mt-[25px]">
       <h1 className="text-2xl font-bold mb-4">Megrendelt ételek összesítő</h1>
 
       {stats.length === 0 ? (
