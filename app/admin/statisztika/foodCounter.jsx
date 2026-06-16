@@ -29,7 +29,9 @@ export default function FoodCounter() {
 
   if (loading)
     return (
-      <p className="p-4 text-center animate-bounce">Adatok betöltése a ...</p>
+      <p className="p-4 text-center animate-bounce mt-[25px]">
+        Adatok betöltése a ...
+      </p>
     );
 
   return (
