@@ -35,7 +35,6 @@ export const POST = auth(async function POST(request) {
       );
     }
 
-    // 4. ELLENŐRZÉS: Egyezik a titkos session ID a küldöttel?
     if (secureUserId !== userId) {
       return NextResponse.json(
         { error: "Manipulált kérés! Hozzáférés megtagadva." },
@@ -43,7 +42,6 @@ export const POST = auth(async function POST(request) {
       );
     }
 
-    // 5. Biztonságos lekérés a MongoDB Atlas-ból
     const db = client.db("MammaMia");
     const ordersCollection = db.collection("orders");
 

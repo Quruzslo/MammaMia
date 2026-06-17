@@ -100,6 +100,7 @@ export async function POST(request: Request) {
       total: totalAmount,
       currency: "HUF",
       date: new Date().toISOString(),
+      deletedAt: new Date(),
     };
 
     const dbResult = await db.collection("orders").insertOne(pendingOrder);

@@ -43,6 +43,9 @@ export async function POST(req: Request) {
               status: "succeeded",
               paymentIntentId: paymentIntent.id,
             },
+            $unset: {
+              deletedAt: "",
+            },
           },
         );
 
