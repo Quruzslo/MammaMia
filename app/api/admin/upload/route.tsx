@@ -15,10 +15,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    // 2. Beolvassuk a frontendből érkező JSON-t
     const { secret, weeksMenu } = await request.json();
-
-    // Mivel a form egyetlen napot küld a tömbben, kicsomagoljuk az aktuális napot
     const targetDay = weeksMenu?.[0];
 
     if (!targetDay || !targetDay.date) {
@@ -28,10 +25,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // 3. Adatbázis kapcsolódás
     const db = client.db("MammaMia");
 
-    // Ha nincs még ilyen dátum, létrehozza. Ha van, felülírja (javítja)!
     const result = await db.collection("foods").updateOne(
       { date: targetDay.date },
       {
@@ -46,7 +41,6 @@ export async function POST(request: Request) {
 
     revalidatePath("/api/foods");
 
-    // Megnézzük, hogy új beszúrás (upserted) vagy frissítés történt-e a szebb üzenethez
     const isNew = result.upsertedCount > 0;
 
     return NextResponse.json(
