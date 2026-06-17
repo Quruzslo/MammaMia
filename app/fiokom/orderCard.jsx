@@ -21,7 +21,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
             Azonosító
           </span>
           <span
-            className="font-mono text-xs font-bold text-gray-900 bg-gray-100 px-2.5 py-1.5 rounded border border-gray-200 w-fit truncate select-all text-wrap"
+            className="font-mono text-xs font-bold text-gray-900 bg-white px-2.5 py-1.5 rounded border border-gray-200 w-fit truncate select-all text-wrap"
             onClick={(e) => e.stopPropagation()}
           >
             {order.orderId || (order._id ? order._id.substring(0, 8) : "N/A")}
@@ -33,7 +33,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
           <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest block mb-1 md:hidden">
             Rendelés Dátuma
           </span>
-          <span className=" text-xs font-bold text-gray-900 bg-gray-100 px-2.5 py-1.5 rounded border border-gray-200">
+          <span className=" text-xs font-bold text-gray-900 bg-white px-2.5 py-1.5 rounded border border-gray-200">
             {new Date(order.date).toLocaleDateString("hu-HU", {
               year: "numeric",
               month: "short",
@@ -47,7 +47,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
           <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest block mb-1 md:hidden">
             Mennyiség
           </span>
-          <div className="flex items-baseline gap-1 text-xs font-bold text-gray-900 bg-gray-100 px-2.5 py-1.5 rounded border border-gray-200">
+          <div className="flex items-baseline gap-1 text-xs font-bold text-gray-900 bg-white px-2.5 py-1.5 rounded border border-gray-200">
             <span className=" ">
               {order.items?.reduce(
                 (osszMennyiseg, nap) =>
@@ -105,7 +105,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
           <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest block mb-1 md:hidden">
             Fizetett összeg
           </span>
-          <span className="text-sm font-bold text-gray-900 bg-gray-50 border border-gray-100 px-3 py-1.5 rounded">
+          <span className="text-sm font-bold text-gray-900 bg-white border border-gray-100 px-3 py-1.5 rounded">
             {order.total.toLocaleString()} Ft
           </span>
         </div>

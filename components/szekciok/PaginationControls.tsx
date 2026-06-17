@@ -19,13 +19,44 @@ export default function PaginationControls({
 
   if (totalPages <= 1) return null;
 
-  const pageNumbers: number[] = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
+  // A régi for ciklus helyett ez a függvény generálja le a megfelelő elemeket
+  const generatePagination = (
+    current: number,
+    total: number,
+  ): (number | string)[] => {
+    if (total <= 7) {
+      return Array.from({ length: total }, (_, i) => i + 1);
+    }
+
+    const pages: (number | string)[] = [];
+    pages.push(1);
+
+    if (current > 3) {
+      pages.push("...");
+    }
+
+    const start = Math.max(2, current - 1);
+    const end = Math.min(total - 1, current + 1);
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    if (current < total - 2) {
+      pages.push("...");
+    }
+
+    if (total > 1) {
+      pages.push(total);
+    }
+
+    return pages;
+  };
+
+  const visiblePages = generatePagination(currentPage, totalPages);
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center gap-4 my-[10px] w-auto">
+    <div className="flex flex-row justify-end items-center gap-2 my-[10px] w-[100%]">
       {/* Előző oldal gomb */}
       <button
         disabled={currentPage <= 1}
@@ -41,12 +72,23 @@ export default function PaginationControls({
 
       {/* Dinamikus oldalszámok */}
       <div className="flex flex-row gap-[5px] items-center justify-center flex-wrap">
-        {pageNumbers.map((pageNum) => {
+        {visiblePages.map((pageNum, index) => {
+          if (pageNum === "...") {
+            return (
+              <span
+                key={`ellipsis-${index}`}
+                className="w-9 h-9 flex items-center justify-center text-sm font-bold text-gray-500 select-none"
+              >
+                ...
+              </span>
+            );
+          }
+
           const isActive = pageNum === currentPage;
 
           return (
             <button
-              key={pageNum}
+              key={`page-${pageNum}`}
               onClick={() =>
                 router.push(
                   `?page=${pageNum}&tab=${activeTab ? activeTab : ""}${searchQuery ? `&search=${searchQuery}` : ""}`,

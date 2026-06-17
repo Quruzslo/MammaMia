@@ -1,9 +1,25 @@
 "use client";
 import LiquidSwap from "../liquidswap/LiquidSwap";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 
 import { FiClock, FiTruck } from "react-icons/fi";
 
 export default function Hero() {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleScroll = (e) => {
+    if (pathname === "/") {
+      e.preventDefault();
+
+      // Megkeressük a hasht az URL-ből, és odaugrunk a Next.js natív history kezelőjével
+      // vagy ha az nem megy, egy fokkal tisztább natív JS-el:
+      const target = document.getElementById("menu");
+      target?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="w-full mx-auto px-[10px]  py-12 lg:py-20 flex flex-col lg:flex-row justify-between items-center gap-12">
       {/* BAL OLDAL - Tartalom és információk */}
@@ -69,7 +85,7 @@ export default function Hero() {
 
       {/* JOBB OLDAL - Liquid Canvas wrapper */}
       <div className="hero-right w-full lg:w-[50%] flex justify-center items-center">
-        <div className="relative w-[100%] h-[320px] sm:w-[100%] sm:h-[400px] md:w-[450px] md:h-[450px] lg:w-[400px] lg:h-[400px] xl:w-[500px] xl:h-[500px] aspect-square overflow-hidden shadow-2xl rounded-2xl border border-neutral-700/30">
+        <div className="relative w-[100%] h-[320px] sm:w-[100%] sm:h-[400px] md:w-[450px] md:h-[450px] lg:w-[400px] lg:h-[400px] xl:w-[500px] xl:h-[500px] aspect-square overflow-hidden shadow-2xl rounded-full border border-neutral-700/30">
           <LiquidSwap
             imageSrc={"/picture1.jpg"}
             className="w-full h-full object-cover"
@@ -81,6 +97,12 @@ export default function Hero() {
             noiseScale={1}
             style={{ width: "100%", height: "100%" }}
           />
+          <button
+            onClick={handleScroll}
+            className="rendelek flex flex-row rounded-full w-[100px] h-[100px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/20 backdrop-blur-[15px] items-center justify-center cursor-pointer"
+          >
+            <span className="text-white text-md font-black">Rendelek</span>
+          </button>
         </div>
       </div>
     </section>

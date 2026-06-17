@@ -88,14 +88,24 @@ export default function Header() {
             <ul className="flex gap-8 items-center">
               <li>
                 <a
-                  href="/#menu"
+                  href="/"
                   className={`nav-link ${pathname === "/" || pathname === "/#menu" ? "active" : ""}`}
                 >
                   Étlap
                 </a>
               </li>
               <li>
-                <button className="nav-link">Kapcsolat</button>
+                <button
+                  onClick={() => {
+                    window.scrollTo({
+                      top: document.documentElement.scrollHeight,
+                      behavior: "smooth",
+                    });
+                  }}
+                  className="nav-link"
+                >
+                  Kapcsolat
+                </button>
               </li>
             </ul>
           </nav>
