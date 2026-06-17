@@ -66,7 +66,7 @@ export default function SingleModal({ day, onClose, orderId }) {
               {day.status === "ordered" ? (
                 <button
                   onClick={() => settingOrder(orderId, day.date, "shipped")}
-                  className="text-xs font-medium hover:bg-green-600 bg-transparent text-white px-3.5 py-1.5 cursor-pointer transition-colors"
+                  className="text-xs font-medium hover:bg-green-600 bg-transparent text-white px-3.5 py-1.5 cursor-pointer transition-colors border border-green-600"
                   style={{ borderRadius: "2px" }}
                 >
                   Kiszállítás alá
@@ -74,10 +74,10 @@ export default function SingleModal({ day, onClose, orderId }) {
               ) : (
                 <button
                   onClick={() => settingOrder(orderId, day.date, "ordered")}
-                  className="text-xs font-medium bg-white dark:bg-transparent hover:bg-neutral-50  text-neutral-600  border border-neutral-300  px-3.5 py-1.5 cursor-pointer transition-colors"
+                  className="text-xs font-medium transparent  hover:bg-neutral-50  text-neutral-100 hover:text-neutral-800  border border-neutral-300  px-3.5 py-1.5 cursor-pointer transition-colors "
                   style={{ borderRadius: "2px" }}
                 >
-                  Visszaállítás megrendeltre
+                  Visszaállítás
                 </button>
               )}
 
@@ -86,7 +86,7 @@ export default function SingleModal({ day, onClose, orderId }) {
                 className="text-sm font-medium text-neutral-200  border border-neutral-300  hover:bg-neutral-50 hover:text-black px-3.5 py-1.5 transition-colors cursor-pointer"
                 style={{ borderRadius: "2px" }}
               >
-                Bezárás
+                X
               </button>
             </div>
           </div>
@@ -113,10 +113,10 @@ export default function SingleModal({ day, onClose, orderId }) {
                   {item.name}
                 </p>
                 <div className="flex justify-between">
-                  <span className="text-xs text-neutral-500">
+                  <span className="text-xs text-neutral-100">
                     {item.price.toLocaleString("hu-HU")} Ft / adag
                   </span>
-                  <span className="text-xs text-neutral-500">
+                  <span className="text-xs text-neutral-100">
                     {item.quantity} db
                   </span>
                 </div>
@@ -128,7 +128,7 @@ export default function SingleModal({ day, onClose, orderId }) {
         {/* Lábléc */}
         <div className="border-t border-neutral-200 d px-5 py-3.5 flex justify-between items-center">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-400 mb-0.5">
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-100 mb-0.5">
               Összesen
             </p>
             <p className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
