@@ -20,7 +20,7 @@ export default function PusherComponent() {
       toast.success(`Új rendelés érkezett!`);
       console.log("!!! PUSHER ESEMÉNY BEÉRKEZETT !!!", newOrder);
 
-      // router.refresh();
+      router.refresh();
     });
 
     return () => {
@@ -28,7 +28,7 @@ export default function PusherComponent() {
       channel.unsubscribe();
       pusher.disconnect();
     };
-  }, [router]);
+  }, []);
 
   return null;
 }
