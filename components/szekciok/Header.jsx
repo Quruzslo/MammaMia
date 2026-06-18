@@ -136,7 +136,7 @@ export default function Header() {
                 // Betöltési állapot dizájn
                 <div className="p-[5px] rounded-full w-5 h-5 bg-neutral-900 border border-neutral-800 animate-pulse w-[46px] h-[46px]" />
               ) : isLoggedIn ? (
-                // Ha be van jelentkezve: (Admin vagy Fiókom)
+                // Ha be van jelentkezve:
                 <Link
                   href={
                     session?.user?.role === "admin"
@@ -165,7 +165,7 @@ export default function Header() {
               ) : (
                 // Ha nincs bejelentkezve
                 <Link href="/belepes">
-                  <button className="relative p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-white transition-all group">
+                  <button className="relative p-2.5 rounded-full  border-2 border-neutral-800 hover:border-white transition-all group">
                     <CiUser size={24} className="fill-white" />
                   </button>
                 </Link>
