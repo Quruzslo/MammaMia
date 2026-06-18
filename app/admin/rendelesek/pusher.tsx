@@ -1,13 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+
 import Pusher from "pusher-js";
 import { toast } from "react-toastify";
 
 export default function PusherComponent() {
-  const router = useRouter();
-
   useEffect(() => {
     // Pusher kliens indítása
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
@@ -19,8 +17,6 @@ export default function PusherComponent() {
     channel.bind("uj-rendeles", (newOrder: any) => {
       toast.success(`Új rendelés érkezett!`);
       console.log("!!! PUSHER ESEMÉNY BEÉRKEZETT !!!", newOrder);
-
-      router.refresh();
     });
 
     return () => {
