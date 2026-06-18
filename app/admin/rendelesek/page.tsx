@@ -22,13 +22,12 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
 
   // Params beolvasás
   const params = await searchParams;
-  const page = parseInt(params.page ?? "1", 10); // első oldal a basic
-  const activeTab = params.tab ?? "mai"; // mai menük a basic
-  const searchQuery = params.search ?? ""; // keresőinputból a query
-  const limit = 10; // 10 rendelés/ fetch
+  const page = parseInt(params.page ?? "1", 10);
+  const activeTab = params.tab ?? "mai";
+  const searchQuery = params.search ?? "";
+  const limit = 10;
   const skip = (page - 1) * limit;
 
-  // szerveroldali lekérdezés
   const db = client.db("MammaMia");
 
   const today = new Date();

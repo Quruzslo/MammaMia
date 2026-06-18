@@ -186,7 +186,6 @@ export default function CheckoutInputs({
                 name="extraNote"
                 value={formData.extraNote}
                 onChange={handleChange}
-                placeholder=" "
                 rows={3}
                 className="peer w-full bg-neutral-100 border border-neutral-700 rounded px-2 pt-5 pb-1 text-sm text-black focus:outline-none focus:border-black resize-y pt-4"
               />
@@ -199,6 +198,11 @@ export default function CheckoutInputs({
               >
                 Extra megjegyzés
               </label>
+              {errors.extraNote && (
+                <p className="text-red-600 text-xs font-medium pl-1">
+                  {errors.extraNote}
+                </p>
+              )}
             </div>
           </form>
           <button
