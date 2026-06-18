@@ -4,6 +4,7 @@ import client from "@/lib/mongodb";
 import SingleDayWrapper from "./singleDayWrapper";
 import PaginationControls from "@/components/szekciok/PaginationControls";
 import SearchInput from "@/components/szekciok/SearchInput";
+import PusherComponent from "./pusher";
 
 import CustomerSection from "./CustomerSection";
 
@@ -137,6 +138,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
         <AdminNav />
       </div>
       <div className="flex flex-col w-[100%] p-[10px] max-w-[1800px] mx-auto">
+        <PusherComponent></PusherComponent>
         {/* Fül választás és Keresőblokk */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-neutral-800 pb-4">
           <div className="flex gap-4">

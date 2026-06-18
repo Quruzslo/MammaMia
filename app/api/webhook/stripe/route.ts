@@ -5,6 +5,8 @@ import Stripe from "stripe";
 import { ObjectId } from "mongodb";
 import client from "@/lib/mongodb";
 
+import { pusherServer } from "@/lib/pusherServer";
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: Request) {
@@ -53,6 +55,21 @@ export async function POST(req: Request) {
           console.log(
             `Rendelés sikeresen kifizetve és aktiválva: ${mongoOrderId}`,
           );
+
+          const frissRendeles = await db.collection("orders").findOne({
+            _id: new ObjectId(mongoOrderId),
+          });
+
+          if (frissRendeles) {
+            await pusherServer.trigger(
+              "admin-orders",
+              "uj-rendeles",
+              frissRendeles,
+            );
+            console.log(
+              "Pusher valós idejű esemény sikeresen kiküldve az adminnak!",
+            );
+          }
         } else {
           console.warn(
             `Nem található frissítendő rendelés ezzel az ID-val: ${mongoOrderId}`,
