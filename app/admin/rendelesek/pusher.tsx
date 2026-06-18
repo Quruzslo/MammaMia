@@ -18,6 +18,7 @@ export default function PusherComponent() {
 
     channel.bind("uj-rendeles", (newOrder: any) => {
       toast.success(`Új rendelés érkezett!`);
+      console.log("!!! PUSHER ESEMÉNY BEÉRKEZETT !!!", newOrder);
 
       // router.refresh();
     });
