@@ -30,6 +30,7 @@ export default function CheckoutInputs({
     city: "",
     street: "",
     houseNumber: "",
+    extraNote: "",
   });
 
   // Egységesített adatbetöltés: LocalStorage + DB
@@ -173,11 +174,31 @@ export default function CheckoutInputs({
               <FloatingInput
                 name="houseNumber"
                 label="Hsz."
-                type="number"
+                type="text"
                 value={formData.houseNumber || ""}
                 onChange={handleChange}
                 error={errors.houseNumber}
               />
+            </div>
+            <div className="relative mt-4">
+              <textarea
+                id="extraNote"
+                name="extraNote"
+                value={formData.extraNote}
+                onChange={handleChange}
+                placeholder=" "
+                rows={3}
+                className="peer w-full bg-neutral-100 border border-neutral-700 rounded px-2 pt-5 pb-1 text-sm text-black focus:outline-none focus:border-black resize-y pt-4"
+              />
+              <label
+                htmlFor="extraNote"
+                className="absolute left-2 top-1 text-[10px] uppercase text-neutral-400 transition-all duration-200
+               cursor-pointer
+               peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm 
+               peer-focus:top-1 peer-focus:text-[10px] peer-focus:text-teal-500"
+              >
+                Extra megjegyzés
+              </label>
             </div>
           </form>
           <button

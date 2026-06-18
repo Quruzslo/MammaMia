@@ -6,7 +6,7 @@ import OrderActions from "./orderToggle";
 import HandleCopy from "@/utils/handleCopy";
 
 // Ikonok
-import { FaSquarePhone, FaHouseUser } from "react-icons/fa6";
+import { FaSquarePhone, FaHouseUser, FaUserPen } from "react-icons/fa6";
 import { MdEdit, MdClose, MdCheck } from "react-icons/md";
 // Ikonok--------------
 import { FaRegCalendarAlt } from "react-icons/fa";
@@ -15,6 +15,7 @@ export default function CustomerSection({ order }: { order: any }) {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [activeExtraNotes, setActiveExtraNotes] = useState(false);
 
   // Form state feltöltése a meglévő adatokkal
   const [formData, setFormData] = useState({
@@ -118,6 +119,38 @@ export default function CustomerSection({ order }: { order: any }) {
               <p>Rendelésszám:</p>
               <HandleCopy textToCopy={order.orderId} />
             </div>
+
+            {order.customer?.extraNote ? (
+              <div className="flex flex-col gap-[10px] w-full mt-3">
+                <div
+                  className="flex flex-row gap-2 items-center"
+                  title="Megjegyzés a rendeléshez"
+                >
+                  <FaUserPen className="text-green-200 size-[20px]" />
+                  <button
+                    type="button"
+                    onClick={() => setActiveExtraNotes((prev) => !prev)}
+                    className="text-left text-[15px] text-white hover:underline cursor-pointer mr-auto"
+                  >
+                    {activeExtraNotes ? "Bezárás" : "Megjegyzés"}
+                  </button>
+                </div>
+
+                <div
+                  className={`w-full bg-white border border-neutral-800 rounded  transition-all duration-300 grid ${
+                    activeExtraNotes
+                      ? "grid-rows-[1fr] p-2"
+                      : "grid-rows-[0fr] p-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="text-black text-[15px]">
+                      {order.customer.extraNote}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </>
       ) : (
@@ -236,13 +269,15 @@ export default function CustomerSection({ order }: { order: any }) {
         <p className="text-lg font-bold text-white">
           {order.total?.toLocaleString()} Ft
         </p>
-        <p className="text-xs text-neutral-400">
+        <p className="text-xs text-neutral-100">
           Státusz:{" "}
-          {order.status === "succeeded"
-            ? "Fizetve"
-            : order.status === "deleted"
-              ? "Törölve"
-              : "Nincs fizetve"}
+          {order.status === "succeeded" ? (
+            <span className="text-green-300 text-[12px]">Fizetve</span>
+          ) : order.status === "deleted" ? (
+            <span className="text-red-300 text-[12px]">Törölve</span>
+          ) : (
+            <span className="text-orange-300 text-[12px]">Nincs fizetve</span>
+          )}
         </p>
       </div>
     </div>

@@ -206,7 +206,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                   </div>
 
                   {/* Kliensoldali gomb wrapper és a napok gridje */}
-                  <div className="lg:w-3/4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+                  <div className="lg:w-3/4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 items-center">
                     {order.items?.map((day: any, idx: number) => (
                       <SingleDayWrapper
                         key={idx}

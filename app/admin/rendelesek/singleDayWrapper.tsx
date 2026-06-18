@@ -23,13 +23,13 @@ export default function SingleDayWrapper({
         </div>
 
         <div className="flex items-baseline gap-1 border-b border-neutral-200 px-3.5 py-3">
-          <span className="text-[26px] font-medium leading-none tabular-nums text-gray-200">
+          <span className="text-[15px] font-medium leading-none tabular-nums text-gray-200">
             {day.items?.reduce(
               (total: number, item: any) => total + item.quantity,
               0,
             )}
           </span>
-          <span className="text-xs text-gray-200">étel</span>
+          <span className="text-[15px] text-gray-200">étel</span>
         </div>
 
         <div>
@@ -41,7 +41,7 @@ export default function SingleDayWrapper({
           )}
 
           {orderObject.status === "pending" && (
-            <div className="flex items-center gap-1.5 px-3.5 py-2.5">
+            <div className="flex flex-row wrap items-center gap-[2px] p-[10px] w-[100%] ">
               <div className="size-[10px] rounded-full bg-gray-500" />
               <span className="text-xs text-gray-100">Függőben</span>
             </div>
@@ -50,34 +50,36 @@ export default function SingleDayWrapper({
           {orderObject.status !== "pending" &&
             orderObject.status !== "deleted" &&
             day.status === "deleted" && (
-              <div className="flex items-center gap-1.5 px-3.5 py-2.5">
+              <div className="flex flex-row wrap items-center gap-[2px] p-[10px] w-[100%] ">
                 <div className="size-[12px] rounded-full bg-red-400" />
-                <span className="text-md text-gray-100">Nap lemondva</span>
+                <span className="text-[12px] text-gray-100">Nap lemondva</span>
               </div>
             )}
 
           {orderObject.status !== "pending" &&
             orderObject.status !== "deleted" &&
             day.status === "ordered" && (
-              <div className="flex items-center gap-1.5 px-3.5 py-2.5">
+              <div className="flex flex-row wrap items-center gap-[2px] p-[10px] w-[100%] ">
                 <div className="size-[12px] rounded-full bg-amber-500" />
-                <span className="text-md text-gray-100">Megrendelve</span>
+                <span className="text-[12px] text-gray-100">Megrendelve</span>
               </div>
             )}
 
           {orderObject.status !== "pending" &&
             orderObject.status !== "deleted" &&
             day.status === "shipped" && (
-              <div className="flex items-center gap-1.5 px-3.5 py-2.5">
+              <div className="flex flex-row wrap items-center gap-[2px] p-[10px] w-[100%] ">
                 <div className="size-[12px] rounded-full bg-green-700" />
-                <span className="text-md text-gray-100">Futárnak átadva</span>
+                <span className="text-[12px] text-gray-100">
+                  Futárnak átadva
+                </span>
               </div>
             )}
         </div>
 
         <button
           onClick={() => setIsOpen(true)}
-          className="mt-auto w-full cursor-pointer border-t border-neutral-200 py-2.5 text-md text-white transition-colors hover:bg-gray-50 hover:text-gray-700"
+          className="mt-auto w-full cursor-pointer border-t border-neutral-200 py-2.5 text-[15px] text-white transition-colors hover:bg-gray-50 hover:text-gray-700"
         >
           Megnyitás
         </button>
