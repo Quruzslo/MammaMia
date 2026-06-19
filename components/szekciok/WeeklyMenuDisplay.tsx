@@ -85,10 +85,10 @@ export default function WeeklyMenuDisplay({
             </div>
           )}
 
-          {/* zárva overlay */}
+          {/* zárva */}
           {nap.isClosed && (
-            <div className="absolute inset-0 bg-transparent backdrop-blur-[2px] z-10 flex items-center justify-center rounded-sm p-[10px]">
-              <div className="bg-red-600 text-white px-10 py-3 text-4xl font-black uppercase tracking-[0.2em] shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] border-4 border-white">
+            <div className=" inset-0 bg-transparent backdrop-blur-[2px] z-10 flex items-center justify-center rounded-sm ">
+              <div className="bg-red-400 text-white px-3 py-3 text-[25px] font-black uppercase tracking-[0.2em] shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] rounded-lg">
                 Zárva
               </div>
             </div>

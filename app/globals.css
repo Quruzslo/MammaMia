@@ -22,6 +22,9 @@ p,
 h1 {
   text-wrap: wrap;
   overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
 }
 
 body::before {

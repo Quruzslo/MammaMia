@@ -79,7 +79,7 @@ export default function OrderActions({
           <p className="text-black text-sm !text-nowrap">Adatok szerkesztése</p>
         </div>
 
-        {/* DINAMIKUS TÖRLÉS / VISSZAÁLLÍTÁS GOMB */}
+        {/* Visszaállítás */}
         {currentStatus === "deleted" ? (
           <div
             onClick={() => handleUpdateStatus("pending")}
@@ -100,7 +100,7 @@ export default function OrderActions({
           </div>
         )}
 
-        {/* EXTRA: FIZETVE GOMB */}
+        {/* fizetve gomb */}
         {currentStatus === "pending" && (
           <div
             onClick={() => handleUpdateStatus("succeeded")}

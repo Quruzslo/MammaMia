@@ -162,6 +162,16 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             >
               Összes rendelés
             </a>
+            <a
+              href="?page=1&tab=uj-rendelesek"
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                activeTab === "uj-rendelesek"
+                  ? "bg-teal-600 text-white"
+                  : "bg-neutral-800 text-gray-400 hover:bg-neutral-700"
+              }`}
+            >
+              Új rendelések
+            </a>
           </div>
 
           <SearchInput />
