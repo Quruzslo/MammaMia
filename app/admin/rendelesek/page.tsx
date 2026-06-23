@@ -211,9 +211,10 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                 }`}
               >
                 {order.newOrder ? (
-                  <div className="absolute top-[-20px] right-[0] px-[15px] py-[5px] bg-white text-black font-black text-[15px]">
+                  <div className="absolute top-[0px] right-[0] px-[15px] py-[5px] bg-green-200 text-green-800 font-black text-[15px] flex flex-row nowrap gap-2 items-center justify-center rounded-sm">
                     {" "}
-                    <p>Új rendelés ! </p>
+                    <span className="animate-ping w-[15px] h-[15px] rounded-full bg-green-900"></span>
+                    <p title="Kattints a láttamozáshoz!">Új rendelés ! </p>
                   </div>
                 ) : null}
                 <div className="flex flex-col lg:flex-row gap-6">

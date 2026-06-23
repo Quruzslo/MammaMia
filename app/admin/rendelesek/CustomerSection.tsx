@@ -8,7 +8,6 @@ import HandleCopy from "@/utils/handleCopy";
 // Ikonok
 import { FaSquarePhone, FaHouseUser, FaUserPen } from "react-icons/fa6";
 import { MdEdit, MdClose, MdCheck } from "react-icons/md";
-// Ikonok--------------
 import { FaRegCalendarAlt } from "react-icons/fa";
 
 export default function CustomerSection({ order }: { order: any }) {
@@ -16,6 +15,8 @@ export default function CustomerSection({ order }: { order: any }) {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activeExtraNotes, setActiveExtraNotes] = useState(false);
+
+  const [isAcknowledging, setIsAcknowledging] = useState(false);
 
   // Form state feltöltése a meglévő adatokkal
   const [formData, setFormData] = useState({
@@ -57,8 +58,30 @@ export default function CustomerSection({ order }: { order: any }) {
     }
   };
 
+  //Új rendelés státus törlése
+  const unsetOrderNew = async (id: string) => {
+    setIsAcknowledging(true);
+    try {
+      const res = await fetch("/api/admin/unset-new-state", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+
+      if (res.ok) {
+        router.refresh();
+      } else {
+        alert("Hiba történt a rögzítés során.");
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsAcknowledging(false);
+    }
+  };
+
   return (
-    <div className="w-full border-r-0 lg:border-r border-neutral-700 relative">
+    <div className="w-full border-r-0 lg:border-r border-neutral-700 relative h-full flex flex-col">
       {/* Dropdown/Státuszváltó */}
       <OrderActions
         orderId={order._id}
@@ -67,9 +90,19 @@ export default function CustomerSection({ order }: { order: any }) {
         isEditing={isEditing}
       />
 
+      {order.newOrder ? (
+        <button
+          onClick={() => unsetOrderNew(order._id)}
+          disabled={isAcknowledging}
+          className="mt-3 mb-1 w-max bg-green-700 hover:bg-green-600 disabled:bg-green-900 text-white text-sm font-bold py-1.5 px-4 rounded transition-colors flex items-center gap-2"
+        >
+          {isAcknowledging ? "Folyamatban..." : "✔ Rögzítve (Láttamoztam)"}
+        </button>
+      ) : null}
+
       {!isEditing ? (
         /* --- user adatai --- */
-        <>
+        <div className="flex-grow">
           <div className="flex items-center justify-between mb-1 mt-2 w-max">
             <h2
               title="Megrendelő neve"
@@ -152,10 +185,10 @@ export default function CustomerSection({ order }: { order: any }) {
               </div>
             ) : null}
           </div>
-        </>
+        </div>
       ) : (
         /* --- SZERKESZTŐ MÓD (Input fields) --- */
-        <div className="space-y-3 mt-2">
+        <div className="space-y-3 mt-2 flex-grow">
           <div className="flex items-center justify-between border-b border-neutral-700 pb-1">
             <span className="text-xs font-semibold uppercase tracking-wider text-teal-500">
               Adatok szerkesztése

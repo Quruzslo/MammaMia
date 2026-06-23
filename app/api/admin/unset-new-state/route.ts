@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import { NextResponse, NextRequest } from "next/server";
 import { ObjectId } from "mongodb";
 
-export async function POST(req: NextRequest) {
+export async function PATCH(req: NextRequest) {
   try {
     const session = await auth();
 
