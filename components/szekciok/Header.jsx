@@ -126,7 +126,7 @@ export default function Header() {
                 )}
               </button>
               <div className="info-tooltip hidden md:flex rounded-xl bg-neutral-900 border border-neutral-800 transition-all p-4">
-                <p className="text-teal-100/50 text-nowrap">Kosár</p>
+                <p className="text-teal-100/50 !text-nowrap">Kosár</p>
               </div>
             </div>
 

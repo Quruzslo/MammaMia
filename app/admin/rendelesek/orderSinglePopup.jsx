@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function SingleModal({ day, onClose, orderId }) {
+export default function OrderSinglePopup({ day, onClose, orderId, isOpen }) {
   // Ha nincs kiválasztott nap a propból, akkor bezárul
   if (!day) return null;
 
@@ -31,9 +31,21 @@ export default function SingleModal({ day, onClose, orderId }) {
     }
   };
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen]);
+
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center bg-white/50 z-[100] p-4"
+      className={`fixed inset-0 flex items-center justify-center bg-neutral-900/90 z-[100] p-4`}
       onClick={onClose}
     >
       <div

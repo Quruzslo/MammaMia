@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import SingleModal from "./orderSinglePopup";
+import OrderSinglePopup from "./orderSinglePopup";
 
 export default function SingleDayWrapper({
   day,
@@ -86,8 +86,9 @@ export default function SingleDayWrapper({
       </div>
 
       {isOpen && (
-        <SingleModal
+        <OrderSinglePopup
           orderId={orderId}
+          isOpen={isOpen}
           day={day}
           onClose={() => setIsOpen(false)}
         />
