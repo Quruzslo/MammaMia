@@ -3,6 +3,7 @@ import AdminCharts from "./charts";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import FoodCounter from "./foodCounter";
+import PusherComponent from "../rendelesek/pusher";
 
 export default async function StatsPage() {
   const session = await auth();
@@ -15,6 +16,7 @@ export default async function StatsPage() {
         <AdminNav></AdminNav>{" "}
       </div>
       <div className="bg-neutral-900 mx-auto w-[100%] max-w-[1800px] mx-auto">
+        <PusherComponent></PusherComponent>
         <AdminCharts></AdminCharts>
         <FoodCounter></FoodCounter>
       </div>

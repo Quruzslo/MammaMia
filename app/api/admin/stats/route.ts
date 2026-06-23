@@ -14,9 +14,9 @@ export async function GET() {
   try {
     const db = client.db("MammaMia");
 
-    // 30 nappal ezelőtti dátum
+    // 14nappal ezelőtti dátum
     const harmincNappalEzelott = new Date();
-    harmincNappalEzelott.setDate(harmincNappalEzelott.getDate() - 30);
+    harmincNappalEzelott.setDate(harmincNappalEzelott.getDate() - 14);
     const datumStringLimit = harmincNappalEzelott.toISOString().split("T")[0];
 
     const stats = await db

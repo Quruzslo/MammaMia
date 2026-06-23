@@ -57,7 +57,7 @@ export async function GET() {
           },
         },
 
-        // Formázzuk a kimenetet (ellapítjuk az _id objektumot)
+        // Kimenet formázása
         {
           $project: {
             _id: 0,
