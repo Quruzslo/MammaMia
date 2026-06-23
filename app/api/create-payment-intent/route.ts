@@ -100,6 +100,7 @@ export async function POST(request: Request) {
       total: totalAmount,
       currency: "HUF",
       date: new Date().toISOString(),
+      newOrder: true,
       deletedAt: new Date(),
     };
 

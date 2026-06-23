@@ -202,7 +202,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             orders.map((order: any) => (
               <div
                 key={order.orderId || order._id}
-                className={`p-5 border-l-4 bg-neutral-800 shadow-xl ${
+                className={`p-5 border-l-4 bg-neutral-800 shadow-xl relative ${
                   order.status === "succeeded"
                     ? "border-green-700"
                     : order.status === "pending"
@@ -210,6 +210,12 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                       : "border-red-700"
                 }`}
               >
+                {order.newOrder ? (
+                  <div className="absolute top-[-20px] right-[0] px-[15px] py-[5px] bg-white text-black font-black text-[15px]">
+                    {" "}
+                    <p>Új rendelés ! </p>
+                  </div>
+                ) : null}
                 <div className="flex flex-col lg:flex-row gap-6">
                   {/* Vevő adatai szekció */}
                   <div className="lg:w-1/4 border-r-0 lg:border-r border-neutral-700  relative">

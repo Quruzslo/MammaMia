@@ -66,9 +66,6 @@ export async function POST(req: Request) {
               "uj-rendeles",
               frissRendeles,
             );
-            console.log(
-              "Pusher valós idejű esemény sikeresen kiküldve az adminnak!",
-            );
           }
         } else {
           console.warn(
