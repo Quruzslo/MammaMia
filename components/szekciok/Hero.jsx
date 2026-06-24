@@ -1,6 +1,6 @@
 import LiquidSwap from "../liquidswap/LiquidSwap";
-import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+// import Link from "next/link";
+// import { useRouter, usePathname } from "next/navigation";
 
 import { FiClock, FiTruck } from "react-icons/fi";
 
