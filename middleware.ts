@@ -9,7 +9,7 @@ export default middlewareAuth((req) => {
   const nextUrl = req.nextUrl;
   const pathname = nextUrl.pathname;
 
-  // 1. SIMA FELHASZNÁLÓI OLDALAK VÉDELME
+  // SIMA FELHASZNÁLÓI OLDALAK VÉDELME
   if (
     !isLoggedIn &&
     (pathname.startsWith("/fiokom") ||
@@ -20,7 +20,7 @@ export default middlewareAuth((req) => {
     return Response.redirect(newUrl);
   }
 
-  // 2. ADMIN ALOLDALAK VÉDELME
+  //  ADMIN ALOLDALAK VÉDELME
 
   if (pathname.startsWith("/admin") && pathname !== "/admin") {
     const userRole = req.auth?.user?.role;
@@ -33,7 +33,7 @@ export default middlewareAuth((req) => {
   }
 });
 
-// 3. A MATCHER LISTÁJA
+// A MATCHER LISTÁJA
 export const config = {
   matcher: ["/fiokom/:path*", "/rendelesek/:path*", "/admin/:path*"],
 };
