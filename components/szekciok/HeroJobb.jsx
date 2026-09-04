@@ -1,6 +1,7 @@
 "use client";
 import LiquidSwap from "../liquidswap/LiquidSwap";
 import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function HeroRight() {
   const router = useRouter();
@@ -18,7 +19,12 @@ export default function HeroRight() {
     <>
       {/* JOBB OLDAL  */}
       <div className="hero-right w-full lg:w-[50%] flex justify-center items-center">
-        <div className="relative w-[250px] h-[250px]  md:w-[450px] md:h-[450px] lg:w-[400px] lg:h-[400px] xl:w-[500px] xl:h-[500px] aspect-square overflow-hidden shadow-2xl rounded-full border border-neutral-700/30">
+        <div className="relative w-full h-full  md:w-[450px] md:h-[450px] lg:w-[400px] lg:h-[400px] xl:w-[500px] xl:h-[500px] aspect-square overflow-hidden shadow-2xl rounded-[30px] border border-neutral-700/30">
+          <Image
+            src="/picture1.jpg"
+            fill
+            alt="Heti menü rendelés Kaposvár és környékén"
+          ></Image>
           {/* <LiquidSwap
             imageSrc={"/picture1.jpg"}
             className="w-full h-full object-cover"

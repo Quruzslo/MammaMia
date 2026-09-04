@@ -3,7 +3,7 @@
 import { useState, useContext } from "react"; // Hozzáadva: useContext
 import { cartContext } from "@/components/contexts/cartProvider"; // Hozzáadva: a kosár context elérése
 import { validateCheckoutForm } from "../../../utils/validateCheckoutForm.js";
-import AdminNav from "../rendelesek/adminNav.jsx";
+import AdminNav from "../admin-components/adminNav.jsx";
 import CheckoutOrders from "../../penztar/CheckoutOrders.jsx";
 import FloatingInput from "../../penztar/FloatingInput.jsx";
 import { useSession } from "next-auth/react";

@@ -4,7 +4,6 @@ import client from "@/lib/mongodb";
 import { revalidateTag, revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
-  // 1. Auth és Admin ellenőrzés
   const session = await auth();
 
   if (!session || session.user?.role !== "admin") {
@@ -36,7 +35,7 @@ export async function POST(request: Request) {
           items: targetDay.items,
         },
       },
-      { upsert: true }, //  Ha nincs ilyen dátum, automatikusan beszúrja újként!
+      { upsert: true },
     );
 
     revalidatePath("/api/foods");

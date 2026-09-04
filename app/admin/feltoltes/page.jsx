@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import AdminNav from "../rendelesek/adminNav";
+import AdminNav from "../admin-components/adminNav";
 import PusherComponent from "../rendelesek/pusher";
 
 // Segédfüggvény a nap nevének kiszámításához magyarul
@@ -42,7 +42,6 @@ export default function AdminMenuUpload() {
     setItems(newItems);
   };
 
-  // Mentés gomb lefutása
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!date) return toast.error("Kérlek, válassz ki egy dátumot!");
@@ -77,7 +76,7 @@ export default function AdminMenuUpload() {
 
       toast.success(`${getHungarianDayName(date)}i menü sikeresen feltöltve!`);
 
-      // Form kiürítése
+      // Form kiürítés
       setItems([
         { type: "soup", name: "", price: "", category: "leves" },
         { type: "main", name: "", price: "", category: "A menü" },
@@ -107,7 +106,7 @@ export default function AdminMenuUpload() {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Felső vezérlők: Dátum és Zárva státusz */}
+          {/* Dátum és Zárva státusz */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-6 bg-neutral-800/40 p-4 rounded-xl border border-neutral-800">
             <div className="flex flex-col gap-2">
               <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">

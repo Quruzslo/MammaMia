@@ -8,7 +8,7 @@ import PusherComponent from "./pusher";
 
 import CustomerSection from "./CustomerSection";
 
-import AdminNav from "./adminNav";
+import AdminNav from "../admin-components/adminNav";
 
 interface Props {
   searchParams: Promise<{ page?: string; tab?: string; search?: any }>;

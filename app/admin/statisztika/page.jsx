@@ -1,4 +1,4 @@
-import AdminNav from "../rendelesek/adminNav";
+import AdminNav from "../admin-components/adminNav";
 import AdminCharts from "./charts";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
