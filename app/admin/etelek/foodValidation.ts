@@ -28,7 +28,7 @@ export function validateFoodInput({
 
   // 2. Ár validáció
   const numericPrice = Number(price);
-  if (price === "" || isNaN(numericPrice) || numericPrice <= 0) {
+  if (price === "" || isNaN(numericPrice) || numericPrice < 0) {
     return { isValid: false, error: "Kérlek, adj meg egy érvényes árat!" };
   }
   if (numericPrice > 10000) {

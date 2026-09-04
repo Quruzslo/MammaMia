@@ -76,7 +76,6 @@ export async function POST(req: NextRequest) {
         .replace(/[^a-zA-Z0-9-]/g, "_")
         .toLowerCase();
 
-      // 3. Tiszta formátum: foods/1712345678900-gulyasleves.jpg
       const fileName = `foods/${Date.now()}-${sanitizedBaseName}.${extension}`;
 
       await r2.send(
