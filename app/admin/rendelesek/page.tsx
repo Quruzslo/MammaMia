@@ -15,13 +15,11 @@ interface Props {
 }
 
 export default async function AdminOrdersPage({ searchParams }: Props) {
-  // Auth védelem
   const session = await auth();
   if (!session || session.user?.role !== "admin") {
     redirect("/admin");
   }
 
-  // Params beolvasás
   const params = await searchParams;
   const page = parseInt(params.page ?? "1", 10);
   const activeTab = params.tab ?? "mai";
@@ -34,15 +32,12 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
   const today = new Date();
   const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 
-  // Logikai szűrő összeállítása a fül alapján
   let rawOrders: any[] = [];
   let totalOrders = 0;
 
   if (activeTab === "mai") {
-    // Alap szűrő a mai napra
     const filter: any = { status: "succeeded", "items.date": todayStr };
 
-    // Keresés paraméter név, email, orderId alapján
     if (searchQuery) {
       filter.$or = [
         { "customer.fullName": { $regex: searchQuery, $options: "i" } },
@@ -57,10 +52,8 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
     rawOrders = await db.collection("orders").find(filter).toArray();
     totalOrders = rawOrders.length;
   } else {
-    // Alap üres szűrő az összesre
     const filter: any = {};
 
-    // Hozzáadjuk a keresést az összes fülön is, ha van query
     if (searchQuery) {
       filter.$or = [
         { "customer.fullName": { $regex: searchQuery, $options: "i" } },
