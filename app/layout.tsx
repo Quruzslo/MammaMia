@@ -43,7 +43,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${nunito.variable} h-full antialiased`}
     >
       <body className="font-nunito flex flex-col relative min-h-screen text-gray-100 bg-neutral-950">
-        {/* OPTIMALIZÁLT, FIX HÁTTÉRKÉP RÉTEG */}
+        {/* bg kép */}
         <div className="fixed inset-0 -z-50 pointer-events-none select-none">
           <div className="absolute inset-0 bg-black/80 z-10" />
 
@@ -53,12 +53,11 @@ export default function RootLayout({
             fill
             sizes="100vw"
             quality={75}
-            priority
             className="object-cover object-center"
           />
         </div>
 
-        {/* AZ OLDAL TÉNYLEGES TARTALMA */}
+        {/* Tartalom */}
         <div className="relative z-10 flex flex-col min-h-screen">
           <UserProvider>
             <CartProvider>

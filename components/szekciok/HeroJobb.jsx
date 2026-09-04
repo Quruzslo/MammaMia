@@ -16,7 +16,7 @@ export default function HeroRight() {
 
   return (
     <>
-      {/* JOBB OLDAL - Liquid Canvas wrapper */}
+      {/* JOBB OLDAL  */}
       <div className="hero-right w-full lg:w-[50%] flex justify-center items-center">
         <div className="relative w-[250px] h-[250px]  md:w-[450px] md:h-[450px] lg:w-[400px] lg:h-[400px] xl:w-[500px] xl:h-[500px] aspect-square overflow-hidden shadow-2xl rounded-full border border-neutral-700/30">
           <LiquidSwap

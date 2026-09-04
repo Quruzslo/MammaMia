@@ -25,7 +25,6 @@ export const POST = auth(async function POST(request) {
       );
     }
 
-    // 3. Beolvassuk a frontend request body-ból érkező ID-t
     const { userId } = await request.json();
 
     if (!userId) {

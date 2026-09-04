@@ -9,7 +9,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
 
   providers: [
-    ...authConfig.providers, // Google provider
+    ...authConfig.providers,
 
     Credentials({
       name: "Admin Login",
@@ -31,7 +31,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             throw new Error("Hibás email vagy jelszó!");
           }
 
-          // Jelszó ellenőrzése bcrypt-tel
           const isValid = await bcrypt.compare(
             credentials.password as string,
             admin.password,
@@ -41,12 +40,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             throw new Error("Hibás email vagy jelszó!");
           }
 
-          // Sikeres belépés, visszaadjuk az admin objektumot
           return {
             id: admin.id,
             name: admin.name,
             email: admin.email,
-            role: admin.role, // "admin"
+            role: admin.role,
           };
         } catch (error) {
           console.error("Szerveroldali login hiba:", error);
@@ -77,7 +75,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
 
     async jwt({ token, user, account }) {
-      // Admin login (Credentials)
+      // Admin login
       if (account?.provider === "credentials" && user) {
         token.userId = user.id ?? null;
         token.role = user.role ?? "admin";

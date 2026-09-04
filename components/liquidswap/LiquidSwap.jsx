@@ -280,7 +280,6 @@ export default function LiquidSwap({
       if (s.raf) cancelAnimationFrame(s.raf);
       [s.tex0, s.tex1, s.dispTex].forEach((t) => t && gl.deleteTexture(t));
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageSrc, hoverSrc, width, height, noiseScale]);
 
   // ── Render ───────────────────────────────────────────────────────────────
