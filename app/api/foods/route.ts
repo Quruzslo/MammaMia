@@ -7,7 +7,7 @@ export async function GET() {
     const db = client.db("MammaMia");
     const productsFromDb = await db.collection("foods").find({}).toArray();
 
-    // Kiszámoljuk, hány másodperc van hátra a következő egész óráig
+    // másodperc a következő egész óráig
     const now = new Date();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();

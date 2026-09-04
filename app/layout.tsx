@@ -52,7 +52,8 @@ export default function RootLayout({
             alt="Mamma Mia Háttér"
             fill
             sizes="100vw"
-            quality={75}
+            priority
+            quality={60}
             className="object-cover object-center"
           />
         </div>
