@@ -62,13 +62,22 @@ export async function POST(req: NextRequest) {
 
       const buffer = Buffer.from(await file.arrayBuffer());
 
-      const sanitizedOriginalName = file.name
+      const lastDotIndex = file.name.lastIndexOf(".");
+      const extension =
+        lastDotIndex !== -1
+          ? file.name.slice(lastDotIndex + 1).toLowerCase()
+          : "jpg";
+      const rawBaseName =
+        lastDotIndex !== -1 ? file.name.slice(0, lastDotIndex) : file.name;
+
+      const sanitizedBaseName = rawBaseName
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-zA-Z0-9.-]/g, "_")
+        .replace(/[^a-zA-Z0-9-]/g, "_")
         .toLowerCase();
 
-      const fileName = `foods/${Date.now()}-${sanitizedOriginalName}`;
+      // 3. Tiszta formátum: foods/1712345678900-gulyasleves.jpg
+      const fileName = `foods/${Date.now()}-${sanitizedBaseName}.${extension}`;
 
       await r2.send(
         new PutObjectCommand({
