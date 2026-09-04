@@ -44,7 +44,7 @@ export default function RootLayout({
     >
       <body className="font-nunito flex flex-col relative min-h-screen text-gray-100 bg-neutral-950">
         {/* bg kép */}
-        {/* <div className="fixed inset-0 -z-50 pointer-events-none select-none">
+        <div className="fixed inset-0 -z-50 pointer-events-none select-none">
           <div className="absolute inset-0 bg-black/80 z-10" />
 
           <Image
@@ -55,7 +55,7 @@ export default function RootLayout({
             quality={75}
             className="object-cover object-center"
           />
-        </div> */}
+        </div>
 
         {/* Tartalom */}
         <div className="relative z-10 flex flex-col min-h-screen">

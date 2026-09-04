@@ -62,7 +62,6 @@ export default function WeeklyMenuDisplay({
           variants={cardMotionVariants}
           initial="hidden"
           whileInView="visible"
-          // kártyákon 5% treshold
           viewport={{ once: false, amount: 0.05 }}
           className="relative bg-white rounded-sm px-[10px] py-[50px] md:p-10 shadow-[0_0_18px_10px_rgba(0,0,0,0.06)]"
         >
