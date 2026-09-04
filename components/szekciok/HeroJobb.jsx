@@ -23,6 +23,7 @@ export default function HeroRight() {
           <Image
             src="/picture1.jpg"
             fill
+            priority
             alt="Heti menü rendelés Kaposvár és környékén"
           ></Image>
           {/* <LiquidSwap

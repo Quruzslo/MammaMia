@@ -9,7 +9,7 @@ import Footer from "@/components/szekciok/Footer";
 import ScrollToTop from "@/components/szekciok/scrollToTop";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import Image from "next/image"; // Beimportáljuk a Next Image-et
+import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
