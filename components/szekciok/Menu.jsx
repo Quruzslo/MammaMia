@@ -29,7 +29,6 @@ export default function Menu() {
       }
     };
 
-    // Külön függvény, újrahasználható
     const startTimers = () => {
       const most = new Date();
       const msAKovetkezoOraig =
@@ -41,7 +40,6 @@ export default function Menu() {
       }, msAKovetkezoOraig);
     };
 
-    //  oldal betöltésekor
     fetchMenu();
     startTimers();
 
@@ -50,17 +48,15 @@ export default function Menu() {
       if (document.visibilityState === "visible") {
         fetchMenu();
 
-        // Kitakarítjuk a régi időzítőket a duplikáció ellen
         clearTimeout(timeoutId);
         if (intervalId) clearInterval(intervalId);
 
-        startTimers(); // Időzítők újraindítása a tiszta, aktuális időpont alapján
+        startTimers();
       }
     };
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
-    // Takarítás a memory leak ellen
     return () => {
       clearTimeout(timeoutId);
       if (intervalId) clearInterval(intervalId);
@@ -72,17 +68,15 @@ export default function Menu() {
     return (
       <div className="flex justify-center items-center py-20">
         <p className="text-teal-400 animate-pulse text-lg">
-          Séfünk éppen készíti az étlapot...
+          Az étlap töltődik...
         </p>
       </div>
     );
 
-  // SORBA RENDEZÉS DÁTUM SZERINT
   const sortedMenuByDate = [...menu].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
 
-  // DÁTUM A HETEKNEK
   const ma = new Date();
 
   // Aktuális hét hétfő
@@ -96,7 +90,7 @@ export default function Menu() {
   const jovoHetHetfo = new Date(jelenHetHetfo);
   jovoHetHetfo.setDate(jelenHetHetfo.getDate() + 7);
 
-  // Jövő hét vasárnap (vége)
+  // Jövő hét vasárnap
   const jovoHetVasarnap = new Date(jovoHetHetfo);
   jovoHetVasarnap.setDate(jovoHetHetfo.getDate() + 7);
 
