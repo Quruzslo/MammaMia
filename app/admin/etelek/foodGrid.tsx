@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import ALLERGEN_LIST from "./allergens";
 
 export default function FoodGrid({
   itemList,
@@ -86,7 +87,32 @@ export default function FoodGrid({
                   />
                 </div>
               </div>
+
+              {/* Allergének megjelenítése */}
+              {food.allergens && food.allergens.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {food.allergens.map((allergenName: string) => {
+                    const allergen = ALLERGEN_LIST.find(
+                      (a) => a.name === allergenName,
+                    );
+                    if (!allergen) return null;
+
+                    const Icon = allergen.icon;
+
+                    return (
+                      <span
+                        key={allergen.id}
+                        className="flex items-center gap-1 px-2 py-0.5 text-[10px] rounded bg-neutral-900 border border-neutral-700 text-neutral-100 font-medium"
+                      >
+                        <Icon className="w-3 h-3" />
+                        {allergen.name}
+                      </span>
+                    );
+                  })}
+                </div>
+              )}
             </div>
+
             <div className="flex justify-between items-center mt-2 pt-2 border-t border-neutral-700/50">
               <span className="text-xs text-gray-200 capitalize">
                 {food.type}

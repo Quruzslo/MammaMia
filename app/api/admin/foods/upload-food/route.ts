@@ -29,6 +29,17 @@ export async function POST(req: NextRequest) {
     const formData = await req.formData();
     const rawName = formData.get("name") as string;
     const type = formData.get("type") as string;
+
+    const rawAllergens = formData.get("allergens") as string;
+    let allergens: string[] = [];
+    if (rawAllergens) {
+      try {
+        allergens = JSON.parse(rawAllergens);
+      } catch {
+        allergens = [];
+      }
+    }
+
     const rawPrice = formData.get("price");
     const price = Number(rawPrice);
     const file = formData.get("file") as File | null;
@@ -98,6 +109,7 @@ export async function POST(req: NextRequest) {
       name,
       type,
       price,
+      allergens,
       image: imageUrl,
       uploadedAt: new Date(),
     };

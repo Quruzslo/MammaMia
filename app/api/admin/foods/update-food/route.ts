@@ -9,7 +9,6 @@ import {
 } from "@aws-sdk/client-s3";
 import { validateFoodInput } from "@/app/admin/etelek/foodValidation";
 
-// Cloudflare R2 kliens
 const r2 = new S3Client({
   region: "auto",
   endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
@@ -21,7 +20,6 @@ const r2 = new S3Client({
 
 export async function PATCH(req: NextRequest) {
   try {
-    // 1. Admin jogosultság ellenőrzése
     const session = await auth();
     if (!session || session.user?.role !== "admin") {
       return NextResponse.json(
@@ -30,11 +28,21 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    // 2. FormData feldolgozása
+    // FormData feldolgozása
     const formData = await req.formData();
     const id = formData.get("id") as string;
     const rawName = formData.get("name") as string;
     const type = formData.get("type") as string;
+    const rawAllergens = formData.get("allergens") as string;
+    let allergens: string[] = [];
+    if (rawAllergens) {
+      try {
+        allergens = JSON.parse(rawAllergens);
+      } catch {
+        allergens = [];
+      }
+    }
+
     const rawPrice = formData.get("price");
     const price = Number(rawPrice);
     const file = formData.get("file") as File | null;
@@ -70,7 +78,7 @@ export async function PATCH(req: NextRequest) {
 
     let updatedImage: string | undefined = undefined;
 
-    // 5. Ha van ÚJ kép feltöltve
+    // Ha van ÚJ kép feltöltve
     if (file && file.size > 0) {
       const allowedMimeTypes = [
         "image/jpeg",
@@ -137,6 +145,7 @@ export async function PATCH(req: NextRequest) {
       name,
       type,
       price,
+      allergens,
       updatedAt: new Date(),
     };
 

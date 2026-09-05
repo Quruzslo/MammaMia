@@ -11,11 +11,11 @@ export default function Footer() {
       <div className="w-[90%] md:w-[80%] max-w-[1400px] mx-auto py-12 md:py-20 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 items-start">
         {/* 1. mottók */}
         <div className="flex flex-col gap-3">
-          <span className="text-teal-400 font-bold uppercase tracking-widest text-xs block">
+          <span className="text-white font-bold uppercase tracking-widest text-xs block">
             Minden nap frissen
           </span>
           <h1 className="text-3xl sm:text-4xl font-black text-gray-100 tracking-tight leading-tight">
-            Heti menü <span className="text-teal-400">kiszállítás</span>
+            Heti menü <span className="text-teal-white">kiszállítás</span>
           </h1>
           <h2 className="text-lg font-semibold text-neutral-400 italic">
             Mamma Mia Kifőzde
@@ -34,7 +34,7 @@ export default function Footer() {
 
           <div className="flex flex-col gap-3 text-sm">
             <div className="flex items-center gap-3">
-              <FaClock className="text-teal-400 shrink-0" size={16} />
+              <FaClock className="text-neutral-100 shrink-0" size={16} />
               <div>
                 <p className="text-neutral-400 text-xs">Hétfő - Péntek</p>
                 <p className="font-medium text-gray-200">11:00 - 15:00</p>
@@ -42,7 +42,7 @@ export default function Footer() {
             </div>
 
             <div className="flex items-center gap-3">
-              <FaPhoneAlt className="text-teal-400 shrink-0" size={16} />
+              <FaPhoneAlt className="text-neutral-100  shrink-0" size={16} />
               <div>
                 <p className="text-neutral-400 text-xs">Rendelésfelvétel</p>
                 <a
@@ -55,7 +55,10 @@ export default function Footer() {
             </div>
 
             <div className="flex items-center gap-3">
-              <FaMapMarkerAlt className="text-teal-400 shrink-0" size={16} />
+              <FaMapMarkerAlt
+                className="text-neutral-100  shrink-0"
+                size={16}
+              />
               <div>
                 <p className="text-neutral-400 text-xs">Címünk</p>
                 <p className="font-medium text-gray-200">

@@ -25,7 +25,6 @@ export default function AdminMenuUpload() {
   const [isClosed, setIsClosed] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Az 5 fix ételhely kezdőállapota a pontos séma
   const [items, setItems] = useState([
     { type: "soup", name: "", price: "", category: "leves" },
     { type: "main", name: "", price: "", category: "A menü" },
@@ -35,7 +34,6 @@ export default function AdminMenuUpload() {
     { type: "fix", name: "", price: "", category: "Állandó" },
   ]);
 
-  // Input mezők változásának kezelése az items tömbben
   const handleItemChange = (index, field, value) => {
     const newItems = [...items];
     newItems[index][field] = field === "price" ? Number(value) : value;
@@ -61,7 +59,6 @@ export default function AdminMenuUpload() {
     };
 
     try {
-      // Postolás
       const response = await fetch("/api/admin/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -76,7 +73,6 @@ export default function AdminMenuUpload() {
 
       toast.success(`${getHungarianDayName(date)}i menü sikeresen feltöltve!`);
 
-      // Form kiürítés
       setItems([
         { type: "soup", name: "", price: "", category: "leves" },
         { type: "main", name: "", price: "", category: "A menü" },
