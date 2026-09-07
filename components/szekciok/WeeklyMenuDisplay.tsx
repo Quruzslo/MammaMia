@@ -98,7 +98,6 @@ export default function WeeklyMenuDisplay({
           {/* ételek grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
             {nap.items.map((item, ind) => {
-              // Megnézzük, hogy tömbben vannak-e a képek, vagy csak sima imageUrl van (régi adatok)
               const imagesToDisplay = item.imageUrls?.length
                 ? item.imageUrls
                 : item.imageUrl
@@ -120,18 +119,18 @@ export default function WeeklyMenuDisplay({
                     {/* KÉPEK MEGJELENÍTÉSE - Rácsos elrendezés a képek számától függően */}
                     {imagesToDisplay.length > 0 && (
                       <div
-                        className={`grid gap-1 mb-3 h-28 ${
+                        className={`grid gap-2 mb-4 mx-auto ${
                           imagesToDisplay.length === 1
-                            ? "grid-cols-1"
+                            ? "grid-cols-1 w-24"
                             : imagesToDisplay.length === 2
-                              ? "grid-cols-2"
-                              : "grid-cols-3"
+                              ? "grid-cols-2 w-44"
+                              : "grid-cols-3 w-full"
                         }`}
                       >
                         {imagesToDisplay.map((img, imgInd) => (
                           <div
                             key={imgInd}
-                            className="relative w-full h-full rounded-sm overflow-hidden bg-stone-100 border border-stone-200"
+                            className="relative aspect-square w-full rounded-full overflow-hidden bg-stone-100 border border-stone-200 shadow-[0px_5px_10px_0px_rgba(0,0,0,0.4)]"
                           >
                             <img
                               src={img}
