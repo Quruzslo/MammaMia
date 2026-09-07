@@ -1,7 +1,7 @@
 "use client";
 import { LiaCartPlusSolid } from "react-icons/lia";
 import { PiBowlFood } from "react-icons/pi";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { cartContext } from "@/components/contexts/cartProvider";
 import { toast } from "react-toastify";
 import WeeklyMenuDisplay from "./WeeklyMenuDisplay";
@@ -12,9 +12,14 @@ export default function Menu() {
   const [activeTab, setActiveTab] = useState("current");
   const { addToCart } = useContext(cartContext);
 
+  const timeoutRef = useRef(null);
+  const intervalRef = useRef(null);
+
   useEffect(() => {
-    let intervalId;
-    let timeoutId;
+    const clearAllTimers = () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
 
     const fetchMenu = async () => {
       try {
@@ -30,27 +35,24 @@ export default function Menu() {
     };
 
     const startTimers = () => {
+      clearAllTimers();
+
       const most = new Date();
       const msAKovetkezoOraig =
         ((60 - most.getMinutes()) * 60 - most.getSeconds()) * 1000;
 
-      timeoutId = setTimeout(() => {
+      timeoutRef.current = setTimeout(() => {
         fetchMenu();
-        intervalId = setInterval(fetchMenu, 3600 * 1000);
+        intervalRef.current = setInterval(fetchMenu, 3600 * 1000);
       }, msAKovetkezoOraig);
     };
 
     fetchMenu();
     startTimers();
 
-    // Ha ki és visszatabolnak
     const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
         fetchMenu();
-
-        clearTimeout(timeoutId);
-        if (intervalId) clearInterval(intervalId);
-
         startTimers();
       }
     };
@@ -58,8 +60,7 @@ export default function Menu() {
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      clearTimeout(timeoutId);
-      if (intervalId) clearInterval(intervalId);
+      clearAllTimers();
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
@@ -131,10 +132,25 @@ export default function Menu() {
 
   // KOSÁRBA RAKÁS ÉS ÉRTESÍTÉS
   const handleAddToCartWithNotification = (item, date, dayName) => {
+    // Elsődleges borítókép kiválasztása a toast-hoz (ha több kép van, az első érvényeset használjuk)
+    const primaryImage =
+      Array.isArray(item.images) && item.images.length > 0
+        ? item.images[0]
+        : item.imageUrl || null;
+
     addToCart(item, date, dayName);
+
     toast(
       <div className="flex items-center gap-3">
-        <PiBowlFood size={24} className="fill-teal-100" />
+        {primaryImage ? (
+          <img
+            src={primaryImage}
+            alt={item.name}
+            className="w-10 h-10 object-cover rounded-lg border border-neutral-700"
+          />
+        ) : (
+          <PiBowlFood size={24} className="fill-teal-100" />
+        )}
         <div>
           <h5 className="font-bold text-teal-400 text-sm">{item.name}</h5>
           <p className="text-xs text-gray-400">Hozzáadva a kosárhoz!</p>
@@ -151,7 +167,7 @@ export default function Menu() {
 
   return (
     <section className="w-full mx-auto py-[10px]">
-      <h2 className="text-3xl font-bold mb-6 text-center text-white border-b-4 border-teal-900/50 pb-4 uppercase ">
+      <h2 className="text-3xl relative font-bold mb-6 text-center text-white uppercase underlined w-fit mx-auto">
         Heti Menü
       </h2>
 
@@ -159,20 +175,16 @@ export default function Menu() {
       <div className="flex justify-center gap-4 mb-10">
         <button
           onClick={() => setActiveTab("current")}
-          className={`px-6 py-2 rounded-sm font-bold uppercase text-xs tracking-wider transition-all cursor-pointer border ${
-            activeTab === "current"
-              ? "bg-teal-600 text-white border-teal-500 shadow-lg shadow-teal-600/20"
-              : "bg-neutral-900 text-gray-400 border-neutral-800 hover:text-teal-400"
+          className={`rendeles-btn relative flex !text-white w-fit cursor-pointer my-[10px] ${
+            activeTab === "current" ? "bg-sarga" : null
           }`}
         >
           E heti ajánlat
         </button>
         <button
           onClick={() => setActiveTab("next")}
-          className={`px-6 py-2 rounded-sm font-bold uppercase text-xs tracking-wider transition-all cursor-pointer border ${
-            activeTab === "next"
-              ? "bg-teal-600 text-white border-teal-500 shadow-lg shadow-teal-600/20"
-              : "bg-neutral-900 text-gray-400 border-neutral-800 hover:text-teal-400"
+          className={`rendeles-btn relative flex !text-white w-fit cursor-pointer my-[10px] ${
+            activeTab === "next" ? "bg-sarga" : null
           }`}
         >
           Jövő heti ajánlat

@@ -292,7 +292,7 @@ a {
   height: 56px;
   left: 0px;
   top: 0px;
-  border: 1px solid #d06a22;
+  border: 3px solid #d06a22;
   border-radius: 50%;
   clip-path: polygon(0% 0%, 90% 0%, 90% 100%, 0% 100%, 0% 0%);
   opacity: 1;

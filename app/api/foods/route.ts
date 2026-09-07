@@ -5,7 +5,7 @@ import client from "@/lib/mongodb";
 export async function GET() {
   try {
     const db = client.db("MammaMia");
-    const productsFromDb = await db.collection("foods").find({}).toArray();
+    const productsFromDb = await db.collection("menu").find({}).toArray();
 
     // másodperc a következő egész óráig
     const now = new Date();

@@ -26,7 +26,7 @@ export async function POST(request: Request) {
 
     const db = client.db("MammaMia");
 
-    const result = await db.collection("foods").updateOne(
+    const result = await db.collection("menu").updateOne(
       { date: targetDay.date },
       {
         $set: {

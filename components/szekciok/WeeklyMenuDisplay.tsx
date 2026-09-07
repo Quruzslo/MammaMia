@@ -7,6 +7,8 @@ interface DayItem {
   name: string;
   category: string;
   price: number;
+  imageUrls?: string[]; // Új mező a tömbösített képeknek
+  imageUrl?: string; // Visszamenőleges kompatibilitás, ha régi adatod is van
 }
 
 interface Day {
@@ -86,55 +88,91 @@ export default function WeeklyMenuDisplay({
 
           {/* zárva */}
           {nap.isClosed && (
-            <div className=" inset-0 bg-transparent backdrop-blur-[2px] z-10 flex items-center justify-center rounded-sm ">
-              <div className="bg-red-400 text-white px-3 py-3 text-[25px] font-black uppercase tracking-[0.2em] shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] rounded-lg">
+            <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-10 flex items-center justify-center rounded-sm">
+              <div className="bg-red-400 text-white px-6 py-3 text-[25px] font-black uppercase tracking-[0.2em] shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] rounded-lg">
                 Zárva
               </div>
             </div>
           )}
 
-          {/*ételek grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-2">
-            {nap.items.map((item, ind) => (
-              <div
-                key={ind}
-                className={`group flex flex-col justify-between p-[10px] bg-white rounded-[5px] transition-all duration-300 border border-stone-200 hover:-translate-y-1 active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] ${
-                  nap.orderable ? "opacity-100" : "opacity-40 grayscale"
-                }`}
-              >
-                <div>
-                  <span className="inline-block p-[5px] mb-4 text-[10px] transition-all duration-300 font-extrabold uppercase tracking-widest text-white bg-black rounded-sm group-hover:-translate-y-1 group-active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:group-hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)]">
-                    {item.category}
-                  </span>
-                  <h4 className="text-lg font-bold text-stone-800 leading-tight mb-4 group-hover:text-teal-700 transition-colors">
-                    {item.name}
-                  </h4>
-                </div>
+          {/* ételek grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
+            {nap.items.map((item, ind) => {
+              // Megnézzük, hogy tömbben vannak-e a képek, vagy csak sima imageUrl van (régi adatok)
+              const imagesToDisplay = item.imageUrls?.length
+                ? item.imageUrls
+                : item.imageUrl
+                  ? [item.imageUrl]
+                  : [];
 
-                <div className="flex flex-row items-center justify-between mt-0 md:mt-6 pt-4 border-t border-stone-200 border-dashed">
-                  <p className="text-[15px]  text-stone-700">
-                    {item.price.toLocaleString()}{" "}
-                    <span className="text-[15px] text-stone-700">Ft</span>
-                  </p>
+              return (
+                <div
+                  key={ind}
+                  className={`group flex flex-col justify-between p-[10px] bg-white rounded-[5px] transition-all duration-300 border border-stone-200 hover:-translate-y-1 active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] ${
+                    nap.orderable ? "opacity-100" : "opacity-40 grayscale"
+                  }`}
+                >
+                  <div>
+                    <span className="inline-block p-[5px] mb-3 text-[10px] transition-all duration-300 font-extrabold uppercase tracking-widest text-white bg-black rounded-sm group-hover:-translate-y-1 group-active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:group-hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)]">
+                      {item.category}
+                    </span>
 
-                  {nap.orderable && !nap.isClosed ? (
-                    <button
-                      onClick={() => onAddToCart(item, nap.date, nap.dayName)}
-                      className="p-[10px] flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-teal-500 hover:scale-110 active:scale-95 transition-all duration-200 shadow-md focus:outline-none focus:ring-4 focus:ring-teal-500/30"
-                      title="Kosárba rakom"
-                    >
-                      <LiaCartPlusSolid size={22} />
-                    </button>
-                  ) : (
-                    <div className="px-3 py-1.5 rounded-sm bg-stone-100 border border-stone-200 flex items-center justify-center">
-                      <span className="text-[10px] font-bold uppercase text-stone-400">
-                        {nap.orderable ? "-" : "Már nem rendelhető"}
-                      </span>
-                    </div>
-                  )}
+                    {/* KÉPEK MEGJELENÍTÉSE - Rácsos elrendezés a képek számától függően */}
+                    {imagesToDisplay.length > 0 && (
+                      <div
+                        className={`grid gap-1 mb-3 h-28 ${
+                          imagesToDisplay.length === 1
+                            ? "grid-cols-1"
+                            : imagesToDisplay.length === 2
+                              ? "grid-cols-2"
+                              : "grid-cols-3"
+                        }`}
+                      >
+                        {imagesToDisplay.map((img, imgInd) => (
+                          <div
+                            key={imgInd}
+                            className="relative w-full h-full rounded-sm overflow-hidden bg-stone-100 border border-stone-200"
+                          >
+                            <img
+                              src={img}
+                              alt={`${item.name} ${imgInd + 1}`}
+                              className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <h4 className="text-sm md:text-base font-bold text-stone-800 leading-tight mb-4 group-hover:text-teal-700 transition-colors">
+                      {item.name}
+                    </h4>
+                  </div>
+
+                  <div className="flex flex-row items-center justify-between mt-2 md:mt-4 pt-3 border-t border-stone-200 border-dashed">
+                    <p className="text-[15px] text-stone-700 font-bold">
+                      {item.price.toLocaleString()}{" "}
+                      <span className="text-[13px] text-stone-500">Ft</span>
+                    </p>
+
+                    {nap.orderable && !nap.isClosed ? (
+                      <button
+                        onClick={() => onAddToCart(item, nap.date, nap.dayName)}
+                        className="p-[8px] flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-teal-500 hover:scale-110 active:scale-95 transition-all duration-200 shadow-md focus:outline-none"
+                        title="Kosárba rakom"
+                      >
+                        <LiaCartPlusSolid size={20} />
+                      </button>
+                    ) : (
+                      <div className="px-2 py-1 rounded-sm bg-stone-100 border border-stone-200">
+                        <span className="text-[9px] font-bold uppercase text-stone-400">
+                          {nap.orderable ? "-" : "Nem rendelhető"}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </motion.div>
       ))}
