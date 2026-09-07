@@ -29,7 +29,7 @@ export default function HeroRight() {
 
           <button
             onClick={handleScroll}
-            className="rendelek flex flex-row rounded-full w-[100px] h-[100px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/20 backdrop-blur-[15px] items-center justify-center cursor-pointer"
+            className="rendelek flex flex-row rounded-full z-10 w-[100px] h-[100px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/20 backdrop-blur-[15px] items-center justify-center cursor-pointer"
           >
             <span className="text-white text-md font-black">Rendelek</span>
           </button>
