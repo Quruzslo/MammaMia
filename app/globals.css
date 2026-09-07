@@ -242,3 +242,59 @@ a {
   height: 100%;
   transform: rotate();
 }
+
+.hero-img::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  bottom: -10px;
+  clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+  background-color: #d06a22;
+  width: 100px;
+  height: 100px;
+  z-index: 0;
+}
+
+.hero-img::after {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+  background-color: #d06a22;
+  width: 100px;
+  height: 100px;
+  z-index: 0;
+  transform: rotate(180deg);
+}
+
+.rendeles-btn {
+  position: relative;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 19px 29px 17px 29px;
+  border-radius: 35px;
+  transition: all 500ms ease;
+}
+
+.rendeles-btn:hover {
+  background-color: #d06a22;
+  padding: 19px 35px 17px 35px;
+}
+
+.rendeles-btn::before {
+  position: absolute;
+  content: "";
+  width: 56px;
+  height: 56px;
+  left: 0px;
+  top: 0px;
+  border: 1px solid #d06a22;
+  border-radius: 50%;
+  clip-path: polygon(0% 0%, 90% 0%, 90% 100%, 0% 100%, 0% 0%);
+  opacity: 1;
+  transition: all 500ms ease;
+}

@@ -63,15 +63,30 @@ export default function OtherServices() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer pt-[100px]"
             onClick={() => setActiveService(null)}
           >
             <motion.div
               initial={{ scale: 0.3, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.3, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-[1200px] max-h-[80%] min-h-[350px] my-[100px] aspect-square bg-white p-6 rounded-md flex flex-col items-center justify-center shadow-2xl cursor-default"
+              animate={{
+                scale: 1,
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.5,
+                  ease: [0.7, 0, 0.84, 0],
+                },
+              }}
+              exit={{
+                scale: 0.3,
+                opacity: 0,
+
+                transition: {
+                  duration: 0.3,
+                  ease: [0.16, 1, 0.3, 1],
+                },
+              }}
+              className="relative w-full max-w-[1200px] max-h-[80%] min-h-[350px] my-auto aspect-square bg-white p-6 rounded-md flex flex-col items-center justify-center shadow-2xl cursor-default"
               onClick={(e) => e.stopPropagation()}
             >
               <button
@@ -138,6 +153,12 @@ export default function OtherServices() {
                 src={service.img}
                 onClick={() => setActiveService(service)}
               />
+              <a
+                href="/kapcsolat"
+                className="rendeles-btn relative flex !text-white w-fit cursor-pointer my-[10px]"
+              >
+                <p>Megrendelem</p>
+              </a>
             </div>
           );
         })}

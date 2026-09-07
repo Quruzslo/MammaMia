@@ -12,7 +12,7 @@ export default function Hero() {
           <span className="text-white font-bold uppercase tracking-widest text-xs sm:text-sm block">
             - Minden nap frissen
           </span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-100 tracking-tight leading-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-center md:text-left text-gray-100 tracking-tight leading-tight">
             Heti menü{" "}
             <span className="underlined nowrap text-nowrap">kiszállítás</span>
           </h1>
@@ -23,11 +23,11 @@ export default function Hero() {
 
         {/* Info Kártyák */}
         <div className="flex flex-row flex-wrap  gap-4 pt-4  mx-auto lg:mx-0">
-          <div className="flex items-center gap-[5px] bg-neutral-800/60 border border-white py-[5px] pl-[10px] pr-[20px] rounded-full shadow-lg">
+          <div className="flex items-center w-full sm:w-fit gap-[5px] bg-neutral-800/60 border border-white py-[5px] pl-[10px] pr-[20px] rounded-full shadow-lg">
             <div className="p-[5px] bg-white rounded-full shrink-0 mr-[10px]">
               <TbTruckDelivery size={22} className="text-black " />
             </div>
-            <div className="text-left">
+            <div className="text-left mx-auto">
               <p className="text-[15px] text-gray-400 font-medium">
                 Kiszállítás
               </p>
@@ -38,11 +38,11 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="flex items-center gap-[5px] bg-neutral-800/60 border border-white py-[5px] pl-[10px] pr-[20px]  rounded-full shadow-lg">
+          <div className="flex items-center w-full sm:w-fit gap-[5px] bg-neutral-800/60 border border-white py-[5px] pl-[10px] pr-[20px]  rounded-full shadow-lg">
             <div className="p-[5px] bg-white rounded-full shrink-0 mr-[10px]">
               <FiClock size={22} className="text-black" />
             </div>
-            <div className="text-left">
+            <div className="text-left mx-auto">
               <p className="text-[15px] text-gray-400 font-medium">
                 Rendelésfelvétel
               </p>

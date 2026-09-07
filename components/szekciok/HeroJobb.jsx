@@ -19,12 +19,12 @@ export default function HeroRight() {
     <>
       {/* JOBB OLDAL  */}
       <div className="hero-right w-full md:w-[50%] flex justify-center items-center">
-        <div className="relative w-full max-w-[450px] aspect-square overflow-hidden shadow-2xl rounded-[30px] border border-neutral-700/30">
+        <div className="hero-img relative w-full max-w-[450px] aspect-square shadow-2xl rounded-[30px] border border-neutral-700/30">
           <Image
             src="/picture1.jpg"
             fill
             alt="Heti menü rendelés Kaposvár és környékén"
-            className="object-cover"
+            className="object-cover z-10 rounded-md"
           />
 
           <button
