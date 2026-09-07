@@ -86,7 +86,7 @@ export default function OtherServices() {
                   ease: [0.16, 1, 0.3, 1],
                 },
               }}
-              className="relative w-full max-w-[1200px] max-h-[80%] min-h-[350px] my-auto aspect-square bg-white p-6 rounded-md flex flex-col items-center justify-center shadow-2xl cursor-default"
+              className="relative w-full max-w-[1200px] max-h-[80%] min-h-[350px] my-auto aspect-square bg-transparent p-6 rounded-md flex flex-col items-center justify-center shadow-2xl cursor-default"
               onClick={(e) => e.stopPropagation()}
             >
               <button
@@ -106,9 +106,9 @@ export default function OtherServices() {
                 />
               </div>
 
-              <h3 className="text-[20px] text-neutral-600 mt-4 text-center">
+              {/* <h3 className="text-[20px] text-neutral-600 mt-4 text-center">
                 {activeService.description}
-              </h3>
+              </h3> */}
             </motion.div>
           </motion.div>
         )}
