@@ -1,9 +1,22 @@
+"use client";
+
 import { LiaBirthdayCakeSolid, LiaBriefcaseSolid } from "react-icons/lia";
 import { PiStudent } from "react-icons/pi";
 import { MdOutlinePeople } from "react-icons/md";
+import { IconType } from "react-icons";
 import Image from "next/image";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
-const services = [
+interface Service {
+  id: string;
+  title: string;
+  description: string;
+  icon: IconType;
+  img: string;
+}
+
+const services: Service[] = [
   {
     id: "01",
     title: "Születésnapok és névnapok",
@@ -39,8 +52,53 @@ const services = [
 ];
 
 export default function OtherServices() {
+  const [activeService, setActiveService] = useState<Service | null>(null);
+
   return (
-    <section className="w-[90%] flex flex-col mx-auto my-[50px]">
+    <section className="w-[90%] flex flex-col mx-auto my-[50px] relative">
+      {/* Kép modal  */}
+      <AnimatePresence>
+        {activeService && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+            onClick={() => setActiveService(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.3, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.3, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-[1200px] max-h-[80%] min-h-[350px] my-[100px] aspect-square bg-white p-6 rounded-md flex flex-col items-center justify-center shadow-2xl cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setActiveService(null)}
+                className="absolute top-4 right-4 text-white text-xl font-bold bg-neutral-800 hover:bg-neutral-700 w-10 h-10 rounded-full flex items-center justify-center transition-colors"
+              >
+                ✕
+              </button>
+
+              {/* Nagy kép */}
+              <div className="relative w-[80%] h-[80%]">
+                <Image
+                  fill
+                  alt={activeService.title}
+                  src={activeService.img}
+                  className="object-contain"
+                />
+              </div>
+
+              <h3 className="text-[20px] text-neutral-600 mt-4 text-center">
+                {activeService.description}
+              </h3>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <h2 className="text-[32px] font-bold mb-8 text-center md:text-left">
         Többszemélyes ételtálaink különleges alkalmakra
       </h2>
@@ -73,17 +131,17 @@ export default function OtherServices() {
                 {service.description}
               </p>
               <Image
-                alt={service.description}
-                width={100}
-                height={100}
-                className="w-[150px] h-[150px]  object-contain rounded-full border-2 border-white mt-[15px]"
+                alt={service.title}
+                width={150}
+                height={150}
+                className="w-[150px] h-[150px] object-contain rounded-full border-2 border-white mt-[15px] cursor-pointer hover:scale-105 transition-transform"
                 src={service.img}
-              ></Image>
+                onClick={() => setActiveService(service)}
+              />
             </div>
           );
         })}
       </div>
-      <div></div>
     </section>
   );
 }
