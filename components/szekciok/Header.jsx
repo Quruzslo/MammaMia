@@ -78,8 +78,8 @@ export default function Header() {
               alt="logo"
               className="w-10 h-10 md:w-12 md:h-12 rounded-xl object-cover border border-teal-500/30"
             />
-            <h1 className="text-lg md:text-xl font-black text-white tracking-tighter uppercase italic">
-              Mamma <span className="text-teal-500 not-italic">Mia</span>
+            <h1 className="text-lg md:text-xl font-black ">
+              Mamma <span className="">Mia</span>
             </h1>
           </Link>
 
@@ -126,14 +126,13 @@ export default function Header() {
                 )}
               </button>
               <div className="info-tooltip hidden md:flex rounded-xl bg-neutral-900 border border-neutral-800 transition-all p-4">
-                <p className="text-teal-100/50 !text-nowrap">Kosár</p>
+                <p className="text-white !text-nowrap">Kosár</p>
               </div>
             </div>
 
             {/* Felhasználói fiók / Belépés gomb */}
             <div className="flex flex-row menu-btn-wrapper items-center gap-3">
               {isLoading ? (
-                // Betöltési állapot dizájn
                 <div className="p-[5px] rounded-full w-5 h-5 bg-neutral-900 border border-neutral-800 animate-pulse w-[46px] h-[46px]" />
               ) : isLoggedIn ? (
                 // Ha be van jelentkezve:
@@ -154,8 +153,7 @@ export default function Header() {
                         className="w-full h-full rounded-full object-cover"
                       />
                     ) : (
-                      // Név első betűje ikon helyett, ha nincs kép
-                      <span className="text-teal-500 text-[15px] font-medium min-w-[14px] text-center">
+                      <span className="text-sarga text-[15px] font-medium min-w-[14px] text-center">
                         {session?.user?.name?.charAt(0).toUpperCase() || "U"}
                       </span>
                     )}
@@ -218,7 +216,7 @@ export default function Header() {
             <Link
               href="/"
               onClick={() => setIsMenuOpen(false)}
-              className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${pathname === "/" ? "text-teal-500" : "text-white hover:text-teal-500"}`}
+              className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${pathname === "/" ? "text-sarga" : "text-white hover:text-sarga"}`}
             >
               Étlap
             </Link>
@@ -229,7 +227,7 @@ export default function Header() {
                   : "/fiokom"
               }
               onClick={() => setIsMenuOpen(false)}
-              className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${pathname === "/fiokom" || pathname.startsWith("/admin") ? "text-teal-500" : "text-white hover:text-teal-500"}`}
+              className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${pathname === "/fiokom" || pathname.startsWith("/admin") ? "text-sarga" : "text-white hover:text-sarga"}`}
             >
               {session?.user?.role === "admin"
                 ? "Rendelések (Admin)"
@@ -237,11 +235,11 @@ export default function Header() {
             </Link>
             <button
               onClick={() => setIsMenuOpen(false)}
-              className="text-2xl font-black text-white uppercase tracking-[0.2em] hover:text-teal-500 transition-colors"
+              className="text-2xl font-black text-white uppercase tracking-[0.2em] hover:text-sarga transition-colors"
             >
               Kapcsolat
             </button>
-            <div className="w-20 h-1 bg-teal-500 rounded-full mt-4"></div>
+            <div className="w-20 h-1 bg-sarga rounded-full mt-4"></div>
           </nav>
         </div>
       </header>

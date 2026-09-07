@@ -11,16 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Image from "next/image";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 const nunito = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
@@ -40,7 +30,7 @@ export default function RootLayout({
     <html
       lang="hu"
       data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${geistMono.variable} ${nunito.variable} h-full antialiased`}
+      className={`  ${nunito.variable} h-full antialiased`}
     >
       <body className="font-nunito flex flex-col relative min-h-screen text-gray-100 bg-neutral-950">
         {/* bg kép */}

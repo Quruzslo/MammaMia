@@ -12,6 +12,7 @@ html {
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-sarga: #d06a22;
   --font-nunito: var(--font-nunito), sans-serif;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -209,3 +210,35 @@ a {
 /* .is-open {
   overflow: hidden !important;
 } */
+
+.underlined {
+  position: relative;
+  z-index: 1 !important;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.underlined::before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  bottom: 20%;
+  width: 100%;
+  height: 20%;
+  border-radius: 0px;
+  background-color: #d06a22;
+  z-index: -1 !important;
+  transform: skew(-15deg);
+}
+
+.other-service-icon::before {
+  content: "";
+  border: 3px solid #d06a22;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  transform: rotate();
+}

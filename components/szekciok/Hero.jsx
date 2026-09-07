@@ -1,67 +1,70 @@
 import HeroRight from "./HeroJobb";
 
 import { FiClock, FiTruck } from "react-icons/fi";
+import { TbTruckDelivery } from "react-icons/tb";
 
 export default function Hero() {
   return (
-    <section className="w-full mx-auto px-[10px]  py-12 lg:py-20 flex flex-col lg:flex-row justify-between items-center gap-12">
-      {/* BAL OLDAL - Tartalom és információk */}
-      <div className="hero-left w-full lg:w-[50%] space-y-6 text-center lg:text-left">
-        {/* Címek */}
+    <section className="w-[90%] mx-auto  py-12 lg:py-20 flex flex-col md:flex-row justify-between items-center gap-12">
+      {/* BAL OLDAL*/}
+      <div className="hero-left w-full md:w-[50%] ">
         <div className="space-y-2">
-          <span className="text-teal-400 font-bold uppercase tracking-widest text-xs sm:text-sm block">
-            Minden nap frissen
+          <span className="text-white font-bold uppercase tracking-widest text-xs sm:text-sm block">
+            - Minden nap frissen
           </span>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-100 tracking-tight leading-tight">
-            Heti menü <span className="text-teal-400">kiszállítás</span>
+            Heti menü{" "}
+            <span className="underlined nowrap text-nowrap">kiszállítás</span>
           </h1>
           <h2 className="text-xl sm:text-2xl font-semibold text-gray-400 italic">
             Mamma Mia Kifőzde
           </h2>
         </div>
 
-        {/* Info Kártyák (Időpontok és szállítás) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 max-w-md mx-auto lg:mx-0">
-          {/* Szállítási napok */}
-          <div className="flex items-center gap-3 bg-neutral-800/60 border border-neutral-700/50 p-4 rounded-xl shadow-lg">
-            <div className="p-3 bg-teal-500  rounded-lg shrink-0">
-              <FiTruck size={22} className="fill-teal-400" />
+        {/* Info Kártyák */}
+        <div className="flex flex-row flex-wrap  gap-4 pt-4  mx-auto lg:mx-0">
+          <div className="flex items-center gap-[5px] bg-neutral-800/60 border border-white py-[5px] pl-[10px] pr-[20px] rounded-full shadow-lg">
+            <div className="p-[5px] bg-white rounded-full shrink-0 mr-[10px]">
+              <TbTruckDelivery size={22} className="text-black " />
             </div>
             <div className="text-left">
-              <p className="text-xs text-gray-400 font-medium">Kiszállítás</p>
+              <p className="text-[15px] text-gray-400 font-medium">
+                Kiszállítás
+              </p>
+              <div className="w-2/3 h-[3px] rounded-full bg-white/70 flex mr-auto my-[5px]"></div>
               <p className="text-sm font-bold text-gray-200">
                 Hétfőtől - Szombatig
               </p>
             </div>
           </div>
 
-          {/* Rendelési határidő */}
-          <div className="flex items-center gap-3 bg-neutral-800/60 border border-neutral-700/50 p-4 rounded-xl shadow-lg">
-            <div className="p-3 bg-amber-500  rounded-lg shrink-0">
-              <FiClock size={22} className="stroke-white" />
+          <div className="flex items-center gap-[5px] bg-neutral-800/60 border border-white py-[5px] pl-[10px] pr-[20px]  rounded-full shadow-lg">
+            <div className="p-[5px] bg-white rounded-full shrink-0 mr-[10px]">
+              <FiClock size={22} className="text-black" />
             </div>
             <div className="text-left">
-              <p className="text-xs text-gray-400 font-medium">
+              <p className="text-[15px] text-gray-400 font-medium">
                 Rendelésfelvétel
               </p>
+              <div className="w-2/3 h-[3px] rounded-full bg-white/70 flex mr-auto my-[5px]"></div>
               <p className="text-sm font-bold text-gray-200">Aznap 12:00-ig</p>
             </div>
           </div>
         </div>
 
         {/* Tag-ek */}
-        <div className="flex flex-wrap justify-center lg:justify-start gap-2 pt-2">
-          <span className="px-3 py-1 bg-neutral-800 text-gray-300 border border-neutral-700 rounded-full text-xs font-medium tracking-wide">
-            hetimenü
+        <div className="flex flex-wrap justify-center lg:justify-start gap-2 pt-2 my-[15px]">
+          <span className="px-3 py-1 bg-sarga text-white skew-[-5deg]  rounded-md text-[12px] font-medium tracking-wide">
+            Hetimenü
           </span>
-          <span className="px-3 py-1 bg-neutral-800 text-gray-300 border border-neutral-700 rounded-full text-xs font-medium tracking-wide">
-            kiszállítás
+          <span className="px-3 py-1 bg-sarga text-white skew-[5deg] rounded-md text-[12px] font-medium tracking-wide">
+            Kiszállítás
           </span>
-          <span className="px-3 py-1 bg-neutral-800 text-gray-300 border border-neutral-700 rounded-full text-xs font-medium tracking-wide">
-            kedvezőár
+          <span className="px-3 py-1 bg-sarga text-white skew-[-5deg] rounded-md text-[12px] font-medium tracking-wide">
+            Kedvező ár
           </span>
-          <span className="px-3 py-1 bg-neutral-800 text-gray-300 border border-neutral-700 rounded-full text-xs font-medium tracking-wide">
-            háziasízek
+          <span className="px-3 py-1 bg-sarga text-white skew-[5deg] rounded-md text-[12px] font-medium tracking-wide">
+            Házias ízek
           </span>
         </div>
       </div>
