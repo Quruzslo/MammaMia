@@ -132,7 +132,6 @@ export default function Menu() {
 
   // KOSÁRBA RAKÁS ÉS ÉRTESÍTÉS
   const handleAddToCartWithNotification = (item, date, dayName) => {
-    // Elsődleges borítókép kiválasztása a toast-hoz (ha több kép van, az első érvényeset használjuk)
     const primaryImage =
       Array.isArray(item.images) && item.images.length > 0
         ? item.images[0]
@@ -166,7 +165,7 @@ export default function Menu() {
   };
 
   return (
-    <section className="w-full mx-auto py-[10px]">
+    <section className="w-[90%] mx-auto py-[10px]">
       <h2 className="text-3xl relative font-bold mb-6 text-center text-white uppercase underlined w-fit mx-auto">
         Heti Menü
       </h2>
