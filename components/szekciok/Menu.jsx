@@ -23,7 +23,7 @@ export default function Menu() {
 
     const fetchMenu = async () => {
       try {
-        const response = await fetch("/api/foods", { cache: "no-store" });
+        const response = await fetch("/api/foods"); //, { cache: "no-store" }
         if (!response.ok) throw new Error(`Hiba: ${response.status}`);
         const data = await response.json();
         setMenu(data);

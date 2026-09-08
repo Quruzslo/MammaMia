@@ -12,13 +12,14 @@ export async function GET() {
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
     const secondsUntilNextHour = (59 - minutes) * 60 + (60 - seconds);
+    // , {
+    //   headers: {
+    //     // Cache élettartam
+    //     "Cache-Control": `public, s-maxage=${secondsUntilNextHour}`,
+    //   },
+    // }
 
-    return NextResponse.json(productsFromDb, {
-      headers: {
-        // Cache élettartam
-        "Cache-Control": `public, s-maxage=${secondsUntilNextHour}`,
-      },
-    });
+    return NextResponse.json(productsFromDb);
   } catch (err) {
     console.error("Hiba az adatok lekérésekor:", err);
     return NextResponse.json(
