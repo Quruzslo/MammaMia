@@ -306,7 +306,7 @@ a {
 
 .rendeles-btn:hover::before {
   width: 100%;
-  border-radius: 15px;
+  border-radius: 56px;
 
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 }
