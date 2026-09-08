@@ -45,7 +45,7 @@ export default function AdminMenuUpload() {
         if (res.ok) {
           const data = await res.json();
           setDbFoods(data);
-          // console.log(data);
+          console.log(data);
         }
       } catch (err) {
         console.error("Hiba az ételek lekérésekor:", err);
@@ -93,7 +93,7 @@ export default function AdminMenuUpload() {
     const payloadItems = [];
 
     if (!isClosed) {
-      // 1. Leves hozzáadása
+      // Leves hozzáadása
       if (soupId) {
         const soupObj = dbFoods.find((f) => f._id === soupId);
         if (soupObj) {
@@ -103,11 +103,12 @@ export default function AdminMenuUpload() {
             price: Number(soupObj.price),
             category: "leves",
             imageUrl: soupObj.image || "",
+            allergens: soupObj.allergens || [],
           });
         }
       }
 
-      // A, B, C, D Menük összefűzése
+      // 2. A, B, C, D Menük összefűzése
       mainMenus.forEach((m) => {
         if (m.mainId) {
           const mainFood = dbFoods.find((f) => f._id === m.mainId);
@@ -127,12 +128,21 @@ export default function AdminMenuUpload() {
               saladFood?.image,
             ].filter(Boolean);
 
+            // Allergénak összevonása
+            const combinedAllergens = [
+              ...(mainFood.allergens || []),
+              ...(sideFood?.allergens || []),
+              ...(saladFood?.allergens || []),
+            ];
+            const uniqueAllergens = [...new Set(combinedAllergens)];
+
             payloadItems.push({
               type: "main",
               name: nameParts.join(", "),
               price: Number(mainFood.price),
               category: m.category,
               imageUrls: combinedImages,
+              allergens: uniqueAllergens,
             });
           }
         }
@@ -148,6 +158,7 @@ export default function AdminMenuUpload() {
             price: Number(fixObj.price),
             category: "Állandó",
             imageUrl: fixObj.image || "",
+            allergens: fixObj.allergens || [],
           });
         }
       }

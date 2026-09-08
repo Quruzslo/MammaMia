@@ -131,13 +131,13 @@ export default function Menu() {
     .map((nap) => ({ ...nap, orderable: isOrderable(nap.date) }));
 
   // KOSÁRBA RAKÁS ÉS ÉRTESÍTÉS
-  const handleAddToCartWithNotification = (item, date, dayName) => {
+  const handleAddToCartWithNotification = (item, date, dayName, count) => {
     const primaryImage =
       Array.isArray(item.images) && item.images.length > 0
         ? item.images[0]
         : item.imageUrl || null;
 
-    addToCart(item, date, dayName);
+    addToCart(item, date, dayName, count);
 
     toast(
       <div className="flex items-center gap-3">

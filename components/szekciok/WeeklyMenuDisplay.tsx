@@ -3,6 +3,7 @@
 import { LiaCartPlusSolid } from "react-icons/lia";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
 
 interface DayItem {
   name: string;
@@ -10,6 +11,7 @@ interface DayItem {
   price: number;
   imageUrls?: string[];
   imageUrl?: string;
+  allergens?: string[];
 }
 
 interface Day {
@@ -22,10 +24,14 @@ interface Day {
 
 interface WeeklyMenuDisplayProps {
   days: Day[];
-  onAddToCart: (item: DayItem, date: string, dayName: string) => void;
+  onAddToCart: (
+    item: DayItem,
+    date: string,
+    dayName: string,
+    quantity: number,
+  ) => void;
 }
 
-// Motion animáció
 const cardMotionVariants: {} = {
   hidden: {
     opacity: 0,
@@ -45,6 +51,133 @@ const cardMotionVariants: {} = {
   },
 };
 
+// -------------------------------------------------------------
+// Kártya comp
+// -------------------------------------------------------------
+function MenuItemCard({
+  item,
+  nap,
+  onAddToCart,
+}: {
+  item: DayItem;
+  nap: Day;
+  onAddToCart: (
+    item: DayItem,
+    date: string,
+    dayName: string,
+    quantity: number,
+  ) => void;
+}) {
+  const [count, setCount] = useState(1);
+
+  const imagesToDisplay = item.imageUrls?.length
+    ? item.imageUrls
+    : item.imageUrl
+      ? [item.imageUrl]
+      : [];
+
+  return (
+    <div
+      className={`group flex flex-col justify-between p-[10px] bg-white rounded-[5px] transition-all duration-300 border border-stone-200 hover:-translate-y-1 active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] ${
+        nap.orderable ? "opacity-100" : "opacity-40 grayscale"
+      }`}
+    >
+      <div className="h-full w-full stretch flex flex-col">
+        <span className="inline-block p-[5px] mb-3 text-[10px] w-fit transition-all duration-300 font-extrabold uppercase tracking-widest text-white bg-black rounded-sm group-hover:-translate-y-1 group-active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:group-hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)]">
+          {item.category}
+        </span>
+
+        {/* Képek */}
+        {imagesToDisplay.length > 0 && (
+          <div
+            className={`grid gap-[5px] mb-4 w-full ${
+              imagesToDisplay.length === 1
+                ? "grid-cols-1"
+                : imagesToDisplay.length === 2
+                  ? "grid-cols-2"
+                  : "grid-cols-3"
+            }`}
+          >
+            {imagesToDisplay.map((img, imgInd) => (
+              <div
+                key={imgInd}
+                className="relative aspect-square w-full max-h-[250px] md:max-h-[100px] rounded-md overflow-hidden shadow-[0px_5px_10px_0px_rgba(0,0,0,0.6)]"
+              >
+                <Image
+                  src={img}
+                  fill
+                  alt={`${item.name} ${imgInd + 1}`}
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
+        <h4 className="text-sm md:text-base font-bold text-stone-800 leading-tight mb-auto">
+          {item.name}
+        </h4>
+        <div className="flex flex-row flex-wrap gap-[5px] mt-auto">
+          {item.allergens?.map((all) => (
+            <div
+              className="text-[10px] text-white bg-sarga px-[5px] py-[2px] skew-x-[-10deg] rounded-sm"
+              key={all}
+            >
+              <span className="inline-block skew-x-[10deg]">{all}</span>
+            </div>
+          ))}
+        </div>
+        <p className="text-[15px] text-stone-700 font-bold">
+          {item.price.toLocaleString()} ft
+        </p>
+      </div>
+
+      <div className="flex flex-row items-center justify-between mt-2 md:mt-4 pt-3 border-t border-stone-200">
+        {nap.orderable && !nap.isClosed ? (
+          <div className="flex flex-row nowrap bg-white rounded-full items-center pl-[25px] py-[5px] pr-[5px] gap-[15px] mx-auto border-1 border-sarga">
+            <div className="flex flex-row text-black gap-[5px] items-center">
+              <button
+                type="button"
+                className=" rounded-full w-[20px] h-[20px] flex items-center justify-center text-[15px]  text-white bg-sarga"
+                onClick={() => setCount((prev) => Math.max(1, prev - 1))}
+              >
+                -
+              </button>
+              <span>{count}</span>
+              <button
+                type="button"
+                className=" rounded-full w-[20px] h-[20px] flex items-center justify-center text-[15px]  text-white bg-sarga"
+                onClick={() => setCount((prev) => prev + 1)}
+              >
+                +
+              </button>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                onAddToCart(item, nap.date, nap.dayName, count);
+              }}
+              className="p-[8px] flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-sarga transition-all duration-200 shadow-md focus:outline-none"
+              title="Kosárba rakom"
+            >
+              <LiaCartPlusSolid size={20} />
+            </button>
+          </div>
+        ) : (
+          <div className="px-2 py-1 rounded-sm bg-stone-100 border border-stone-200">
+            <span className="text-[9px] font-bold uppercase text-stone-400">
+              {nap.orderable ? "-" : "Nem rendelhető"}
+            </span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// -------------------------------------------------------------
+//  Fő komponens
+// -------------------------------------------------------------
 export default function WeeklyMenuDisplay({
   days,
   onAddToCart,
@@ -98,84 +231,14 @@ export default function WeeklyMenuDisplay({
 
           {/* ételek grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
-            {nap.items.map((item, ind) => {
-              const imagesToDisplay = item.imageUrls?.length
-                ? item.imageUrls
-                : item.imageUrl
-                  ? [item.imageUrl]
-                  : [];
-
-              return (
-                <div
-                  key={ind}
-                  className={`group flex flex-col justify-between p-[10px] bg-white rounded-[5px] transition-all duration-300 border border-stone-200 hover:-translate-y-1 active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] ${
-                    nap.orderable ? "opacity-100" : "opacity-40 grayscale"
-                  }`}
-                >
-                  <div>
-                    <span className="inline-block p-[5px] mb-3 text-[10px] transition-all duration-300 font-extrabold uppercase tracking-widest text-white bg-black rounded-sm group-hover:-translate-y-1 group-active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:group-hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)]">
-                      {item.category}
-                    </span>
-
-                    {/* Képek az ételhez*/}
-                    {imagesToDisplay.length > 0 && (
-                      <div
-                        className={`grid gap-2 mb-4 mx-auto ${
-                          imagesToDisplay.length === 1
-                            ? "grid-cols-1 w-24"
-                            : imagesToDisplay.length === 2
-                              ? "grid-cols-2 w-44"
-                              : "grid-cols-3 w-full"
-                        }`}
-                      >
-                        {imagesToDisplay.map((img, imgInd) => (
-                          <div
-                            key={imgInd}
-                            className="relative aspect-square w-full rounded-full overflow-hidden bg-stone-100 border border-stone-200 shadow-[0px_5px_10px_0px_rgba(0,0,0,0.4)]"
-                          >
-                            <Image
-                              src={img}
-                              fill
-                              alt={`${item.name} ${imgInd + 1}`}
-                              className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    <h4 className="text-sm md:text-base font-bold text-stone-800 leading-tight mb-4 group-hover:text-teal-700 transition-colors">
-                      {item.name}
-                    </h4>
-                  </div>
-
-                  <div className="flex flex-row items-center justify-between mt-2 md:mt-4 pt-3 border-t border-stone-200 border-dashed">
-                    <p className="text-[15px] text-stone-700 font-bold">
-                      {item.price.toLocaleString()}{" "}
-                      <span className="text-[13px] text-stone-500">Ft</span>
-                    </p>
-
-                    {nap.orderable && !nap.isClosed ? (
-                      <button
-                        onClick={() => {
-                          onAddToCart(item, nap.date, nap.dayName);
-                        }}
-                        className="p-[8px] flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-teal-500 hover:scale-110 active:scale-95 transition-all duration-200 shadow-md focus:outline-none"
-                        title="Kosárba rakom"
-                      >
-                        <LiaCartPlusSolid size={20} />
-                      </button>
-                    ) : (
-                      <div className="px-2 py-1 rounded-sm bg-stone-100 border border-stone-200">
-                        <span className="text-[9px] font-bold uppercase text-stone-400">
-                          {nap.orderable ? "-" : "Nem rendelhető"}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+            {nap.items.map((item, ind) => (
+              <MenuItemCard
+                key={`${nap.date}-${item.name}-${ind}`}
+                item={item}
+                nap={nap}
+                onAddToCart={onAddToCart}
+              />
+            ))}
           </div>
         </motion.div>
       ))}

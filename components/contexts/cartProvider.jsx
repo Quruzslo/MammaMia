@@ -22,7 +22,7 @@ export default function CartProvider({ children }) {
     }
   }, [cartItems, isMounted]);
 
-  const addToCart = (product, date, dayName) => {
+  const addToCart = (product, date, dayName, count) => {
     setCartItems((prevItems) => {
       const existingDayIndex = prevItems.findIndex((d) => d.date === date);
 
@@ -37,11 +37,11 @@ export default function CartProvider({ children }) {
           const updatedItems = [...day.items];
           updatedItems[existingFoodIndex] = {
             ...updatedItems[existingFoodIndex],
-            quantity: updatedItems[existingFoodIndex].quantity + 1,
+            quantity: updatedItems[existingFoodIndex].quantity + count,
           };
           day.items = updatedItems;
         } else {
-          day.items = [{ ...product, quantity: 1 }, ...day.items];
+          day.items = [{ ...product, quantity: count }, ...day.items];
         }
 
         updatedCart[existingDayIndex] = day;
@@ -53,7 +53,7 @@ export default function CartProvider({ children }) {
         {
           date: date,
           dayName: dayName,
-          items: [{ ...product, quantity: 1 }],
+          items: [{ ...product, quantity: count }],
         },
       ];
     });
