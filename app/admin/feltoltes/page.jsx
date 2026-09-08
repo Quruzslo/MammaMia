@@ -45,6 +45,7 @@ export default function AdminMenuUpload() {
         if (res.ok) {
           const data = await res.json();
           setDbFoods(data);
+          // console.log(data);
         }
       } catch (err) {
         console.error("Hiba az ételek lekérésekor:", err);

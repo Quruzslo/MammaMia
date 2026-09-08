@@ -16,7 +16,6 @@ import { cartContext } from "@/components/contexts/cartProvider";
 export default function CheckoutStripe({ formData, cartItems }) {
   const { clearCart } = useContext(cartContext);
 
-  // NextAuth-tól kérjük el a usert
   const { data: session } = useSession();
 
   const stripe = useStripe();

@@ -2,13 +2,14 @@
 
 import { LiaCartPlusSolid } from "react-icons/lia";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface DayItem {
   name: string;
   category: string;
   price: number;
-  imageUrls?: string[]; // Új mező a tömbösített képeknek
-  imageUrl?: string; // Visszamenőleges kompatibilitás, ha régi adatod is van
+  imageUrls?: string[];
+  imageUrl?: string;
 }
 
 interface Day {
@@ -116,7 +117,7 @@ export default function WeeklyMenuDisplay({
                       {item.category}
                     </span>
 
-                    {/* KÉPEK MEGJELENÍTÉSE - Rácsos elrendezés a képek számától függően */}
+                    {/* Képek az ételhez*/}
                     {imagesToDisplay.length > 0 && (
                       <div
                         className={`grid gap-2 mb-4 mx-auto ${
@@ -132,8 +133,9 @@ export default function WeeklyMenuDisplay({
                             key={imgInd}
                             className="relative aspect-square w-full rounded-full overflow-hidden bg-stone-100 border border-stone-200 shadow-[0px_5px_10px_0px_rgba(0,0,0,0.4)]"
                           >
-                            <img
+                            <Image
                               src={img}
+                              fill
                               alt={`${item.name} ${imgInd + 1}`}
                               className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             />
@@ -155,7 +157,9 @@ export default function WeeklyMenuDisplay({
 
                     {nap.orderable && !nap.isClosed ? (
                       <button
-                        onClick={() => onAddToCart(item, nap.date, nap.dayName)}
+                        onClick={() => {
+                          onAddToCart(item, nap.date, nap.dayName);
+                        }}
                         className="p-[8px] flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-teal-500 hover:scale-110 active:scale-95 transition-all duration-200 shadow-md focus:outline-none"
                         title="Kosárba rakom"
                       >

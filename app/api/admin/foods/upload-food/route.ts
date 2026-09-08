@@ -16,7 +16,7 @@ const r2 = new S3Client({
 
 export async function POST(req: NextRequest) {
   try {
-    // 1. Admin jogosultság ellenőrzése
+    // Admin jogosultság ellenőrzése
     const session = await auth();
     if (!session || session.user?.role !== "admin") {
       return NextResponse.json(
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 2. FormData feldolgozása
+    //  FormData feldolgozása
     const formData = await req.formData();
     const rawName = formData.get("name") as string;
     const type = formData.get("type") as string;
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
 
     let imageUrl = "/placeholder-img.jpg";
 
-    // 4. Képfeldolgozás és biztonsági szűrés
+    // Képfeldolgozás és biztonsági szűrés
     if (file && file.size > 0) {
       const allowedMimeTypes = [
         "image/jpeg",
@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
       imageUrl = `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${fileName}`;
     }
 
-    // 5. Adatbázisba mentés
+    // Mentés
     const client = await clientPromise;
     const db = client.db("MammaMia");
 

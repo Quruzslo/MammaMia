@@ -12,10 +12,10 @@ import { MdOutlineRestaurantMenu } from "react-icons/md";
 export default function CheckoutOrders({ expiredItem }) {
   const {
     cartItems,
-    sideCartState,
-    animateSideCart,
-    removeFromCart,
-    updateItemQuantity,
+    // sideCartState,
+    // animateSideCart,
+    // removeFromCart,
+    // updateItemQuantity,
   } = useContext(cartContext);
   //   Kosárösszeg kiszámítása ---------
   const totalItemsPrice = cartItems.reduce((totalSum, day) => {
@@ -55,7 +55,7 @@ export default function CheckoutOrders({ expiredItem }) {
       ) : (
         <div className="flex flex-col gap-3">
           {cartItems.map((nap) => (
-            // --- KÜLSŐ CIKLUS: NAPOK ---
+            // KÜLSŐ CIKLUS
             <div
               key={nap.date}
               className={`rounded-sm border border-gray-200 overflow-hidden ${
@@ -75,8 +75,8 @@ export default function CheckoutOrders({ expiredItem }) {
               </div>
 
               <div className="p-3 flex flex-col gap-3">
-                {nap.items.map((etel, index) => (
-                  // --- BELSŐ CIKLUS: ÉTELEK AZ ADOTT NAPON ---
+                {nap.items.map((etel, _) => (
+                  // BELSŐ CIKLUS
                   <div
                     key={`${nap.date}-${etel.name}`}
                     className="flex flex-row justify-between items-start border-b border-gray-100 last:border-0 pb-3 last:pb-0"
