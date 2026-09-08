@@ -54,7 +54,7 @@ export async function POST(request: Request) {
 
     const cartDates = cartItems.map((item: any) => item.date);
     const productsFromDb = await db
-      .collection("foods")
+      .collection("menu")
       .find({ date: { $in: cartDates } })
       .toArray();
 
