@@ -17,6 +17,7 @@ export default function SideCart() {
     updateItemQuantity,
     clearCart,
   } = useContext(cartContext);
+
   //   Kosárösszeg kiszámítása ---------
   const totalItemsPrice = cartItems.reduce((totalSum, day) => {
     const daySum = day.items.reduce(
@@ -28,119 +29,134 @@ export default function SideCart() {
 
   return (
     <section
-      className={`h-screen w-full fixed left-0 top-0 bg-neutral-800/50 cart-overlay z-[40] transition-all duration-500 ease-[cubic-bezier(0.85,0,0.15,1)] ${
-        sideCartState ? "active " : null
+      className={`h-screen w-full fixed left-0 top-0 bg-stone-900/60 backdrop-blur-sm cart-overlay z-[40] transition-all duration-500 ease-[cubic-bezier(0.85,0,0.15,1)] ${
+        sideCartState ? "active " : ""
       }`}
       onClick={animateSideCart}
     >
       <div
-        className="cart-wrapper p-4 bg-neutral-900 flex flex-col gap-4 ml-auto w-[80%] md:w-[50%] lg:w-[40%] h-full overflow-auto pt-[100px] shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.85,0,0.15,1)] transform"
+        className="cart-wrapper p-4 md:p-6 bg-stone-50 flex flex-col gap-4 ml-auto w-[85%] md:w-[50%] lg:w-[40%] h-full overflow-auto  shadow-[-10px_0_30px_rgba(0,0,0,0.5)] transition-all duration-500 ease-[cubic-bezier(0.85,0,0.15,1)] transform"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-row justify-between border-b border-white pb-2 w-full p-2 items-center">
-          <h2 className="text-white/70 font-bold text-xl">Kosár tartalma</h2>
-          {cartItems.length > 0 ? (
-            <div
+        {/* Fejléc */}
+        <div className="flex flex-row justify-between  pb-4 w-full items-center mt-[120px]">
+          <h2 className="text-stone-900 font-black uppercase  text-xl">
+            Kosár tartalma
+          </h2>
+          {cartItems.length > 0 && (
+            <button
               onClick={() => clearCart()}
-              className=" rounded-[9px] cursor-grab group rounded border-[2px] p-[2px]  border-transparent hover:border-red-400 "
+              className="px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white bg-red-700 rounded-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300"
             >
-              <div className="px-2 py-1 bg-red-300/50 rounded-[5px] group-hover:bg-red-600 ">
-                <span className="text-teal-100">Kiürítés</span>
-              </div>
-            </div>
-          ) : null}
+              Kiürítés
+            </button>
+          )}
         </div>
+
+        {/* Üres kosár állapota */}
         {cartItems.length === 0 ? (
-          <p className="text-teal-100/50 text-center mt-10 italic">
+          <p className="text-stone-600 text-center mt-10 font-medium ">
             A kosarad még üres...
           </p>
         ) : (
-          cartItems
-            .sort((a, b) => new Date(a.date) - new Date(b.date))
-            .map((nap) => (
-              // --- KÜLSŐ CIKLUS: NAPOK ---
-              <div
-                key={nap.date}
-                className="bg-neutral-800 rounded-[5px]   mb-2  "
-              >
-                <div className="bg-white p-2 flex justify-between items-center rounded-[3px]">
-                  <span className="text-black font-bold">{nap.dayName}</span>
-                  <span className="text-[10px] text-black">{nap.date}</span>
-                </div>
+          <div className="flex flex-col gap-6 mt-4">
+            {cartItems
+              .sort((a, b) => new Date(a.date) - new Date(b.date))
+              .map((nap) => (
+                // --- KÜLSŐ CIKLUS: NAPOK ---
+                <div
+                  key={nap.date}
+                  className="relative bg-white rounded-sm border border-stone-200 p-[10px] shadow-[0_4px_15px_rgba(0,0,0,0.03)]"
+                >
+                  {/* Dátum badge (a kártyákhoz hasonló stílus) */}
+                  <div className=" w-fit bg-stone-900 text-white px-4 py-1.5 rounded-sm shadow-md z-10 border border-dashed border-stone-600 transition-transform hover:rotate-0">
+                    <span className="block text-sm font-black uppercase tracking-widest leading-none">
+                      {nap.dayName}
+                    </span>
+                    <span className="block text-[10px] text-stone-300 font-medium tracking-wider mt-1">
+                      {nap.date}
+                    </span>
+                  </div>
 
-                <div className="p-2 flex flex-col gap-3">
-                  {nap.items.map((etel, index) => (
-                    <div
-                      key={`${nap.date}-${etel.name}`}
-                      className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-neutral-700 last:border-0 pb-3 sm:pb-2 gap-3"
-                    >
-                      <div className="flex flex-col">
-                        <p className="text-sm text-teal-50 font-medium leading-tight">
-                          {etel.name}
-                        </p>
-                        <p className="text-xs text-white">{etel.price} Ft</p>
-                      </div>
-
-                      {/* A gombok tárolója */}
-                      <div className="flex items-center justify-between w-full sm:w-auto gap-3">
-                        <div className="flex items-center gap-1 sm:gap-1 md:gap-3">
-                          <div className="flex items-center gap-1">
-                            <button
-                              className="p-1 border border-white rounded-full"
-                              onClick={() =>
-                                updateItemQuantity(etel.name, nap.date, 1)
-                              }
-                            >
-                              <FiPlus size={16} className="stroke-white" />
-                            </button>
-                            <div className="bg-black/70 text-white/70 px-2 py-1 rounded text-xs font-bold min-w-[45px] text-center">
-                              {etel.quantity} db
-                            </div>
-                            <button
-                              className="p-1 border border-white rounded-full"
-                              onClick={() =>
-                                updateItemQuantity(etel.name, nap.date, -1)
-                              }
-                            >
-                              <FiMinus size={16} className="stroke-white" />
-                            </button>
-                          </div>
+                  {/* Ételek listája */}
+                  <div className="flex flex-col gap-3 mt-2">
+                    {nap.items.map((etel, index) => (
+                      <div
+                        key={`${nap.date}-${etel.name}`}
+                        className="flex flex-col xl:flex-row justify-between items-start xl:items-center border-b border-stone-100 last:border-0 pb-4 xl:pb-3 gap-3"
+                      >
+                        <div className="flex flex-col">
+                          <p className="text-sm md:text-base font-bold text-stone-800 leading-tight">
+                            {etel.name}
+                          </p>
+                          <p className="text-[14px] text-stone-700 font-bold mt-1">
+                            {etel.price.toLocaleString()} Ft
+                          </p>
                         </div>
 
-                        <div
-                          onClick={() => removeFromCart(etel, nap.date)}
-                          className=" cursor-pointer flex items-center gap-3 px-2 py-1 rounded border border-red-300/50 hover:border-red-600 group"
-                        >
-                          <button className="p-1">
-                            <BsTrash
-                              size={14}
-                              className="fill-red-300 group-hover:fill-red-600"
-                            />
+                        {/* Mennyiség módosító  */}
+                        <div className="flex items-center justify-between w-full xl:w-auto gap-4 mt-1 xl:mt-0">
+                          <div className="flex flex-row nowrap bg-white rounded-full items-center px-2 py-1 gap-[10px] border border-sarga">
+                            <div className="flex flex-row text-black gap-[5px] items-center">
+                              <button
+                                className="rounded-full w-[22px] h-[22px] flex items-center justify-center text-white bg-sarga  transition-transform"
+                                onClick={() =>
+                                  updateItemQuantity(etel.name, nap.date, -1)
+                                }
+                              >
+                                <FiMinus size={12} strokeWidth={4} />
+                              </button>
+                              <span className="font-bold text-sm min-w-[16px] text-center text-stone-800">
+                                {etel.quantity}
+                              </span>
+                              <button
+                                className="rounded-full w-[22px] h-[22px] flex items-center justify-center text-white bg-sarga  transition-transform"
+                                onClick={() =>
+                                  updateItemQuantity(etel.name, nap.date, 1)
+                                }
+                              >
+                                <FiPlus size={12} strokeWidth={4} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Törlés gomb */}
+                          <button
+                            onClick={() => removeFromCart(etel, nap.date)}
+                            className="p-[8px] flex items-center justify-center rounded-full bg-red-700 text-red-50 hover:bg-red-900 hover:text-white transition-all duration-200 group"
+                            title="Törlés"
+                          >
+                            <BsTrash size={16} />
                           </button>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))
+              ))}
+          </div>
         )}
 
+        {/* Lábjegyzet (Összesítő és Fizetés) */}
         {cartItems.length > 0 && (
-          <div className="flex flex-col md:flex-row gap-2 md:gap-0 justify-center items-center mt-auto border-t border-white pt-[15px]">
-            <div className="items-center justify-center flex flex-row w-[100%] md:w-[50%]">
-              <p className="text-white">Összesen: {totalItemsPrice} Ft.</p>
+          <div className="flex flex-col gap-4 mt-auto border-t border-stone-200 pt-5 pb-4">
+            <div className="flex justify-between items-center px-2">
+              <span className="text-stone-500 font-bold uppercase tracking-wider text-xs">
+                Fizetendő:
+              </span>
+              <span className="text-stone-900 font-black text-xl md:text-2xl">
+                {totalItemsPrice.toLocaleString()} Ft
+              </span>
             </div>
-            <div className="items-center justify-center flex flex-row w-[100%] md:w-[50%]">
-              <Link href="/penztar">
-                <button
-                  onClick={animateSideCart}
-                  className="mt-auto w-full  hover:bg-white text-white  hover:text-black border border-white font-black py-3 rounded-md transition-colors px-4"
-                >
-                  Tovább a fizetéshez
-                </button>
-              </Link>
-            </div>
+
+            <Link href="/penztar" className="w-full">
+              <button
+                onClick={animateSideCart}
+                className="w-full bg-stone-900 text-white hover:bg-sarga font-black uppercase tracking-widest py-4 rounded-sm transition-all duration-300 shadow-md hover:-translate-y-1 text-sm"
+              >
+                Tovább a fizetéshez
+              </button>
+            </Link>
           </div>
         )}
       </div>
