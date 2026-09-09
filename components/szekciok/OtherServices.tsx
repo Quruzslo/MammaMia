@@ -125,9 +125,7 @@ export default function OtherServices() {
           return (
             <div key={service.id} className="flex flex-col w-full">
               {/* Header */}
-              <div
-                className={`flex flex-row items-center gap-[20px] mb-2 ${isEven ? "md:justify-start" : " md:justify-end"}`}
-              >
+              <div className={`flex flex-row items-center gap-[20px] mb-2 `}>
                 <div className="bg-sarga p-[5px] rounded-md relative other-service-icon rotate-[45deg]">
                   <IconComponent
                     size={35}
@@ -141,13 +139,11 @@ export default function OtherServices() {
               </div>
 
               {/* Tartalom */}
-              <h3
-                className={`text-[28px] text-sarga font-black mt-2 ${isEven ? "md:mr-auto" : " md:ml-auto"}`}
-              >
+              <h3 className={`text-[28px] text-sarga font-black mt-2 `}>
                 {service.title}
               </h3>
               <p
-                className={`w-full md:w-2/3 text-neutral-300 mt-1 leading-relaxed ${isEven ? "md:mr-auto" : " md:ml-auto"}`}
+                className={`w-full md:w-2/3 text-neutral-300 mt-1 leading-relaxed `}
               >
                 {service.description}
               </p>
@@ -155,13 +151,13 @@ export default function OtherServices() {
                 alt={service.title}
                 width={150}
                 height={150}
-                className={`w-[150px] h-[150px] object-contain rounded-full border-2 border-white mt-[15px] cursor-pointer hover:scale-105 transition-transform ${isEven ? "md:mr-auto" : " md:ml-auto"}`}
+                className={`w-[150px] h-[150px] object-contain rounded-full border-2 border-white mt-[15px] cursor-pointer hover:scale-105 transition-transform `}
                 src={service.img}
                 onClick={() => setActiveService(service)}
               />
               <a
                 href="/kapcsolat"
-                className={`rendeles-btn relative flex !text-white w-fit cursor-pointer my-[10px] ${isEven ? "md:mr-auto" : "md:ml-auto"}`}
+                className={`rendeles-btn relative flex !text-white w-fit cursor-pointer my-[10px] `}
               >
                 <p>Megrendelem</p>
               </a>

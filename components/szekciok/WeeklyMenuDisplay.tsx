@@ -78,7 +78,7 @@ function MenuItemCard({
 
   return (
     <div
-      className={`group flex flex-col justify-between p-[10px] bg-white rounded-[5px] transition-all duration-300 border border-stone-200 hover:-translate-y-1 active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] ${
+      className={`group flex flex-col justify-between p-[10px] bg-white rounded-[15px] transition-all duration-300 border-1 border-stone-400 hover:-translate-y-1 active:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] md:hover:shadow-[10px_10px_20px_2px_rgba(0,0,0,0.6)] ${
         nap.orderable ? "opacity-100" : "opacity-40 grayscale"
       }`}
     >
@@ -92,7 +92,7 @@ function MenuItemCard({
           <div
             className={`grid gap-[5px] mb-4 w-full ${
               imagesToDisplay.length === 1
-                ? "grid-cols-1"
+                ? "grid-cols-2"
                 : imagesToDisplay.length === 2
                   ? "grid-cols-2"
                   : "grid-cols-3"
@@ -135,18 +135,18 @@ function MenuItemCard({
       <div className="flex flex-row items-center justify-between mt-2 md:mt-4 pt-3 border-t border-stone-200">
         {nap.orderable && !nap.isClosed ? (
           <div className="flex flex-row nowrap bg-white rounded-full items-center pl-[25px] py-[5px] pr-[5px] gap-[15px] mx-auto border-1 border-sarga">
-            <div className="flex flex-row text-black gap-[5px] items-center">
+            <div className="flex flex-row text-black gap-[10px] items-center">
               <button
                 type="button"
-                className=" rounded-full w-[20px] h-[20px] flex items-center justify-center text-[15px]  text-white bg-sarga"
+                className=" rounded-full w-[25px] h-[25px] flex items-center justify-center text-[20px]  text-white bg-sarga"
                 onClick={() => setCount((prev) => Math.max(1, prev - 1))}
               >
                 -
               </button>
-              <span>{count}</span>
+              <span className="text-[15px] font-bold ">{count}</span>
               <button
                 type="button"
-                className=" rounded-full w-[20px] h-[20px] flex items-center justify-center text-[15px]  text-white bg-sarga"
+                className=" rounded-full w-[25px] h-[25px] flex items-center justify-center text-[20px]  text-white bg-sarga"
                 onClick={() => setCount((prev) => prev + 1)}
               >
                 +
@@ -165,7 +165,7 @@ function MenuItemCard({
           </div>
         ) : (
           <div className="px-2 py-1 rounded-sm bg-stone-100 border border-stone-200">
-            <span className="text-[9px] font-bold uppercase text-stone-400">
+            <span className="text-[12px] font-bold uppercase text-stone-400">
               {nap.orderable ? "-" : "Nem rendelhető"}
             </span>
           </div>
@@ -199,7 +199,7 @@ export default function WeeklyMenuDisplay({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.05 }}
-          className="relative bg-white rounded-sm px-[10px] py-[50px] md:p-10 shadow-[0_0_18px_10px_rgba(0,0,0,0.06)]"
+          className="relative bg-white rounded-[15px] px-[10px] py-[50px] md:p-10 shadow-[0_0_18px_10px_rgba(0,0,0,0.06)]"
         >
           {/* dátum badge */}
           <div className="absolute -top-5 -left-2 md:-top-6 md:-left-6 rotate-[-4deg] bg-stone-900 text-white px-6 py-2 rounded-sm shadow-xl z-20 border-2 border-dashed border-stone-600 transition-transform hover:rotate-0">
@@ -213,7 +213,7 @@ export default function WeeklyMenuDisplay({
 
           {/* lejárt menü badge */}
           {!nap.orderable && (
-            <div className="absolute top-[5px] right-[5px] bg-red-400/70 text-center p-[5px] z-10 shadow-xl flex items-center justify-center">
+            <div className="absolute top-[5px] rounded-tr-[10px]  right-[5px] bg-red-400/70 text-center p-[5px] z-10 shadow-xl flex items-center justify-center">
               <p className="text-white uppercase font-black text-[15px] tracking-widest">
                 Lejárt menü
               </p>
@@ -230,16 +230,49 @@ export default function WeeklyMenuDisplay({
           )}
 
           {/* ételek grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
-            {nap.items.map((item, ind) => (
-              <MenuItemCard
-                key={`${nap.date}-${item.name}-${ind}`}
-                item={item}
-                nap={nap}
-                onAddToCart={onAddToCart}
+          {!nap.orderable ? (
+            <div className="w-full flex flex-col items-center mt-6">
+              <input
+                type="checkbox"
+                id={`toggle-${nap.date}`}
+                className="peer hidden"
               />
-            ))}
-          </div>
+
+              {/* Lenyitó gomb */}
+              <label
+                htmlFor={`toggle-${nap.date}`}
+                className="cursor-pointer bg-stone-800 text-center text-white px-6 py-2 rounded-full font-bold uppercase text-sm tracking-wider hover:bg-stone-700 transition-colors mb-2 select-none peer-checked:mb-6"
+              >
+                Menü mutatása / elrejtése
+              </label>
+
+              <div className="w-full grid grid-rows-[0fr] peer-checked:grid-rows-[1fr] transition-[grid-template-rows] duration-300 ease">
+                <div className="overflow-hidden">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 pt-2">
+                    {nap.items.map((item, ind) => (
+                      <MenuItemCard
+                        key={`${nap.date}-${item.name}-${ind}`}
+                        item={item}
+                        nap={nap}
+                        onAddToCart={onAddToCart}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-[30px] md:gap-[10px]">
+              {nap.items.map((item, ind) => (
+                <MenuItemCard
+                  key={`${nap.date}-${item.name}-${ind}`}
+                  item={item}
+                  nap={nap}
+                  onAddToCart={onAddToCart}
+                />
+              ))}
+            </div>
+          )}
         </motion.div>
       ))}
     </div>

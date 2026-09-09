@@ -140,32 +140,27 @@ export default function Menu() {
     addToCart(item, date, dayName, count);
 
     toast(
-      <div className="flex items-center gap-3">
-        {primaryImage ? (
-          <img
-            src={primaryImage}
-            alt={item.name}
-            className="w-10 h-10 object-cover rounded-lg border border-neutral-700"
-          />
-        ) : (
-          <PiBowlFood size={24} className="fill-teal-100" />
-        )}
+      <div className="flex items-center gap-3 ">
+        <PiBowlFood size={24} className="fill-sarga" />
+
         <div>
-          <h5 className="font-bold text-teal-400 text-sm">{item.name}</h5>
-          <p className="text-xs text-gray-400">Hozzáadva a kosárhoz!</p>
+          <h5 className="font-bold text-whitetext-sm">{item.name}</h5>
+          <p className="text-xs text-gray-400">
+            Hozzáadva a kosárhoz: {count} db
+          </p>
         </div>
       </div>,
       {
         className:
-          "bg-neutral-900 border border-teal-500/30 rounded-xl p-4 shadow-2xl",
+          "bg-neutral-900 border border-sarga/50 rounded-xl p-4 shadow-2xl",
         bodyClassName: "p-0 m-0",
-        progressClassName: "!bg-teal-500",
+        progressClassName: "!bg-sarga",
       },
     );
   };
 
   return (
-    <section className="w-[90%] mx-auto py-[10px]">
+    <section className="w-[90%] mx-auto py-[50px]">
       <h2 className="text-3xl relative font-bold mb-6 text-center text-white uppercase underlined w-fit mx-auto">
         Heti Menü
       </h2>
