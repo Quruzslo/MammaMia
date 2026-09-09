@@ -7,7 +7,6 @@ export default function UserData() {
   const { status, data: session } = useSession();
   const validPerson = session?.user;
 
-  // 1. Állapot (state) az input mezőknek
   const [formData, setFormData] = useState({
     city: "",
     street: "",
@@ -15,15 +14,13 @@ export default function UserData() {
     tel: "",
   });
 
-  // Állapotok a betöltéshez, hiba/sikeres mentés visszajelzéshez
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
 
-  // 2. Adatok betöltése a DB-ből (Component Mount-kor)
+  // 2. Adatok betöltése a DB-ből
   useEffect(() => {
     const fetchUserData = async () => {
-      // Ha még tölt a session, vagy nem vagyunk belépve, megállunk
       if (status !== "authenticated") return;
 
       try {
@@ -54,7 +51,6 @@ export default function UserData() {
     fetchUserData();
   }, [status]);
 
-  // 3. Input változások kezelése
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -63,7 +59,6 @@ export default function UserData() {
     }));
   };
 
-  // 4. Adatok mentése / frissítése
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);

@@ -19,7 +19,6 @@ export default function PaginationControls({
 
   if (totalPages <= 1) return null;
 
-  // A régi for ciklus helyett ez a függvény generálja le a megfelelő elemeket
   const generatePagination = (
     current: number,
     total: number,
@@ -56,7 +55,7 @@ export default function PaginationControls({
   const visiblePages = generatePagination(currentPage, totalPages);
 
   return (
-    <div className="flex flex-row justify-end items-center gap-2 my-[10px] w-[100%]">
+    <div className="flex flex-row justify-end items-center gap-2 my-[10px] w-fit ml-auto">
       {/* Előző oldal gomb */}
       <button
         disabled={currentPage <= 1}

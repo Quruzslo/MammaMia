@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp, FiPackage } from "react-icons/fi";
 
 export default function OrderCard({ order, cardOpen, setCardOpen }) {
   return (
     <div
-      className={`odd:bg-neutral-100 even:bg-neutral-200 rounded-sm border transition-all duration-300 flex flex-col mb-4 last:mb-0 overflow-hidden py-[15px] ${
+      className={`bg-white rounded-[15px]  transition-all duration-300 flex flex-col mb-4 last:mb-0 overflow-hidden py-[15px] ${
         cardOpen
           ? "border-gray-500 ring-1 ring-gray-500 shadow-md"
           : "border-gray-200 hover:border-gray-300  hover:shadow-md"
@@ -15,25 +14,25 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
         className="grid grid-cols-2 sm:grid-cols-3  lg:grid-cols-6 items-center gap-4 p-[5px] cursor-pointer select-none group w-full border-b border-gray-50"
         onClick={() => setCardOpen(!cardOpen)}
       >
-        {/* 1. Azonosító Blokk */}
+        {/*  Azonosító Blokk */}
         <div className="flex flex-col wrap order-1 md:order-1 col-span-1 items-start justify-start">
           <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest block mb-1 md:hidden">
             Azonosító
           </span>
           <span
-            className="font-mono text-xs font-bold text-gray-900 bg-white px-2.5 py-1.5 rounded border border-gray-200 w-fit truncate select-all text-wrap"
+            className="font-mono mx-auto text-xs md:mx-auto font-bold text-gray-900 bg-white px-2.5 py-1.5 rounded  w-fit truncate select-all text-wrap"
             onClick={(e) => e.stopPropagation()}
           >
             {order.orderId || (order._id ? order._id.substring(0, 8) : "N/A")}
           </span>
         </div>
 
-        {/* 2. Rendelés Dátuma  */}
+        {/* Rendelés Dátuma  */}
         <div className="flex flex-col order-3 md:order-2 col-span-1 items-start justify-start">
           <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest block mb-1 md:hidden">
             Rendelés Dátuma
           </span>
-          <span className=" text-xs font-bold text-gray-900 bg-white px-2.5 py-1.5 rounded border border-gray-200">
+          <span className=" text-xs font-bold text-gray-900 bg-white md:mx-auto px-2.5 py-1.5 rounded ">
             {new Date(order.date).toLocaleDateString("hu-HU", {
               year: "numeric",
               month: "short",
@@ -42,12 +41,14 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
           </span>
         </div>
 
-        {/* 3. Ételek száma  */}
+        {/* Ételek száma  */}
         <div className="flex flex-col order-4 md:order-3 col-span-1 items-start justify-start">
           <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest block mb-1 md:hidden">
             Mennyiség
           </span>
-          <div className="flex items-baseline gap-1 text-xs font-bold text-gray-900 bg-white px-2.5 py-1.5 rounded border border-gray-200">
+          <div className="flex items-baseline md:mx-auto gap-1 text-xs font-bold text-gray-900 bg-white px-2.5 py-1.5 rounded ">
+            <FiPackage />
+
             <span className=" ">
               {order.items?.reduce(
                 (osszMennyiseg, nap) =>
@@ -63,20 +64,20 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
           </div>
         </div>
 
-        {/* 4. Státusz Blokk  */}
+        {/*Státusz  */}
         <div className="flex flex-col order-5 md:order-4 col-span-1 items-start justify-start">
           <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest block mb-1 md:hidden">
             Státusz
           </span>
           <span
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-xs font-bold uppercase tracking-wide border w-fit ${
+            className={`inline-flex items-center gap-1.5 px-2.5 md:mx-auto py-1 rounded-full text-xs font-bold uppercase tracking-wide  w-fit ${
               order.status === "succeeded"
-                ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                ? "bg-emerald-50 text-emerald-700 "
                 : order.status === "deleted"
-                  ? "bg-rose-50 text-rose-700 border-rose-200"
+                  ? "bg-rose-50 text-rose-700 "
                   : order.status === "shipped"
-                    ? "bg-blue-50 text-blue-700 border-blue-200"
-                    : "bg-amber-50 text-amber-700 border-amber-200"
+                    ? "bg-blue-50 text-blue-700 "
+                    : "bg-amber-50 text-amber-700 "
             }`}
           >
             <span
@@ -100,18 +101,18 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
           </span>
         </div>
 
-        {/* 5. Fizetett összeg kijelző */}
+        {/*  Fizetett összeg  */}
         <div className="flex flex-col  order-2 md:order-5 col-span-1  items-start justify-start">
           <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest block mb-1 md:hidden">
             Fizetett összeg
           </span>
-          <span className="text-sm font-bold text-gray-900 bg-white border border-gray-100 px-3 py-1.5 rounded">
+          <span className="text-sm md:mx-auto font-bold text-gray-900 bg-white px-3 py-1.5 rounded">
             {order.total.toLocaleString()} Ft
           </span>
         </div>
 
-        {/* 6. Nyitó fül / gomb */}
-        <div className="flex items-center justify-end order-6 md:order-6 col-span-1 sm:col-span-3 md:col-span-1 mt-2 md:mt-0 pt-2 sm:pt-0 border-t sm:border-0 border-gray-50">
+        {/* Nyitó fül / gomb */}
+        <div className="flex md:mx-auto items-center justify-end order-6 md:order-6 col-span-1 sm:col-span-3 md:col-span-1 mt-2 md:mt-0 pt-2 sm:pt-0 border-t sm:border-0 border-gray-50">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -135,7 +136,7 @@ export default function OrderCard({ order, cardOpen, setCardOpen }) {
           cardOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         }`}
       >
-        <div className="overflow-hidden bg-gray-50/50">
+        <div className="overflow-hidden ">
           <div className="p-4 md:p-6 space-y-4">
             <span className="text-xs font-bold uppercase text-gray-400 tracking-widest block">
               Rendelt ételek napok szerint
