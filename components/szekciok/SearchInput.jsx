@@ -34,7 +34,7 @@ export default function SearchInput() {
         defaultValue={searchParams.get("search")?.toString()}
         className="w-full px-3 py-2 text-sm bg-neutral-800 border border-neutral-700 rounded text-neutral-200"
       />
-      {/* 4. Ha a háttérben épp tölt a szeró */}
+      {/* Ha a háttérben épp tölt */}
       {isPending && (
         <span className="absolute right-3 top-2.5 text-xs text-neutral-500 animate-pulse">
           Keresés...

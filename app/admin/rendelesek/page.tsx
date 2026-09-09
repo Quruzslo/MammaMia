@@ -5,6 +5,7 @@ import SingleDayWrapper from "./singleDayWrapper";
 import PaginationControls from "@/components/szekciok/PaginationControls";
 import SearchInput from "@/components/szekciok/SearchInput";
 import PusherComponent from "./pusher";
+import Link from "next/link";
 
 import CustomerSection from "./CustomerSection";
 
@@ -42,11 +43,8 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
       filter.$or = [
         { "customer.fullName": { $regex: searchQuery, $options: "i" } },
         { "customer.email": { $regex: searchQuery, $options: "i" } },
+        { orderId: { $regex: searchQuery, $options: "i" } },
       ];
-
-      if (/^\d+$/.test(searchQuery)) {
-        filter.$or.push({ orderId: Number(searchQuery) });
-      }
     }
 
     rawOrders = await db.collection("orders").find(filter).toArray();
@@ -58,11 +56,8 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
       filter.$or = [
         { "customer.fullName": { $regex: searchQuery, $options: "i" } },
         { "customer.email": { $regex: searchQuery, $options: "i" } },
+        { orderId: { $regex: searchQuery, $options: "i" } },
       ];
-
-      if (/^\d+$/.test(searchQuery)) {
-        filter.$or.push({ orderId: Number(searchQuery) });
-      }
     }
 
     totalOrders = await db.collection("orders").countDocuments(filter);
@@ -76,6 +71,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
       .toArray();
   }
 
+  // _id és Date mezők miatt ,h propként is használhatók legyenek------
   let orders = JSON.parse(JSON.stringify(rawOrders));
 
   if (activeTab === "mai") {
@@ -114,15 +110,12 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
         return priorityB - priorityA;
       }
 
-      // Ha egyforma a prioritás, legfrissebb előre
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
 
-    // frontend slice a mai fülön
     orders = orders.slice(skip, skip + limit);
   }
 
-  // oldalszám a paginációhoz
   const totalPages = Math.ceil(totalOrders / limit) || 1;
 
   return (
@@ -132,10 +125,10 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
       </div>
       <div className="flex flex-col w-[100%] p-[10px] max-w-[1800px] mx-auto">
         <PusherComponent></PusherComponent>
-        {/* Fül választás és Keresőblokk */}
+        {/* Fül választás és keresés */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-neutral-800 pb-4">
           <div className="flex gap-4">
-            <a
+            <Link
               href="?page=1&tab=mai"
               className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
                 activeTab === "mai"
@@ -144,8 +137,8 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
               }`}
             >
               Mai rendelések
-            </a>
-            <a
+            </Link>
+            <Link
               href="?page=1&tab=osszes"
               className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
                 activeTab === "osszes"
@@ -154,7 +147,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
               }`}
             >
               Összes rendelés
-            </a>
+            </Link>
           </div>
 
           <SearchInput />
@@ -162,8 +155,9 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
 
         <div className="w-full justify-end my-4 flex flex-col md:flex-row">
           <div className="w-auto mr-auto p-[10px] bg-neutral-800 rounded-sm flex items-center justify-center">
-            <p className="text-gray-300 text-[15px] text-bold">
-              {totalOrders} rendelés
+            <p className="text-gray-200 text-[15px] font-bold ">
+              {page * limit - limit} - {page * limit} /{" "}
+              <span className="text-green-300">{totalOrders}</span> rendelés
             </p>
           </div>
 
