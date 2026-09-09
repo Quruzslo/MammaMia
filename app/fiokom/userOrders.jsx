@@ -37,7 +37,6 @@ export default function UserOrders() {
   const [loading, setLoading] = useState(true);
   const [activeOrderId, setActiveOrderId] = useState(null);
   const [sortBy, setSortBy] = useState("date-desc");
-  const [isSortOpen, setIsSortOpen] = useState(false);
   const { status, data: session } = useSession();
 
   useEffect(() => {
@@ -145,29 +144,26 @@ export default function UserOrders() {
             <div className="flex items-center gap-2 ml-auto">
               <label className="text-black text-sm font-bold">Rendezés:</label>
 
-              {/* Custom Absolute Dropdown */}
               <div className="relative">
-                <button
-                  onClick={() => setIsSortOpen(!isSortOpen)}
-                  className="flex items-center justify-between w-48 p-2 text-sm border border-gray-300 rounded-md bg-white text-black focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors cursor-pointer"
+                <input
+                  type="checkbox"
+                  id="sort-dropdown-toggle"
+                  className="peer hidden"
+                />
+
+                <label
+                  htmlFor="sort-dropdown-toggle"
+                  className="flex items-center justify-between w-48 p-2 text-sm border border-gray-300 rounded-md bg-white text-black transition-colors cursor-pointer peer-checked:[&_.icon-down]:hidden peer-checked:[&_.icon-up]:block"
                 >
                   <span className="truncate font-medium">
                     {sortOptions.find((opt) => opt.value === sortBy)?.label}
                   </span>
-                  {isSortOpen ? (
-                    <FiChevronUp className="shrink-0 ml-2" />
-                  ) : (
-                    <FiChevronDown className="shrink-0 ml-2" />
-                  )}
-                </button>
+                  <FiChevronDown className="icon-down shrink-0 ml-2 block" />
+                  <FiChevronUp className="icon-up shrink-0 ml-2 hidden" />
+                </label>
 
-                <div
-                  className={`absolute top-full right-0 mt-1 w-48 z-50 grid transition-all duration-300 ease-[cubic-bezier(0.85,0,0.15,1)] ${
-                    isSortOpen
-                      ? "grid-rows-[1fr] opacity-100"
-                      : "grid-rows-[0fr] opacity-0 pointer-events-none"
-                  }`}
-                >
+                {/* Dropdown */}
+                <div className="absolute top-full right-0 mt-1 w-48 z-50 grid transition-all duration-300 ease grid-rows-[0fr]  pointer-events-none peer-checked:grid-rows-[1fr] peer-checked:opacity-100 peer-checked:pointer-events-auto">
                   <div className="overflow-hidden">
                     <div className="flex flex-col bg-white border border-gray-200 rounded-md shadow-xl">
                       {sortOptions.map((option) => (
@@ -175,7 +171,10 @@ export default function UserOrders() {
                           key={option.value}
                           onClick={() => {
                             setSortBy(option.value);
-                            setIsSortOpen(false);
+
+                            document.getElementById(
+                              "sort-dropdown-toggle",
+                            ).checked = false;
                           }}
                           className={`text-left px-3 py-2.5 text-sm transition-colors border-b border-gray-50 last:border-b-0 cursor-pointer ${
                             sortBy === option.value
