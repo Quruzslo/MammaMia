@@ -1,9 +1,8 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
 import { toast } from "react-toastify";
-import AdminNav from "../admin-components/adminNav";
-import PusherComponent from "../rendelesek/pusher";
 import FoodSelect from "./FoodSelect";
+import PanelSchema from "../admin-components/PanelSchema";
 
 const getHungarianDayName = (dateString) => {
   if (!dateString) return "";
@@ -233,193 +232,186 @@ export default function AdminMenuUpload() {
   };
 
   return (
-    <section className="py-6 px-4 w-full gap-3 mx-auto min-h-screen bg-neutral-900 text-gray-100 flex flex-col md:flex-row">
-      <div className="w-full md:w-[300px]">
-        <AdminNav />
-      </div>
-      <PusherComponent />
+    <PanelSchema>
+      <h2 className="text-2xl font-bold text-teal-400 mb-6 uppercase tracking-wider border-b border-neutral-800 pb-4">
+        Napi menü összeállítása
+      </h2>
 
-      <div className="bg-neutral-900 mx-auto w-full max-w-[1800px]">
-        <h2 className="text-2xl font-bold text-teal-400 mb-6 uppercase tracking-wider border-b border-neutral-800 pb-4">
-          Napi menü összeállítása
-        </h2>
-
-        {fetchingFoods ? (
-          <div className="text-center py-10 text-gray-400 animate-pulse">
-            Ételek betöltése...
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Dátum & Zárva opció */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-6 bg-neutral-800/40 p-4 rounded-xl border border-neutral-800">
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">
-                  Válassz Dátumot{" "}
-                  {date && (
-                    <span className="text-teal-400">
-                      ({getHungarianDayName(date)})
-                    </span>
-                  )}
-                </label>
-                <input
-                  type="date"
-                  required
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  className="bg-neutral-100 border border-neutral-700 text-gray-900 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-teal-500 cursor-pointer"
-                />
-              </div>
-
-              <div className="flex items-center gap-3 sm:mt-6">
-                <input
-                  type="checkbox"
-                  id="isClosed"
-                  checked={isClosed}
-                  onChange={(e) => setIsClosed(e.target.checked)}
-                  className="w-5 h-5 accent-teal-500 rounded border-neutral-700 cursor-pointer"
-                />
-                <label
-                  htmlFor="isClosed"
-                  className="text-sm font-semibold text-gray-300 cursor-pointer select-none"
-                >
-                  Ezen a napon zárva vagyunk (Ünnepnap / Szünnap)
-                </label>
-              </div>
+      {fetchingFoods ? (
+        <div className="text-center py-10 text-gray-400 animate-pulse">
+          Ételek betöltése...
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Dátum & Zárva opció */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-6 bg-neutral-800/40 p-4 rounded-xl border border-neutral-800">
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                Válassz Dátumot{" "}
+                {date && (
+                  <span className="text-teal-400">
+                    ({getHungarianDayName(date)})
+                  </span>
+                )}
+              </label>
+              <input
+                type="date"
+                required
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="bg-neutral-100 border border-neutral-700 text-gray-900 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-teal-500 cursor-pointer"
+              />
             </div>
 
-            {!isClosed && (
-              <div className="space-y-6">
-                {/* LEVES */}
-                <div className="bg-neutral-800/30 p-4 rounded-xl border border-neutral-800">
-                  <h3 className="text-xs font-bold text-teal-400 uppercase tracking-widest mb-3">
-                    Napi Leves
-                  </h3>
-                  <FoodSelect
-                    items={soupsList}
-                    value={soupId}
-                    onChange={setSoupId}
-                    placeholder="-- Válassz vagy keress levest --"
-                    showPrice={true}
-                    inputClassName="bg-neutral-900 border border-neutral-700 p-2.5 text-sm"
-                  />
-                </div>
+            <div className="flex items-center gap-3 sm:mt-6">
+              <input
+                type="checkbox"
+                id="isClosed"
+                checked={isClosed}
+                onChange={(e) => setIsClosed(e.target.checked)}
+                className="w-5 h-5 accent-teal-500 rounded border-neutral-700 cursor-pointer"
+              />
+              <label
+                htmlFor="isClosed"
+                className="text-sm font-semibold text-gray-300 cursor-pointer select-none"
+              >
+                Ezen a napon zárva vagyunk (Ünnepnap / Szünnap)
+              </label>
+            </div>
+          </div>
 
-                {/* MENÜK */}
-                <div className="space-y-4">
-                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-                    Napi Menük
-                  </h3>
+          {!isClosed && (
+            <div className="space-y-6">
+              {/* LEVES */}
+              <div className="bg-neutral-800/30 p-4 rounded-xl border border-neutral-800">
+                <h3 className="text-xs font-bold text-teal-400 uppercase tracking-widest mb-3">
+                  Napi Leves
+                </h3>
+                <FoodSelect
+                  items={soupsList}
+                  value={soupId}
+                  onChange={setSoupId}
+                  placeholder="-- Válassz vagy keress levest --"
+                  showPrice={true}
+                  inputClassName="bg-neutral-900 border border-neutral-700 p-2.5 text-sm"
+                />
+              </div>
 
-                  {mainMenus.map((menu, index) => {
-                    const selectedMain = mainsList.find(
-                      (f) => f._id === menu.mainId,
-                    );
+              {/* MENÜK */}
+              <div className="space-y-4">
+                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                  Napi Menük
+                </h3>
 
-                    return (
-                      <div
-                        key={index}
-                        className="bg-neutral-900/60 p-4 rounded-xl border border-neutral-800/80 space-y-3"
-                      >
-                        <div className="flex justify-between items-center border-b border-neutral-800 pb-2 mb-4">
-                          <span className="text-sm font-bold text-teal-400 uppercase">
-                            {menu.category}
+                {mainMenus.map((menu, index) => {
+                  const selectedMain = mainsList.find(
+                    (f) => f._id === menu.mainId,
+                  );
+
+                  return (
+                    <div
+                      key={index}
+                      className="bg-neutral-900/60 p-4 rounded-xl border border-neutral-800/80 space-y-3"
+                    >
+                      <div className="flex justify-between items-center border-b border-neutral-800 pb-2 mb-4">
+                        <span className="text-sm font-bold text-teal-400 uppercase">
+                          {menu.category}
+                        </span>
+                        {selectedMain && (
+                          <span className="text-xs font-bold text-teal-400 bg-teal-950/80 border border-teal-800 px-3 py-1 rounded-full shadow-sm">
+                            Ár: {selectedMain.price} Ft
                           </span>
-                          {selectedMain && (
-                            <span className="text-xs font-bold text-teal-400 bg-teal-950/80 border border-teal-800 px-3 py-1 rounded-full shadow-sm">
-                              Ár: {selectedMain.price} Ft
-                            </span>
-                          )}
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                        {/* Főétel */}
+                        <div className="relative">
+                          <label className="block text-[10px] uppercase font-bold text-gray-400 mb-1.5">
+                            Főétel (ennek az ára számít)
+                          </label>
+                          <FoodSelect
+                            items={mainsList}
+                            value={menu.mainId}
+                            onChange={(val) =>
+                              handleMenuChange(index, "mainId", val)
+                            }
+                            placeholder="-- Főétel keresése --"
+                            showPrice={true}
+                            inputClassName="bg-neutral-950 border border-neutral-700 p-2 text-xs"
+                          />
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                          {/* Főétel */}
-                          <div className="relative">
-                            <label className="block text-[10px] uppercase font-bold text-gray-400 mb-1.5">
-                              Főétel (ennek az ára számít)
-                            </label>
-                            <FoodSelect
-                              items={mainsList}
-                              value={menu.mainId}
-                              onChange={(val) =>
-                                handleMenuChange(index, "mainId", val)
-                              }
-                              placeholder="-- Főétel keresése --"
-                              showPrice={true}
-                              inputClassName="bg-neutral-950 border border-neutral-700 p-2 text-xs"
-                            />
-                          </div>
+                        {/* Köret */}
+                        <div className="relative">
+                          <label className="block text-[10px] uppercase font-bold text-gray-400 mb-1.5">
+                            Köret
+                          </label>
+                          <FoodSelect
+                            items={sidesList}
+                            value={menu.sideId}
+                            onChange={(val) =>
+                              handleMenuChange(index, "sideId", val)
+                            }
+                            placeholder="-- Köret keresése (opcionális) --"
+                            showPrice={false}
+                            inputClassName="bg-neutral-950 border border-neutral-700 p-2 text-xs"
+                          />
+                        </div>
 
-                          {/* Köret */}
-                          <div className="relative">
-                            <label className="block text-[10px] uppercase font-bold text-gray-400 mb-1.5">
-                              Köret
-                            </label>
-                            <FoodSelect
-                              items={sidesList}
-                              value={menu.sideId}
-                              onChange={(val) =>
-                                handleMenuChange(index, "sideId", val)
-                              }
-                              placeholder="-- Köret keresése (opcionális) --"
-                              showPrice={false}
-                              inputClassName="bg-neutral-950 border border-neutral-700 p-2 text-xs"
-                            />
-                          </div>
-
-                          {/* Saláta / Savanyúság */}
-                          <div className="relative">
-                            <label className="block text-[10px] uppercase font-bold text-gray-400 mb-1.5">
-                              Saláta / Savanyúság
-                            </label>
-                            <FoodSelect
-                              items={saladsList}
-                              value={menu.saladId}
-                              onChange={(val) =>
-                                handleMenuChange(index, "saladId", val)
-                              }
-                              placeholder="-- Saláta keresése (opcionális) --"
-                              showPrice={false}
-                              inputClassName="bg-neutral-950 border border-neutral-700 p-2 text-xs"
-                            />
-                          </div>
+                        {/* Saláta / Savanyúság */}
+                        <div className="relative">
+                          <label className="block text-[10px] uppercase font-bold text-gray-400 mb-1.5">
+                            Saláta / Savanyúság
+                          </label>
+                          <FoodSelect
+                            items={saladsList}
+                            value={menu.saladId}
+                            onChange={(val) =>
+                              handleMenuChange(index, "saladId", val)
+                            }
+                            placeholder="-- Saláta keresése (opcionális) --"
+                            showPrice={false}
+                            inputClassName="bg-neutral-950 border border-neutral-700 p-2 text-xs"
+                          />
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-
-                {/* ÁLLANDÓ MENÜ */}
-                <div className="bg-neutral-800/30 p-4 rounded-xl border border-neutral-800">
-                  <h3 className="text-xs font-bold text-teal-400 uppercase tracking-widest mb-3">
-                    Fix / Állandó Menü
-                  </h3>
-                  <FoodSelect
-                    items={fixList}
-                    value={fixId}
-                    onChange={setFixId}
-                    placeholder="-- Válassz vagy keress állandó ételt --"
-                    showPrice={true}
-                    inputClassName="bg-neutral-900 border border-neutral-700 p-2.5 text-sm"
-                  />
-                </div>
+                    </div>
+                  );
+                })}
               </div>
-            )}
 
-            {/* MENTÉS GOMB */}
-            <div className="flex justify-end pt-4 border-t border-neutral-800">
-              <button
-                type="submit"
-                disabled={loading}
-                className={`px-8 py-3 bg-teal-600 text-white font-bold rounded-xl text-sm uppercase tracking-wider hover:bg-teal-500 active:bg-teal-700 transition-all shadow-lg shadow-teal-600/10 cursor-pointer ${
-                  loading ? "opacity-50 cursor-not-allowed animate-pulse" : ""
-                }`}
-              >
-                {loading ? "Mentés folyamatban..." : "Napi menü mentése"}
-              </button>
+              {/* ÁLLANDÓ MENÜ */}
+              <div className="bg-neutral-800/30 p-4 rounded-xl border border-neutral-800">
+                <h3 className="text-xs font-bold text-teal-400 uppercase tracking-widest mb-3">
+                  Fix / Állandó Menü
+                </h3>
+                <FoodSelect
+                  items={fixList}
+                  value={fixId}
+                  onChange={setFixId}
+                  placeholder="-- Válassz vagy keress állandó ételt --"
+                  showPrice={true}
+                  inputClassName="bg-neutral-900 border border-neutral-700 p-2.5 text-sm"
+                />
+              </div>
             </div>
-          </form>
-        )}
-      </div>
-    </section>
+          )}
+
+          {/* MENTÉS GOMB */}
+          <div className="flex justify-end pt-4 border-t border-neutral-800">
+            <button
+              type="submit"
+              disabled={loading}
+              className={`px-8 py-3 bg-teal-600 text-white font-bold rounded-xl text-sm uppercase tracking-wider hover:bg-teal-500 active:bg-teal-700 transition-all shadow-lg shadow-teal-600/10 cursor-pointer ${
+                loading ? "opacity-50 cursor-not-allowed animate-pulse" : ""
+              }`}
+            >
+              {loading ? "Mentés folyamatban..." : "Napi menü mentése"}
+            </button>
+          </div>
+        </form>
+      )}
+    </PanelSchema>
   );
 }

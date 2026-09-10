@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useContext } from "react"; // Hozzáadva: useContext
-import { cartContext } from "@/components/contexts/cartProvider"; // Hozzáadva: a kosár context elérése
+import { useState, useContext } from "react";
+import { cartContext } from "@/components/contexts/cartProvider";
 import { validateCheckoutForm } from "../../../utils/validateCheckoutForm.js";
-import AdminNav from "../admin-components/adminNav.jsx";
+
 import CheckoutOrders from "../../penztar/CheckoutOrders.jsx";
 import FloatingInput from "../../penztar/FloatingInput.jsx";
 import { useSession } from "next-auth/react";
+
+import PanelSchema from "../admin-components/PanelSchema";
 
 export default function CheckoutAdminInputs() {
   const { data: session } = useSession();
@@ -42,7 +44,7 @@ export default function CheckoutAdminInputs() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          cartItems, // Most már garantáltan a context-ből vett tömb megy el, nem undefined!
+          cartItems,
           formData,
           userId: "admin",
         }),
@@ -76,11 +78,7 @@ export default function CheckoutAdminInputs() {
   };
 
   return (
-    <section className="py-6 px-4 w-[100%] mx-auto min-h-screen bg-neutral-900 text-gray-100 flex flex-col md:flex-row gap-3">
-      <div className="flex flex-col gap-3 mb-[35px] w-[100%] md:w-[300px] ">
-        <AdminNav />
-      </div>
-
+    <PanelSchema>
       <div className="flex flex-col md:flex-row gap-3 justify-center w-[100%]">
         <div className="w-[100%] flex flex-col p-4 bg-white shadow-sm border border-gray-200 rounded-sm md:w-[50%] h-fit mx-auto">
           <h2 className="text-gray-900 text-lg font-bold border-b border-gray-100 pb-3 mb-4">
@@ -148,6 +146,6 @@ export default function CheckoutAdminInputs() {
           <CheckoutOrders cartItems={cartItems}></CheckoutOrders>
         </div>
       </div>
-    </section>
+    </PanelSchema>
   );
 }

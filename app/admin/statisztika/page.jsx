@@ -1,9 +1,9 @@
-import AdminNav from "../admin-components/adminNav";
 import AdminCharts from "./charts";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import FoodCounter from "./foodCounter";
-import PusherComponent from "../rendelesek/pusher";
+
+import PanelSchema from "../admin-components/PanelSchema";
 
 export default async function StatsPage() {
   const session = await auth();
@@ -11,15 +11,9 @@ export default async function StatsPage() {
     redirect("/admin");
   }
   return (
-    <section className="py-6 px-4 w-[100%] gap-3  mx-auto min-h-screen bg-neutral-900 text-gray-100  flex flex-col md:flex-row">
-      <div className="w-[100%] md:w-[300px]">
-        <AdminNav></AdminNav>{" "}
-      </div>
-      <div className="bg-neutral-900 mx-auto w-[100%] max-w-[1800px] mx-auto">
-        <PusherComponent></PusherComponent>
-        <AdminCharts></AdminCharts>
-        <FoodCounter></FoodCounter>
-      </div>
-    </section>
+    <PanelSchema>
+      <AdminCharts></AdminCharts>
+      <FoodCounter></FoodCounter>
+    </PanelSchema>
   );
 }

@@ -4,12 +4,9 @@ import client from "@/lib/mongodb";
 import SingleDayWrapper from "./singleDayWrapper";
 import PaginationControls from "@/components/szekciok/PaginationControls";
 import SearchInput from "@/components/szekciok/SearchInput";
-import PusherComponent from "./pusher";
 import Link from "next/link";
-
+import PanelSchema from "../admin-components/PanelSchema";
 import CustomerSection from "./CustomerSection";
-
-import AdminNav from "../admin-components/adminNav";
 
 interface Props {
   searchParams: Promise<{ page?: string; tab?: string; search?: any }>;
@@ -119,114 +116,108 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
   const totalPages = Math.ceil(totalOrders / limit) || 1;
 
   return (
-    <section className="py-6 px-4 w-[100%] mx-auto min-h-screen bg-neutral-900 text-gray-100 flex flex-col md:flex-row gap-3">
-      <div className="flex flex-col gap-3 mb-[35px] w-[100%] md:w-[300px] ">
-        <AdminNav />
+    <PanelSchema>
+      {/* Fül választás és keresés */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-neutral-800 pb-4">
+        <div className="flex gap-4">
+          <Link
+            href="?page=1&tab=mai"
+            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+              activeTab === "mai"
+                ? "bg-teal-600 text-white"
+                : "bg-neutral-800 text-gray-400 hover:bg-neutral-700"
+            }`}
+          >
+            Mai rendelések
+          </Link>
+          <Link
+            href="?page=1&tab=osszes"
+            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+              activeTab === "osszes"
+                ? "bg-teal-600 text-white"
+                : "bg-neutral-800 text-gray-400 hover:bg-neutral-700"
+            }`}
+          >
+            Összes rendelés
+          </Link>
+        </div>
+
+        <SearchInput />
       </div>
-      <div className="flex flex-col w-[100%] p-[10px] max-w-[1800px] mx-auto">
-        <PusherComponent></PusherComponent>
-        {/* Fül választás és keresés */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-neutral-800 pb-4">
-          <div className="flex gap-4">
-            <Link
-              href="?page=1&tab=mai"
-              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-                activeTab === "mai"
-                  ? "bg-teal-600 text-white"
-                  : "bg-neutral-800 text-gray-400 hover:bg-neutral-700"
-              }`}
-            >
-              Mai rendelések
-            </Link>
-            <Link
-              href="?page=1&tab=osszes"
-              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-                activeTab === "osszes"
-                  ? "bg-teal-600 text-white"
-                  : "bg-neutral-800 text-gray-400 hover:bg-neutral-700"
-              }`}
-            >
-              Összes rendelés
-            </Link>
-          </div>
 
-          <SearchInput />
+      <div className="w-full justify-end my-4 flex flex-col md:flex-row">
+        <div className="w-auto mr-auto p-[10px] bg-neutral-800 rounded-sm flex items-center justify-center">
+          <p className="text-gray-200 text-[15px] font-bold ">
+            {page * limit - limit} - {page * limit} /{" "}
+            <span className="text-green-300">{totalOrders}</span> rendelés
+          </p>
         </div>
 
-        <div className="w-full justify-end my-4 flex flex-col md:flex-row">
-          <div className="w-auto mr-auto p-[10px] bg-neutral-800 rounded-sm flex items-center justify-center">
-            <p className="text-gray-200 text-[15px] font-bold ">
-              {page * limit - limit} - {page * limit} /{" "}
-              <span className="text-green-300">{totalOrders}</span> rendelés
-            </p>
-          </div>
+        <PaginationControls
+          currentPage={page}
+          totalPages={totalPages}
+          activeTab={activeTab}
+          searchQuery={searchQuery}
+        />
+      </div>
 
-          <PaginationControls
-            currentPage={page}
-            totalPages={totalPages}
-            activeTab={activeTab}
-            searchQuery={searchQuery}
-          />
-        </div>
+      {/* Rendelés megjelenítés */}
+      <div className="grid gap-6 w-[100%]">
+        {orders.length === 0 ? (
+          <p className="text-gray-500 italic p-4">
+            Nincs megjeleníthető rendelés.
+          </p>
+        ) : (
+          orders.map((order: any) => (
+            <div
+              key={order.orderId || order._id}
+              className={`p-5 border-l-4 bg-neutral-800 shadow-xl relative ${
+                order.status === "succeeded"
+                  ? "border-green-700"
+                  : order.status === "pending"
+                    ? "border-orange-500"
+                    : "border-red-700"
+              }`}
+            >
+              {order.newOrder ? (
+                <div className="absolute top-[0px] right-[0] px-[15px] py-[5px] bg-green-200 text-green-800 font-black text-[15px] flex flex-row nowrap gap-2 items-center justify-center rounded-sm">
+                  {" "}
+                  <span className="animate-ping w-[15px] h-[15px] rounded-full bg-green-900"></span>
+                  <p title="Kattints a láttamozáshoz!">Új rendelés ! </p>
+                </div>
+              ) : null}
+              <div className="flex flex-col lg:flex-row gap-6">
+                {/* Vevő adatai szekció */}
+                <div className="lg:w-1/4 border-r-0 lg:border-r border-neutral-700  relative">
+                  <CustomerSection order={order} />
+                </div>
 
-        {/* Rendelés megjelenítés */}
-        <div className="grid gap-6 w-[100%]">
-          {orders.length === 0 ? (
-            <p className="text-gray-500 italic p-4">
-              Nincs megjeleníthető rendelés.
-            </p>
-          ) : (
-            orders.map((order: any) => (
-              <div
-                key={order.orderId || order._id}
-                className={`p-5 border-l-4 bg-neutral-800 shadow-xl relative ${
-                  order.status === "succeeded"
-                    ? "border-green-700"
-                    : order.status === "pending"
-                      ? "border-orange-500"
-                      : "border-red-700"
-                }`}
-              >
-                {order.newOrder ? (
-                  <div className="absolute top-[0px] right-[0] px-[15px] py-[5px] bg-green-200 text-green-800 font-black text-[15px] flex flex-row nowrap gap-2 items-center justify-center rounded-sm">
-                    {" "}
-                    <span className="animate-ping w-[15px] h-[15px] rounded-full bg-green-900"></span>
-                    <p title="Kattints a láttamozáshoz!">Új rendelés ! </p>
-                  </div>
-                ) : null}
-                <div className="flex flex-col lg:flex-row gap-6">
-                  {/* Vevő adatai szekció */}
-                  <div className="lg:w-1/4 border-r-0 lg:border-r border-neutral-700  relative">
-                    <CustomerSection order={order} />
-                  </div>
-
-                  {/* Kliensoldali gomb wrapper és a napok gridje */}
-                  <div className="lg:w-3/4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 items-center">
-                    {order.items?.map((day: any, idx: number) => (
-                      <SingleDayWrapper
-                        key={idx}
-                        day={day}
-                        orderId={order._id}
-                        orderObject={order}
-                      />
-                    ))}
-                  </div>
+                {/* Kliensoldali gomb wrapper és a napok gridje */}
+                <div className="lg:w-3/4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 items-center">
+                  {order.items?.map((day: any, idx: number) => (
+                    <SingleDayWrapper
+                      key={idx}
+                      day={day}
+                      orderId={order._id}
+                      orderObject={order}
+                    />
+                  ))}
                 </div>
               </div>
-            ))
-          )}
-        </div>
-
-        <div className="w-full justify-end my-4 flex">
-          {/* Paginátor by Dr. Doofenshmirtz */}
-          <PaginationControls
-            currentPage={page}
-            totalPages={totalPages}
-            activeTab={activeTab}
-            searchQuery={searchQuery}
-          />
-        </div>
+            </div>
+          ))
+        )}
       </div>
-    </section>
+
+      <div className="w-full justify-end my-4 flex">
+        {/* Paginátor by Dr. Doofenshmirtz */}
+        <PaginationControls
+          currentPage={page}
+          totalPages={totalPages}
+          activeTab={activeTab}
+          searchQuery={searchQuery}
+        />
+      </div>
+    </PanelSchema>
   );
 }
