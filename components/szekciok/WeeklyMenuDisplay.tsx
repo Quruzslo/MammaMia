@@ -134,8 +134,8 @@ function MenuItemCard({
 
       <div className="flex flex-row items-center justify-between mt-2 md:mt-4 pt-3 border-t border-stone-200">
         {nap.orderable && !nap.isClosed ? (
-          <div className="flex flex-row nowrap bg-white rounded-full items-center pl-[25px] py-[5px] pr-[5px] gap-[15px] mx-auto border-1 border-sarga">
-            <div className="flex flex-row text-black gap-[10px] items-center">
+          <div className="flex flex-row nowrap bg-white w-fit rounded-full items-center pl-[10px] py-[5px] pr-[5px] gap-[10px] mx-auto border-1 border-sarga">
+            <div className="flex flex-row text-black gap-[10px] items-center ">
               <button
                 type="button"
                 className=" rounded-full w-[25px] h-[25px] flex items-center justify-center text-[20px]  text-white bg-sarga"
@@ -191,7 +191,7 @@ export default function WeeklyMenuDisplay({
   }
 
   return (
-    <div className="space-y-16 p-[10px]">
+    <div className="space-y-[50px] p-[0px]">
       {days.map((nap) => (
         <motion.div
           key={nap.date}
@@ -199,7 +199,7 @@ export default function WeeklyMenuDisplay({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.05 }}
-          className="relative bg-white rounded-[15px] px-[10px] py-[50px] md:p-10 shadow-[0_0_18px_10px_rgba(0,0,0,0.06)]"
+          className="relative bg-white rounded-[15px] px-[10px] pt-[70px] pb-[20px] shadow-[0_0_18px_10px_rgba(0,0,0,0.06)]"
         >
           {/* dátum badge */}
           <div className="absolute -top-5 -left-2 md:-top-6 md:-left-6 rotate-[-4deg] bg-stone-900 text-white px-6 py-2 rounded-sm shadow-xl z-20 border-2 border-dashed border-stone-600 transition-transform hover:rotate-0">
@@ -231,7 +231,7 @@ export default function WeeklyMenuDisplay({
 
           {/* ételek grid */}
           {!nap.orderable ? (
-            <div className="w-full flex flex-col items-center mt-6">
+            <div className="w-full flex flex-col items-center my-auto">
               <input
                 type="checkbox"
                 id={`toggle-${nap.date}`}
