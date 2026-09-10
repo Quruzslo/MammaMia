@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import client from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 import crypto from "crypto";
 
 // Stripe init
@@ -50,6 +50,7 @@ export async function POST(request: Request) {
       );
     }
 
+    const client = await clientPromise;
     const db = client.db("MammaMia");
 
     const cartDates = cartItems.map((item: any) => item.date);

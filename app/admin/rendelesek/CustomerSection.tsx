@@ -96,7 +96,7 @@ export default function CustomerSection({ order }: { order: any }) {
           disabled={isAcknowledging}
           className="mt-3 mb-1 w-max bg-green-700 hover:bg-green-600 disabled:bg-green-900 text-white text-sm font-bold py-1.5 px-4 rounded transition-colors flex items-center gap-2"
         >
-          {isAcknowledging ? "Folyamatban..." : "✔ Rögzítve (Láttamoztam)"}
+          {isAcknowledging ? "Folyamatban..." : "Láttamozás"}
         </button>
       ) : null}
 

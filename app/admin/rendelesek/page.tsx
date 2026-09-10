@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import client from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 import SingleDayWrapper from "./singleDayWrapper";
 import PaginationControls from "@/components/szekciok/PaginationControls";
 import SearchInput from "@/components/szekciok/SearchInput";
@@ -24,7 +24,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
   const searchQuery = params.search ?? "";
   const limit = 10;
   const skip = (page - 1) * limit;
-
+  const client = await clientPromise;
   const db = client.db("MammaMia");
 
   const today = new Date();
@@ -180,7 +180,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
               }`}
             >
               {order.newOrder ? (
-                <div className="absolute top-[0px] right-[0] px-[15px] py-[5px] bg-green-200 text-green-800 font-black text-[15px] flex flex-row nowrap gap-2 items-center justify-center rounded-sm">
+                <div className="absolute top-[10px] right-[10px] px-[15px] py-[5px] bg-green-200 text-green-800 font-black text-[15px] flex flex-row nowrap gap-2 items-center justify-center rounded-full">
                   {" "}
                   <span className="animate-ping w-[15px] h-[15px] rounded-full bg-green-900"></span>
                   <p title="Kattints a láttamozáshoz!">Új rendelés ! </p>

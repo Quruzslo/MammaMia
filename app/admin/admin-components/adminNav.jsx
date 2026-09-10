@@ -12,7 +12,7 @@ export default function AdminNav({}) {
 
   return (
     <nav
-      className={`flex flex-col gap-2 w-[100%] bg-neutral-700 rounded-sm border border-neutral-800/80 md:h-[calc(100vh-85px)] py-[20px] sticky top-[75px] transition-all duration-300 ease-in-out ${
+      className={`flex flex-col gap-2 w-[100%] bg-neutral-700 min-h-fit  rounded-sm  md:h-[calc(100vh-85px)] py-[20px] sticky top-[75px] transition-all duration-300 ease-in-out ${
         isOpen ? "md:w-64 px-[10px]" : "md:w-[50px] px-[5px]"
       }`}
     >

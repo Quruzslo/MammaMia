@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import client from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 
 export async function GET() {
   try {
-    const db = await client.db("MammaMia");
+    const client = await clientPromise;
+    const db = client.db("MammaMia");
     const foods = await db.collection("uploadedFoods").find({}).toArray();
 
     return NextResponse.json(foods, { status: 200 });

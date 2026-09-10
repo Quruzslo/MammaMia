@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
-import client from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 
 export async function GET() {
   const session = await auth();
@@ -13,6 +13,7 @@ export async function GET() {
   }
 
   try {
+    const client = await clientPromise;
     const db = client.db("MammaMia");
 
     const orders = await db

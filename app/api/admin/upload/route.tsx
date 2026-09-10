@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
-import client from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 import { revalidateTag, revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
@@ -24,6 +24,7 @@ export async function POST(request: Request) {
       );
     }
 
+    const client = await clientPromise;
     const db = client.db("MammaMia");
 
     const result = await db.collection("menu").updateOne(

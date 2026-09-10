@@ -33,7 +33,7 @@ export default function CheckoutInputs({
     extraNote: "",
   });
 
-  // Egységesített adatbetöltés: LocalStorage + DB
+  // LocalStorage + DB
   useEffect(() => {
     async function loadInitialData() {
       let dataToSet = {};

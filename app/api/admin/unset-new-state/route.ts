@@ -1,4 +1,4 @@
-import client from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 import { auth } from "@/auth";
 import { NextResponse, NextRequest } from "next/server";
 import { ObjectId } from "mongodb";
@@ -14,6 +14,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
+    const client = await clientPromise;
     const db = client.db("MammaMia");
     const body = await req.json();
     const { id } = body;

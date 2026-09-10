@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { ObjectId } from "mongodb";
-import client from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 
 import { pusherServer } from "@/lib/pusherServer";
 
@@ -30,6 +30,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
+  const client = await clientPromise;
   const db = client.db("MammaMia");
 
   if (event.type === "payment_intent.succeeded") {

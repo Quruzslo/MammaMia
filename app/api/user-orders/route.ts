@@ -1,5 +1,5 @@
 // app/api/user-orders/route.ts
-import client from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 
@@ -41,6 +41,7 @@ export const POST = auth(async function POST(request) {
       );
     }
 
+    const client = await clientPromise;
     const db = client.db("MammaMia");
     const ordersCollection = db.collection("orders");
 

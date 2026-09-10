@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import client from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 import crypto from "crypto";
 
 export async function POST(request: Request) {
@@ -44,6 +44,7 @@ export async function POST(request: Request) {
         { status: 200 },
       );
     }
+    const client = await clientPromise;
     const db = client.db("MammaMia");
 
     const cartDates = cartItems.map((item: any) => item.date);

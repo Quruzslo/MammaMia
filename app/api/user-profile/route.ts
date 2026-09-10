@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import client from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 
 export async function PATCH(req: NextRequest) {
   try {
@@ -15,6 +15,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     // Adatbázis és email kinyerése
+    const client = await clientPromise;
     const db = client.db("MammaMia");
     const userEmail = session.user.email;
 
