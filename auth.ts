@@ -3,7 +3,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
 import bcrypt from "bcryptjs";
-import client from "./lib/mongodb";
+import clientPromise from "./lib/mongodb";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -21,6 +21,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!credentials?.email || !credentials?.password) return null;
 
         try {
+          const client = await clientPromise;
           const db = client.db("MammaMia");
 
           const admin = await db.collection("admins").findOne({

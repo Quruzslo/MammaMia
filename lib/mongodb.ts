@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
 if (!process.env.MONGO_URI) {
-  throw new Error("Kérlek add meg a MONGO_URI-t a környezeti változókban!");
+  throw new Error("Kérlek add meg a MONGO_URI-t !");
 }
 
 const uri = process.env.MONGO_URI;
