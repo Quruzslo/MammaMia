@@ -3,7 +3,6 @@ import Stripe from "stripe";
 import clientPromise from "@/lib/mongodb";
 import crypto from "crypto";
 
-// Stripe init
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(request: Request) {
