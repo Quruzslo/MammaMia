@@ -1,4 +1,3 @@
-// auth.config.ts
 import type { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 
@@ -19,8 +18,8 @@ export const authConfig = {
   callbacks: {
     async session({ session, token }) {
       if (session.user) {
-        session.user.userId = token.userId;
-        session.user.role = token.role;
+        session.user.userId = token.userId as string;
+        session.user.role = token.role as string;
       }
       return session;
     },
