@@ -8,9 +8,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     ...authConfig.callbacks,
 
-    async signIn({ user, account }) {
-      if (account?.provider === "credentials") return true;
-
+    async signIn({ user }) {
       if (user.email) {
         try {
           const { initUserInDatabase } = await import("@/lib/handleUserLogin");
@@ -24,7 +22,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return false;
     },
 
-    async jwt({ token, user, trigger }) {
+    async jwt({ token }) {
       if (token?.email) {
         try {
           const { getUserByEmail } = await import("@/lib/handleUserLogin");
