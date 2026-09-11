@@ -1,8 +1,9 @@
 // lib/authHelpers.ts
-import client from "@/lib/mongodb";
+import clientPromise from "@/lib/mongodb";
 import { v4 as uuidv4 } from "uuid";
 
 export async function initUserInDatabase(user: any) {
+  const client = await clientPromise;
   const db = client.db("MammaMia");
 
   const usersCollection = db.collection("users");
@@ -25,7 +26,8 @@ export async function initUserInDatabase(user: any) {
 }
 
 export async function getUserByEmail(email: string) {
-  await client.connect();
+  const client = await clientPromise;
+
   const db = client.db("MammaMia");
   return db.collection("users").findOne({ email });
 }

@@ -23,7 +23,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         try {
           const client = await clientPromise;
           const db = client.db("MammaMia");
-
           const admin = await db.collection("admins").findOne({
             email: credentials.email,
           });
