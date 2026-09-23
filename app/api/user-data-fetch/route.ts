@@ -4,7 +4,6 @@ import clientPromise from "@/lib/mongodb";
 
 export async function GET() {
   try {
-    // Next-Auth session ellenőrzése
     const session = await auth();
 
     if (!session || !session.user?.email) {

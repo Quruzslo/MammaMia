@@ -12,8 +12,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user.email) {
         try {
           const { initUserInDatabase } = await import("@/lib/handleUserLogin");
-          await initUserInDatabase(user);
-          return true;
+          const success = await initUserInDatabase(user);
+          return success;
         } catch (error) {
           console.error("Adatbázis hiba Google bejelentkezés során:", error);
           return false;

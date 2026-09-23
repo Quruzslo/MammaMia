@@ -1,10 +1,18 @@
+// @/lib/handleUserLogin.ts
 import clientPromise from "@/lib/mongodb";
 import { v4 as uuidv4 } from "uuid";
+import { ObjectId } from "mongodb";
 
 export async function initUserInDatabase(user: any) {
+  const tenantIdStr = process.env.TENANT_ID;
+
+  if (!tenantIdStr) {
+    console.error("HIBA: Hiányzik a TENANT_ID az .env fájlból!");
+    return false;
+  }
+
   const client = await clientPromise;
   const db = client.db("MammaMia");
-
   const usersCollection = db.collection("users");
 
   const existingUser = await usersCollection.findOne({ email: user.email });
@@ -20,13 +28,15 @@ export async function initUserInDatabase(user: any) {
       city: "",
       street: "",
       houseNumber: "",
+      tenantId: new ObjectId(tenantIdStr),
     });
   }
+
+  return true;
 }
 
 export async function getUserByEmail(email: string) {
   const client = await clientPromise;
-
   const db = client.db("MammaMia");
   return db.collection("users").findOne({ email });
 }

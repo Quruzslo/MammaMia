@@ -7,7 +7,6 @@ export const POST = auth(async function POST(request) {
   try {
     const session = request.auth;
 
-    // 1. Ha nincs érvényes munkamenet
     if (!session || !session.user) {
       return NextResponse.json(
         { error: "Nincs érvényes munkamenet! Jelentkezz be újra." },
@@ -15,7 +14,6 @@ export const POST = auth(async function POST(request) {
       );
     }
 
-    //  auth.ts-ből származó hitelesített ID
     const secureUserId = (session.user as any).userId;
 
     if (!secureUserId) {
