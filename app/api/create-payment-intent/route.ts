@@ -1,13 +1,22 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import clientPromise from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
 import crypto from "crypto";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(request: Request) {
   try {
-    // Beolvassuk a form-adatokat, a kosarat és a user-id-t a frontendről
+    const tenantIdStr = process.env.TENANT_ID;
+
+    if (!tenantIdStr) {
+      return NextResponse.json(
+        { error: "Nincs beállítva TENANT_ID a környezeti változókban!" },
+        { status: 500 },
+      );
+    }
+
     const { cartItems, formData, userId } = await request.json();
 
     if (!cartItems || !Array.isArray(cartItems) || cartItems.length === 0) {
@@ -44,7 +53,6 @@ export async function POST(request: Request) {
             "A kosaradban lejárt menü, vagy aznapi (de már 12:00 utáni) rendelés található! Kérjük, frissítsd a kosarad.",
           item: hasExpiredItem.date,
         },
-
         { status: 200 },
       );
     }
@@ -52,10 +60,15 @@ export async function POST(request: Request) {
     const client = await clientPromise;
     const db = client.db("MammaMia");
 
+    const tenantObjectId = new ObjectId(tenantIdStr);
+
     const cartDates = cartItems.map((item: any) => item.date);
     const productsFromDb = await db
       .collection("menu")
-      .find({ date: { $in: cartDates } })
+      .find({
+        tenantId: tenantObjectId,
+        date: { $in: cartDates },
+      })
       .toArray();
 
     let totalAmount = 0;
@@ -87,9 +100,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // pending státusszak mentjük és csak az id-t adjuk át a paymentIntentnek(méret korlát miatt)
     const pendingOrder = {
       orderId: crypto.randomUUID(),
+      tenantId: tenantObjectId,
       status: "pending",
       customer: formData,
       userId: userId === "guest" ? null : (userId ?? null),
@@ -107,12 +120,12 @@ export async function POST(request: Request) {
     const dbResult = await db.collection("orders").insertOne(pendingOrder);
     const mongoOrderId = dbResult.insertedId.toString();
 
-    // PAYMENTINTENT
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(totalAmount * 100),
       currency: "huf",
       metadata: {
         orderId: mongoOrderId,
+        tenantId: tenantIdStr,
       },
     });
 
