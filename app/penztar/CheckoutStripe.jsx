@@ -57,7 +57,7 @@ export default function CheckoutStripe({ formData, cartItems }) {
       {errorMessage && <p className="text-red-400 text-sm">{errorMessage}</p>}
       <button
         disabled={isProcessing || !stripe}
-        className="bg-teal-600 text-white p-2 rounded-lg disabled:opacity-50 hover:bg-teal-500 transition-colors"
+        className="bg-neutral-600 text-white p-2 rounded-lg disabled:opacity-50 hover:bg-sarga transition-colors"
       >
         {isProcessing ? "Feldolgozás..." : "Fizetés most"}
       </button>
