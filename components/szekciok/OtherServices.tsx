@@ -156,10 +156,10 @@ export default function OtherServices() {
                 onClick={() => setActiveService(service)}
               />
               <a
-                href="/kapcsolat"
+                href="/#"
                 className={`rendeles-btn relative flex !text-white w-fit cursor-pointer my-[10px] `}
               >
-                <p>Megrendelem</p>
+                <p>Hamarosan...</p>
               </a>
             </div>
           );
