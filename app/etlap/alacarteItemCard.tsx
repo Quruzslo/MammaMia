@@ -29,7 +29,7 @@ export default function AlacarteItemCard({
 
   return (
     <div className="w-full flex flex-col justify-center gap-[15px]">
-      <div className="flex fex-row gap-[15px]">
+      <div className="flex flex-col sm:fex-row gap-[15px]">
         <div className="w-[100px] h-[100px] rounded-full border-2 border-sarga relative overflow-hidden shrink-0">
           <Image
             fill

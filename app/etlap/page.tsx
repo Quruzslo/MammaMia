@@ -25,6 +25,7 @@ interface Food {
 export default function Etlap() {
   const [foods, setFoods] = useState<Food[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedSubCategory, setSelectedSubCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
   const { addToCart } = useContext(cartContext);
@@ -53,16 +54,44 @@ export default function Etlap() {
     fetching();
   }, []);
 
+  // Főkategória váltása esetén nullázzuk az alkategória szűrőt
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    setSelectedSubCategory("all");
+  };
+
   const categories = useMemo(() => {
     if (!foods || foods.length === 0) return ["all"];
     const uniqueTypes = Array.from(new Set(foods.map((food) => food.type)));
     return ["all", ...uniqueTypes];
   }, [foods]);
 
+  // Csak a kiválasztott főkategóriához tartozó alkategóriák kigyűjtése
+  const subCategories = useMemo(() => {
+    if (!foods || foods.length === 0 || selectedCategory === "all") return [];
+
+    const categoryFoods = foods.filter(
+      (food) => food.type === selectedCategory,
+    );
+    const uniqueSubTypes = Array.from(
+      new Set(categoryFoods.map((food) => food.subCategory).filter(Boolean)),
+    );
+
+    if (uniqueSubTypes.length === 0) return [];
+
+    return ["all", ...uniqueSubTypes];
+  }, [foods, selectedCategory]);
+
   const filtered = useMemo(() => {
     return foods.filter((food) => {
       const categoryFilter =
         selectedCategory === "all" || food.type === selectedCategory;
+
+      const subCategoryFilter =
+        selectedCategory === "all" ||
+        selectedSubCategory === "all" ||
+        food.subCategory === selectedSubCategory;
+
       const queryFilter =
         food.name
           .toLowerCase()
@@ -73,9 +102,9 @@ export default function Etlap() {
           .trim()
           .includes(searchQuery.toLowerCase().trim());
 
-      return categoryFilter && queryFilter;
+      return categoryFilter && subCategoryFilter && queryFilter;
     });
-  }, [foods, selectedCategory, searchQuery]);
+  }, [foods, selectedCategory, selectedSubCategory, searchQuery]);
 
   const handleAddToCartWithNotification = (item: Food, count: number) => {
     addToCart(item, null, null, count);
@@ -104,34 +133,55 @@ export default function Etlap() {
         Étlap
       </h1>
 
-      <div className="flex flex-col md:flex-row gap-[25px] items-center justify-between mb-8 w-full">
-        {/* Keresőmező */}
-        <div className="w-full md:w-1/3">
-          <input
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            type="text"
-            placeholder="Étel keresése..."
-            className="w-full px-4 py-2 rounded-full bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-sarga transition-all"
-          />
+      <div className="flex flex-col gap-6 mb-8 w-full">
+        <div className="flex flex-col md:flex-row gap-[25px] items-center justify-between w-full">
+          {/* Keresőmező */}
+          <div className="w-full md:w-1/3">
+            <input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              type="text"
+              placeholder="Étel keresése..."
+              className="w-full px-4 py-2 rounded-full bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-sarga transition-all"
+            />
+          </div>
+
+          {/* Főkategória gombok */}
+          <div className="flex flex-wrap gap-2 justify-center">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => handleCategoryChange(category)}
+                className={`px-4 py-2 rounded-full text-sm font-semibold capitalize transition-all ${
+                  selectedCategory === category
+                    ? "bg-sarga text-slate-900 shadow-md scale-105"
+                    : "bg-white/10 text-white hover:bg-white/20"
+                }`}
+              >
+                {category === "all" ? "Összes" : category}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Kategória gombok */}
-        <div className="flex flex-wrap gap-2 justify-center">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold capitalize transition-all ${
-                selectedCategory === category
-                  ? "bg-sarga text-slate-900 shadow-md scale-105"
-                  : "bg-white/10 text-white hover:bg-white/20"
-              }`}
-            >
-              {category === "all" ? "Összes" : category}
-            </button>
-          ))}
-        </div>
+        {/* Alkategória */}
+        {selectedCategory !== "all" && subCategories.length > 1 && (
+          <div className="flex flex-wrap gap-2 justify-center pt-2 border-t border-white/10">
+            {subCategories.map((subCategory) => (
+              <button
+                key={subCategory}
+                onClick={() => setSelectedSubCategory(subCategory)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold capitalize transition-all ${
+                  selectedSubCategory === subCategory
+                    ? "bg-sarga text-slate-900 shadow-md scale-105"
+                    : "bg-white/10 text-white hover:bg-white/20 opacity-80"
+                }`}
+              >
+                {subCategory === "all" ? "Összes alkategória" : subCategory}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Ételek listája */}
