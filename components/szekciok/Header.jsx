@@ -230,12 +230,34 @@ export default function Header() {
               : "opacity-0 -translate-y-full pointer-events-none"
           }`}
         >
-          <nav className="flex flex-col items-center justify-center h-full gap-8">
+          <nav className="flex flex-col items-start justify-center h-full gap-8 w-fit mx-auto">
             <Link
               href="/"
               onClick={() => setIsMenuOpen(false)}
               className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${
                 pathname === "/" ? "text-sarga" : "text-white hover:text-sarga"
+              }`}
+            >
+              ÉKezdő oldal
+            </Link>
+            <Link
+              href="/napimenu"
+              onClick={() => setIsMenuOpen(false)}
+              className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${
+                pathname === "/napimenu"
+                  ? "text-sarga"
+                  : "text-white hover:text-sarga"
+              }`}
+            >
+              Napi menü
+            </Link>
+            <Link
+              href="/etlap"
+              onClick={() => setIsMenuOpen(false)}
+              className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${
+                pathname === "/etlap"
+                  ? "text-sarga"
+                  : "text-white hover:text-sarga"
               }`}
             >
               Étlap
@@ -257,13 +279,13 @@ export default function Header() {
                 ? "Rendelések (Admin)"
                 : "Fiókom"}
             </Link>
-            <button
+            {/* <button
               type="button"
               onClick={() => setIsMenuOpen(false)}
               className="text-2xl font-black text-white uppercase tracking-[0.2em] hover:text-sarga transition-colors"
             >
               Kapcsolat
-            </button>
+            </button> */}
             <div className="w-20 h-1 bg-sarga rounded-full mt-4" />
           </nav>
         </div>
