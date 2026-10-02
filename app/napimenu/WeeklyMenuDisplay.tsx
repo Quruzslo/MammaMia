@@ -156,6 +156,7 @@ function MenuItemCard({
               type="button"
               onClick={() => {
                 onAddToCart(item, nap.date, nap.dayName, count);
+                setCount(1);
               }}
               className="p-[8px] flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-sarga transition-all duration-200 shadow-md focus:outline-none"
               title="Kosárba rakom"

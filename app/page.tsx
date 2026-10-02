@@ -1,5 +1,5 @@
 import Hero from "@/components/szekciok/Hero";
-import Menu from "@/components/szekciok/Menu";
+import SelectFood from "@/components/szekciok/SelectFood";
 import NiceCard from "@/components/szekciok/NiceCard";
 import OtherServices from "@/components/szekciok/OtherServices";
 export default function App() {
@@ -8,7 +8,7 @@ export default function App() {
       <Hero></Hero>
       <OtherServices></OtherServices>
       <NiceCard></NiceCard>
-      <Menu></Menu>
+      <SelectFood></SelectFood>
     </section>
   );
 }

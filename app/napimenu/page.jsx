@@ -68,9 +68,7 @@ export default function Menu() {
   if (loading)
     return (
       <div className="flex justify-center items-center py-20">
-        <p className="text-teal-400 animate-pulse text-lg">
-          Az étlap töltődik...
-        </p>
+        <p className="text-white animate-pulse text-lg">Az étlap töltődik...</p>
       </div>
     );
 
@@ -111,7 +109,6 @@ export default function Menu() {
     return true;
   };
 
-  // LISTA SZÉTVÁLASZTÁSA KÉT HÉTRE + ORDERABLE HOZZÁADÁSA
   const eHetiNapok = sortedMenuByDate
     .filter((nap) => {
       const napIdo = new Date(nap.date).getTime();
@@ -161,9 +158,9 @@ export default function Menu() {
 
   return (
     <section className="w-[90%] mx-auto py-[50px]">
-      <h2 className="text-3xl relative font-bold mb-6 text-center text-white uppercase underlined w-fit mx-auto">
-        Heti Menü
-      </h2>
+      <h1 className="text-[20px] lg:text-[35px] relative font-bold mb-6 text-center text-white  underlined w-fit mx-auto">
+        Heti menü rendelés - Kaposvár és környékén
+      </h1>
 
       {/* TABS VEZÉRLŐ GOMBOK */}
       <div className="flex justify-center gap-4 mb-10">

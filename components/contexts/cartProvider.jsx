@@ -23,8 +23,17 @@ export default function CartProvider({ children }) {
   }, [cartItems, isMounted]);
 
   const addToCart = (product, date, dayName, count) => {
+    const validCount =
+      typeof count === "number" ? count : product.quantity || 1;
+
+    const isAlacarte = product.foodType === "alacarte" || !date;
+    const targetDate = isAlacarte ? "alacarte" : date;
+    const targetDayName = isAlacarte ? "A'la carte" : dayName;
+
     setCartItems((prevItems) => {
-      const existingDayIndex = prevItems.findIndex((d) => d.date === date);
+      const existingDayIndex = prevItems.findIndex(
+        (d) => d.date === targetDate,
+      );
 
       if (existingDayIndex > -1) {
         const updatedCart = [...prevItems];
@@ -35,13 +44,16 @@ export default function CartProvider({ children }) {
 
         if (existingFoodIndex > -1) {
           const updatedItems = [...day.items];
+
+          const currentQty = updatedItems[existingFoodIndex].quantity || 0;
+
           updatedItems[existingFoodIndex] = {
             ...updatedItems[existingFoodIndex],
-            quantity: updatedItems[existingFoodIndex].quantity + count,
+            quantity: currentQty + validCount,
           };
           day.items = updatedItems;
         } else {
-          day.items = [{ ...product, quantity: count }, ...day.items];
+          day.items = [{ ...product, quantity: validCount }, ...day.items];
         }
 
         updatedCart[existingDayIndex] = day;
@@ -51,9 +63,9 @@ export default function CartProvider({ children }) {
       return [
         ...prevItems,
         {
-          date: date,
-          dayName: dayName,
-          items: [{ ...product, quantity: count }],
+          date: targetDate,
+          dayName: targetDayName,
+          items: [{ ...product, quantity: validCount }],
         },
       ];
     });
@@ -83,9 +95,10 @@ export default function CartProvider({ children }) {
             ...day,
             items: day.items.map((food) => {
               if (food.name === productName) {
+                const currentQty = food.quantity || 1;
                 return {
                   ...food,
-                  quantity: Math.max(1, food.quantity + amount),
+                  quantity: Math.max(1, currentQty + amount),
                 };
               }
               return food;

@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-sarga: #d06a22;
 }
 html {
   scroll-behavior: smooth !important;
@@ -50,7 +51,7 @@ a {
   position: relative;
   font-size: 0.875rem;
   font-weight: 700;
-  text-transform: uppercase;
+
   letter-spacing: 0.1em;
   color: #a3a3a3;
   transition: all 0.3s ease;
@@ -59,7 +60,7 @@ a {
 
 .nav-link.active,
 .nav-link:hover {
-  color: #181818;
+  color: var(--color-sarga);
   z-index: 2;
 }
 

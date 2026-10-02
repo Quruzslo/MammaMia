@@ -1,13 +1,14 @@
 "use client";
-//ikonok
+
+// Ikonok
 import { IoBagHandleOutline } from "react-icons/io5";
 import { CiUser } from "react-icons/ci";
-import { IoDocuments } from "react-icons/io5";
 import { BsClockHistory } from "react-icons/bs";
 import { PiBowlFood } from "react-icons/pi";
 import { FaFacebook } from "react-icons/fa";
-//Funkcionalitás
-import { useContext, useState, useEffect } from "react";
+
+// Funkcionalitás
+import { useContext, useState, useEffect, useMemo } from "react";
 import { cartContext } from "../contexts/cartProvider";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -24,10 +25,21 @@ export default function Header() {
 
   const pathname = usePathname();
 
-  const totalItemsAmount = cartItems.reduce((totalSum, day) => {
-    const daySum = day.items.reduce((acc, food) => acc + food.quantity, 0);
-    return totalSum + daySum;
-  }, 0);
+  // Biztonságos darabszám kiszámítás NaN ellen
+  const totalItemsAmount = useMemo(() => {
+    if (!Array.isArray(cartItems)) return 0;
+
+    return cartItems.reduce((totalSum, day) => {
+      if (!day || !Array.isArray(day.items)) return totalSum;
+
+      const daySum = day.items.reduce((acc, food) => {
+        const qty = Number(food?.quantity) || 0;
+        return acc + qty;
+      }, 0);
+
+      return totalSum + daySum;
+    }, 0);
+  }, [cartItems]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -39,18 +51,19 @@ export default function Header() {
 
   return (
     <>
-      <div className="z-[60] flex flex-row gap-2 w-full mx-auto bg-neutral-950/80 backdrop-blur-md px-[10px] md:px-[10%] border-b border-white py-2 gap-6 items-center">
-        <div className=" gap-2 items-center hidden md:flex md:flex-row ">
+      <div className="z-[60] flex flex-row w-full mx-auto bg-neutral-950/80 backdrop-blur-md px-[10px] md:px-[10%] border-b border-white py-2 gap-6 items-center">
+        <div className="gap-2 items-center hidden md:flex md:flex-row">
           <BsClockHistory size={20} className="fill-white" />
           <p className="text-white text-[12px]">
-            Hétfőtől - Szombatig, aznap 12:00-ig{" "}
+            Hétfőtől - Szombatig, aznap 12:00-ig
           </p>
         </div>
 
         <div className="flex flex-row gap-2 items-center">
           <PiBowlFood size={20} className="fill-white" />
-          <p className="text-white text-[12px]">Frissen, minden nap </p>
+          <p className="text-white text-[12px]">Frissen, minden nap</p>
         </div>
+
         <a
           className="ml-auto group"
           href="https://www.facebook.com/mammamiakifozde"
@@ -62,15 +75,15 @@ export default function Header() {
               size={20}
               className="fill-white transition-colors duration-200 group-hover:fill-blue-600"
             />
-
             <p className="text-white text-[12px] transition-colors duration-200 group-hover:text-blue-300">
               Facebook
             </p>
           </div>
         </a>
       </div>
+
       <header className="sticky top-0 z-[60] w-full px-[10px] md:px-[0px] py-3 bg-neutral-950/80 backdrop-blur-md border-b border-teal-900/30 flex flex-col gap-3">
-        <div className=" w-[100%] md:w-[80%] max-w-[1800px] mx-auto flex items-center justify-between">
+        <div className="w-[100%] md:w-[80%] max-w-[1800px] mx-auto flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group z-[70]">
             <img
@@ -78,34 +91,41 @@ export default function Header() {
               alt="logo"
               className="w-10 h-10 md:w-12 md:h-12 rounded-xl object-cover border border-teal-500/30"
             />
-            <h1 className="text-lg md:text-xl font-black ">
-              Mamma <span className="">Mia</span>
+            <h1 className="text-lg md:text-xl font-black text-white">
+              Mamma <span>Mia</span>
             </h1>
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:block">
-            <ul className="flex gap-8 items-center">
+            <ul className="flex gap-[10px] items-center">
               <li>
-                <a
+                <Link
                   href="/"
-                  className={`nav-link ${pathname === "/" || pathname === "/#menu" ? "active" : ""}`}
+                  className={`nav-link ${pathname === "/" ? "active" : ""}`}
                 >
-                  Étlap
-                </a>
+                  Kezdőlap
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => {
-                    window.scrollTo({
-                      top: document.documentElement.scrollHeight,
-                      behavior: "smooth",
-                    });
-                  }}
-                  className="nav-link"
+                <Link
+                  href="/napimenu"
+                  className={`nav-link ${
+                    pathname === "/napimenu" ? "active" : ""
+                  }`}
                 >
-                  Kapcsolat
-                </button>
+                  Menü
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/etlap"
+                  className={`nav-link ${
+                    pathname === "/etlap" ? "active" : ""
+                  }`}
+                >
+                  Étlap
+                </Link>
               </li>
             </ul>
           </nav>
@@ -116,12 +136,13 @@ export default function Header() {
             <div className="flex flex-col menu-btn-wrapper">
               <button
                 onClick={() => animateSideCart()}
-                className="relative p-[10px] border-2 border-transparent rounded-full  transition-all group hover:border-2 hover:border-white  active:border-2 active:border-white"
+                type="button"
+                className="relative p-[10px] border-2 border-transparent rounded-full transition-all group hover:border-white active:border-white"
               >
                 <IoBagHandleOutline size={"20px"} className="stroke-white" />
-                {cartItems.length > 0 && (
+                {totalItemsAmount > 0 && (
                   <div className="absolute -top-1 -right-1 w-5 h-5 bg-white text-neutral-950 text-[10px] font-black rounded-full flex items-center justify-center shadow-lg">
-                    {totalItemsAmount}
+                    {totalItemsAmount || 0}
                   </div>
                 )}
               </button>
@@ -133,9 +154,8 @@ export default function Header() {
             {/* Felhasználói fiók / Belépés gomb */}
             <div className="flex flex-row menu-btn-wrapper items-center gap-3">
               {isLoading ? (
-                <div className="p-[5px] rounded-full w-5 h-5 bg-neutral-900 border border-neutral-800 animate-pulse w-[46px] h-[46px]" />
+                <div className="p-[5px] rounded-full bg-neutral-900 border border-neutral-800 animate-pulse w-[46px] h-[46px]" />
               ) : isLoggedIn ? (
-                // Ha be van jelentkezve:
                 <Link
                   href={
                     session?.user?.role === "admin"
@@ -143,9 +163,8 @@ export default function Header() {
                       : "/fiokom"
                   }
                 >
-                  <div className="relative w-[35px] h-[35px] rounded-full hover:border-2 hover:border-white  active:border-2 active:border-white transition-all group flex-row flex gap-3 items-center justify-center">
+                  <div className="relative w-[35px] h-[35px] rounded-full hover:border-2 hover:border-white active:border-2 active:border-white transition-all group flex flex-row gap-3 items-center justify-center overflow-hidden">
                     {session?.user?.image ? (
-                      // Google profilkép
                       <img
                         src={session.user.image}
                         alt="Profilkép"
@@ -157,13 +176,14 @@ export default function Header() {
                         {session?.user?.name?.charAt(0).toUpperCase() || "U"}
                       </span>
                     )}
-                    {/* <IoDocuments size={24} className="fill-teal-500" /> */}
                   </div>
                 </Link>
               ) : (
-                // Ha nincs bejelentkezve
                 <Link href="/belepes">
-                  <button className="relative p-2.5 rounded-full  border-2 border-neutral-800 hover:border-white transition-all group">
+                  <button
+                    type="button"
+                    className="relative p-2.5 rounded-full border-2 border-neutral-800 hover:border-white transition-all group"
+                  >
                     <CiUser size={24} className="fill-white" />
                   </button>
                 </Link>
@@ -178,28 +198,26 @@ export default function Header() {
             </div>
 
             {/* Mobil gomb */}
-
             <button
+              type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden relative w-12 h-12 flex flex-col justify-center items-center gap-1.5  text-white overflow-hidden"
+              className="md:hidden relative w-12 h-12 flex flex-col justify-center items-center gap-1.5 text-white overflow-hidden"
             >
-              {/* Felső vonal */}
               <span
-                className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ease-in-out origin-center
-      ${isMenuOpen ? "translate-y-2 rotate-45" : ""}`}
-              ></span>
-
-              {/* Középső vonal */}
+                className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ease-in-out origin-center ${
+                  isMenuOpen ? "translate-y-2 rotate-45" : ""
+                }`}
+              />
               <span
-                className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ease-in-out translate-x-[0px]
-      ${isMenuOpen ? " translate-x-[40px]" : ""}`}
-              ></span>
-
-              {/* Alsó vonal */}
+                className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ease-in-out ${
+                  isMenuOpen ? "translate-x-[40px]" : ""
+                }`}
+              />
               <span
-                className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ease-in-out origin-center
-      ${isMenuOpen ? "-translate-y-2 -rotate-45" : ""}`}
-              ></span>
+                className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ease-in-out origin-center ${
+                  isMenuOpen ? "-translate-y-2 -rotate-45" : ""
+                }`}
+              />
             </button>
           </div>
         </div>
@@ -216,7 +234,9 @@ export default function Header() {
             <Link
               href="/"
               onClick={() => setIsMenuOpen(false)}
-              className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${pathname === "/" ? "text-sarga" : "text-white hover:text-sarga"}`}
+              className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${
+                pathname === "/" ? "text-sarga" : "text-white hover:text-sarga"
+              }`}
             >
               Étlap
             </Link>
@@ -227,19 +247,24 @@ export default function Header() {
                   : "/fiokom"
               }
               onClick={() => setIsMenuOpen(false)}
-              className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${pathname === "/fiokom" || pathname.startsWith("/admin") ? "text-sarga" : "text-white hover:text-sarga"}`}
+              className={`text-2xl font-black uppercase tracking-[0.2em] transition-colors ${
+                pathname === "/fiokom" || pathname.startsWith("/admin")
+                  ? "text-sarga"
+                  : "text-white hover:text-sarga"
+              }`}
             >
               {session?.user?.role === "admin"
                 ? "Rendelések (Admin)"
                 : "Fiókom"}
             </Link>
             <button
+              type="button"
               onClick={() => setIsMenuOpen(false)}
               className="text-2xl font-black text-white uppercase tracking-[0.2em] hover:text-sarga transition-colors"
             >
               Kapcsolat
             </button>
-            <div className="w-20 h-1 bg-sarga rounded-full mt-4"></div>
+            <div className="w-20 h-1 bg-sarga rounded-full mt-4" />
           </nav>
         </div>
       </header>
