@@ -18,14 +18,12 @@ export default function Header() {
   const { cartItems, animateSideCart } = useContext(cartContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // NextAuth
   const { data: session, status } = useSession();
   const isLoading = status === "loading";
   const isLoggedIn = status === "authenticated";
 
   const pathname = usePathname();
 
-  // Biztonságos darabszám kiszámítás NaN ellen
   const totalItemsAmount = useMemo(() => {
     if (!Array.isArray(cartItems)) return 0;
 

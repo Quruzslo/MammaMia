@@ -38,7 +38,10 @@ export async function POST(request: Request) {
       10,
     );
 
+    // Az a'la carte ételeknek nincs dátuma, ezért azokat kihagyjuk a lejárati ellenőrzésből
     const hasExpiredItem = cartItems.find((cartDay: any) => {
+      if (cartDay.date === "alacarte") return false;
+
       const isPastDate = cartDay.date < todayBudapestStr;
       const isTodayPastNoon =
         cartDay.date === todayBudapestStr && currentHourBudapest >= 12;
@@ -62,7 +65,9 @@ export async function POST(request: Request) {
 
     const tenantObjectId = new ObjectId(tenantIdStr);
 
-    const cartDates = cartItems.map((item: any) => item.date);
+    const cartDates = cartItems
+      .filter((item: any) => item.date !== "alacarte")
+      .map((item: any) => item.date);
     const productsFromDb = await db
       .collection("menu")
       .find({
@@ -71,9 +76,44 @@ export async function POST(request: Request) {
       })
       .toArray();
 
+    // A'la carte ételek lekérése az 'alacarteFoods' kollekcióból, _id alapján
+    const alacarteIds = cartItems
+      .filter((cartDay: any) => cartDay.date === "alacarte")
+      .flatMap((cartDay: any) => cartDay.items)
+      .map((cartItem: any) => cartItem._id)
+      .filter((id: any) => typeof id === "string" && ObjectId.isValid(id))
+      .map((id: string) => new ObjectId(id));
+
+    const alacarteFromDb =
+      alacarteIds.length > 0
+        ? await db
+            .collection("alacarteFoods")
+            .find({
+              tenantId: tenantObjectId,
+              isAvailable: true,
+              _id: { $in: alacarteIds },
+            })
+            .toArray()
+        : [];
+
     let totalAmount = 0;
 
     cartItems.forEach((cartDay: any) => {
+      if (cartDay.date === "alacarte") {
+        cartDay.items.forEach((cartItem: any) => {
+          const serverProduct = alacarteFromDb.find(
+            (p) => p._id.toString() === cartItem._id,
+          );
+
+          if (serverProduct) {
+            totalAmount += serverProduct.price * cartItem.quantity;
+          } else {
+            console.warn(`A'la carte étel nem található: ${cartItem.name}`);
+          }
+        });
+        return;
+      }
+
       const serverDay = productsFromDb.find((p) => p.date === cartDay.date);
 
       if (serverDay) {
